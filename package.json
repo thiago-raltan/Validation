@@ -1,0 +1,11 @@
+{
+  "name": "validation-deploy",
+  "private": true,
+  "scripts": {
+    "build": "node scripts/ensure-cards-front-deps.js && npm --prefix cards-front run build",
+    "vercel-build": "npm run build"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
