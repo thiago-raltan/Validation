@@ -1,0 +1,231 @@
+.sobre {
+  background: #1a1a2e;
+  min-height: calc(100vh - 200px);
+
+  &__banner {
+    background: linear-gradient(135deg, #16213e, #1a1a2e);
+    border-bottom: 2px solid rgba(230, 57, 70, 0.3);
+    padding: 4rem 0;
+    text-align: center;
+
+    &-container {
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+  }
+
+  &__titulo {
+    font-size: 2.5rem;
+    font-weight: 900;
+    color: #f1faee;
+    margin-bottom: 0.75rem;
+
+    &-destaque { color: #e63946; }
+
+    @media (max-width: 768px) { font-size: 1.8rem; }
+  }
+
+  &__subtitulo {
+    color: #a8dadc;
+    font-size: 1rem;
+    margin: 0;
+  }
+
+  &__container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem;
+  }
+
+  &__secao {
+    margin-bottom: 3.5rem;
+    text-align: center;
+
+    &--contato { text-align: left; }
+  }
+
+  &__icone-secao {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  &__titulo-secao {
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: #f1faee;
+    margin-bottom: 1rem;
+  }
+
+  &__texto {
+    color: #a8dadc;
+    font-size: 1rem;
+    line-height: 1.8;
+    max-width: 700px;
+    margin: 0 auto;
+
+    strong { color: #e63946; }
+  }
+
+  &__grade-vantagens {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__vantagem {
+    background: #16213e;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(168, 218, 220, 0.12);
+    text-align: center;
+    transition: border-color 0.2s, transform 0.2s;
+
+    &:hover {
+      border-color: rgba(230, 57, 70, 0.3);
+      transform: translateY(-3px);
+    }
+
+    &-icone {
+      font-size: 2rem;
+      display: block;
+      margin-bottom: 0.75rem;
+    }
+
+    h3 {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: #f1faee;
+      margin-bottom: 0.5rem;
+    }
+
+    p {
+      font-size: 0.82rem;
+      color: #6c757d;
+      line-height: 1.6;
+      margin: 0;
+    }
+  }
+
+  &__numeros {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    background: #16213e;
+    border-radius: 16px;
+    padding: 2rem;
+    margin-bottom: 3.5rem;
+    border: 1px solid rgba(230, 57, 70, 0.2);
+
+    @media (max-width: 768px) {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+
+  &__numero {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+
+    &-valor {
+      font-size: 1.8rem;
+      font-weight: 900;
+      color: #e63946;
+    }
+
+    &-rotulo {
+      font-size: 0.8rem;
+      color: #6c757d;
+    }
+  }
+
+  &__contatos {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    background: #16213e;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(168, 218, 220, 0.12);
+  }
+
+  &__contato-item {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 0.95rem;
+    color: #a8dadc;
+  }
+
+  &__redes {
+    margin-top: 1rem;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  &__rede-link {
+    background: #16213e;
+    border: 1px solid rgba(168, 218, 220, 0.25);
+    color: #f1faee;
+    min-height: 48px;
+    padding: 0.6rem 0.9rem;
+    border-radius: 12px;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    transition: border-color 0.2s, transform 0.1s;
+
+    &:hover {
+      border-color: rgba(230, 57, 70, 0.5);
+      transform: translateY(-1px);
+    }
+  }
+
+  &__rede-icone {
+    font-size: 1.15rem;
+    line-height: 1;
+  }
+
+  &__rede-texto {
+    font-size: 0.9rem;
+    font-weight: 600;
+    line-height: 1;
+  }
+
+  &__cta {
+    text-align: center;
+    padding-top: 1rem;
+  }
+}
+
+.btn-primario {
+  background: #e63946;
+  color: #fff;
+  padding: 0.9rem 2.5rem;
+  border-radius: 10px;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 1rem;
+  display: inline-block;
+  transition: background 0.2s, transform 0.1s;
+
+  &:hover {
+    background: #c1121f;
+    transform: translateY(-2px);
+  }
+}

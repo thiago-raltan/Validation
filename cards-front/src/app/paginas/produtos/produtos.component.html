@@ -1,0 +1,146 @@
+<div class="produtos-pagina">
+  <div class="produtos-pagina__container">
+
+    <div class="produtos-pagina__cabecalho">
+      <h1 class="produtos-pagina__titulo">📦 Produtos</h1>
+      <p class="produtos-pagina__subtitulo">Pelúcias, figuras, boxes e muito mais</p>
+    </div>
+
+    <!-- Filtros -->
+    <form [formGroup]="formularioFiltros" class="produtos-filtros">
+      <input
+        formControlName="busca"
+        class="produtos-filtros__busca"
+        type="text"
+        placeholder="🔍 Buscar produto..."
+      />
+
+      <select formControlName="categoria" class="produtos-filtros__select">
+        <option value="">Todas as categorias</option>
+        @for (cat of categorias; track cat[0]) {
+          <option [value]="cat[0]">{{ cat[1] }}</option>
+        }
+      </select>
+
+      <input
+        formControlName="precoMin"
+        class="produtos-filtros__preco"
+        type="number"
+        placeholder="Preço mín."
+        min="0"
+      />
+      <input
+        formControlName="precoMax"
+        class="produtos-filtros__preco"
+        type="number"
+        placeholder="Preço máx."
+        min="0"
+      />
+
+      <button type="button" class="produtos-filtros__limpar" (click)="limparFiltros()">
+        ✕ Limpar
+      </button>
+    </form>
+
+    <!-- Toast de sucesso -->
+    @if (mensagemSucesso) {
+      <div class="produtos-toast">✅ {{ mensagemSucesso }}</div>
+    }
+
+    <!-- Total -->
+    @if (!carregando) {
+      <p class="produtos-pagina__total">{{ totalProdutos }} produto(s) encontrado(s)</p>
+    }
+
+    <!-- Grid de produtos -->
+    @if (carregando) {
+      <div class="produtos-pagina__carregando">
+        <div class="spinner"></div>
+        <p>Carregando produtos...</p>
+      </div>
+    } @else if (erroCarregamento) {
+      <div class="produtos-pagina__vazio">
+        <div class="produtos-pagina__vazio-icone">⚠️</div>
+        <h2>Falha ao carregar</h2>
+        <p>{{ erroCarregamento }}</p>
+        <button class="btn-primario" (click)="buscarProdutos()">Tentar novamente</button>
+      </div>
+    } @else if (produtos.length === 0) {
+      <div class="produtos-pagina__vazio">
+        <div class="produtos-pagina__vazio-icone">📦</div>
+        <h2>{{ mensagemListaVazia }}</h2>
+        <p>Novidades em breve.</p>
+        <button class="btn-primario" (click)="limparFiltros()">Limpar filtros</button>
+      </div>
+    } @else {
+      <div class="produtos-grid">
+        @for (produto of produtos; track produto.id) {
+          <div
+            class="produto-card"
+            [class.produto-card--esgotado]="produto.quantidadeEstoque === 0"
+            (click)="abrirDetalhe(produto.id)"
+            (keydown.enter)="abrirDetalhe(produto.id)"
+            (keydown.space)="abrirDetalhe(produto.id)"
+            tabindex="0"
+            role="link"
+          >
+            <div class="produto-card__imagem-wrapper">
+              @if (produto.imagemUrl) {
+                <img
+                  [src]="produto.imagemUrl"
+                  [alt]="produto.nome"
+                  class="produto-card__imagem"
+                  loading="lazy"
+                  (error)="onErroImagem($event, produto.categoria)"
+                />
+              } @else {
+                <div class="produto-card__sem-imagem">📦</div>
+              }
+              @if (produto.destaque) {
+                <span class="produto-card__destaque">⭐ Destaque</span>
+              }
+              @if (produto.quantidadeEstoque === 0) {
+                <div class="produto-card__esgotado-overlay">Esgotado</div>
+              }
+            </div>
+
+            <div class="produto-card__info">
+              <span class="produto-card__categoria">{{ labelCategoria(produto.categoria) }}</span>
+              <h2 class="produto-card__nome">{{ produto.nome }}</h2>
+              @if (produto.descricao) {
+                <p class="produto-card__descricao">{{ produto.descricao }}</p>
+              }
+              <div class="produto-card__rodape">
+                <span class="produto-card__preco">{{ formatarPreco(produto.preco) }}</span>
+                <button
+                  type="button"
+                  class="produto-card__btn-carrinho"
+                  [disabled]="produto.quantidadeEstoque === 0"
+                  (click)="adicionarAoCarrinho(produto, $event)"
+                >
+                  🛒
+                </button>
+              </div>
+            </div>
+          </div>
+        }
+      </div>
+
+      <!-- Paginação -->
+      @if (totalPaginas > 1) {
+        <div class="paginacao">
+          <button class="paginacao__btn" [disabled]="paginaAtual === 1" (click)="irParaPagina(paginaAtual - 1)">‹</button>
+          @for (p of paginas; track p) {
+            <button
+              class="paginacao__btn"
+              [class.paginacao__btn--ativo]="p === paginaAtual"
+              (click)="irParaPagina(p)"
+            >{{ p }}</button>
+          }
+          <button class="paginacao__btn" [disabled]="paginaAtual === totalPaginas" (click)="irParaPagina(paginaAtual + 1)">›</button>
+        </div>
+      }
+    }
+
+  </div>
+</div>

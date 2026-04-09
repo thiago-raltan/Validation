@@ -1,0 +1,172 @@
+<div class="admin-pagina">
+  <div class="admin-pagina__cabecalho">
+    <div>
+      <h1 class="admin-pagina__titulo">📦 Produtos</h1>
+      <p class="admin-pagina__subtitulo">Pelúcias, figuras, boxes e acessórios</p>
+    </div>
+    <button class="btn-novo" (click)="abrirNovo()">+ Novo Produto</button>
+  </div>
+
+  <div class="admin-pagina__filtros">
+    <input type="text" placeholder="Buscar produto..." class="campo-busca" (input)="atualizarBusca($event)" />
+    <select class="campo-busca" (change)="atualizarFiltroCategoria($event)">
+      <option value="">Todas as categorias</option>
+      @for (cat of categorias; track cat[0]) {
+        <option [value]="cat[0]">{{ cat[1] }}</option>
+      }
+    </select>
+  </div>
+
+  @if (carregando()) {
+    <div class="admin-pagina__vazio">Carregando produtos...</div>
+  } @else {
+    <div class="tabela-wrapper">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Imagem</th>
+            <th>Nome</th>
+            <th>Categoria</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th>Destaque</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of produtosFiltrados(); track p.id) {
+            <tr>
+              <td>
+                @if (p.imagemUrl) {
+                  <img [src]="p.imagemUrl" [alt]="p.nome" class="tabela__thumb" />
+                } @else { <span class="tabela__sem-img">📦</span> }
+              </td>
+              <td>{{ p.nome }}</td>
+              <td><span class="badge">{{ nomeCategorias(p.categoria) }}</span></td>
+              <td>{{ p.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+              <td>{{ p.quantidadeEstoque }}</td>
+              <td>{{ p.destaque ? '⭐' : '—' }}</td>
+              <td class="tabela__acoes">
+                <button class="btn-editar" (click)="abrirEditar(p)">✏️</button>
+                <button class="btn-remover" (click)="remover(p)">🗑️</button>
+              </td>
+            </tr>
+          }
+          @empty {
+            <tr><td colspan="7" class="tabela__vazia">Nenhum produto encontrado.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (modalAberto()) {
+    <div class="modal-overlay" (click)="fecharModal()">
+      <div class="modal modal--produto" (click)="$event.stopPropagation()">
+        <div class="modal__cabecalho">
+          <div>
+            <span class="modal__eyebrow">Cadastro de produto</span>
+            <h2>{{ editando() ? 'Editar Produto' : 'Novo Produto' }}</h2>
+          </div>
+          <button class="modal__fechar" (click)="fecharModal()">✕</button>
+        </div>
+        <form [formGroup]="formulario" (ngSubmit)="salvar()" class="modal__form cadastro-produto">
+          <div class="cadastro-produto__layout">
+            <aside class="cadastro-produto__preview">
+              <div class="cadastro-produto__hero">
+                <div class="cadastro-produto__thumb">
+                  @if (formulario.get('imagemUrl')?.value) {
+                    <img [src]="formulario.get('imagemUrl')?.value" [alt]="formulario.get('nome')?.value || 'Preview do produto'" />
+                  } @else {
+                    <span>📦</span>
+                  }
+                </div>
+
+                <div class="cadastro-produto__hero-conteudo">
+                  <span class="cadastro-produto__categoria">
+                    {{ nomeCategorias(formulario.get('categoria')?.value) || 'Categoria' }}
+                  </span>
+                  <h3>{{ formulario.get('nome')?.value || 'Nome do produto' }}</h3>
+                  <p>
+                    {{ formulario.get('descricao')?.value || 'A descrição do produto aparece aqui para revisão rápida antes de salvar.' }}
+                  </p>
+                </div>
+
+                <dl class="cadastro-produto__metricas">
+                  <div>
+                    <dt>Preço</dt>
+                    <dd>{{ (formulario.get('preco')?.value || 0) | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</dd>
+                  </div>
+                  <div>
+                    <dt>Estoque</dt>
+                    <dd>{{ formulario.get('quantidadeEstoque')?.value || 0 }}</dd>
+                  </div>
+                </dl>
+              </div>
+
+              <div class="cadastro-produto__nota">
+                <h3>Vitrine da loja</h3>
+                <p>Capriche no nome, na imagem e na descrição: isso define o impacto do produto no catálogo.</p>
+              </div>
+            </aside>
+
+            <div class="cadastro-produto__conteudo">
+              <section class="cadastro-produto__secao">
+                <div class="cadastro-produto__secao-topo">
+                  <span>Informações principais</span>
+                  <p>Organize os dados essenciais que aparecem na listagem e na página do produto.</p>
+                </div>
+
+                <div class="modal__grade cadastro-produto__grade">
+                  <div class="campo campo--largo">
+                    <label class="campo__label">Nome</label>
+                    <input type="text" class="campo__input" formControlName="nome" placeholder="Nome do produto" />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Categoria</label>
+                    <select class="campo__input" formControlName="categoria">
+                      <option value="">Selecione</option>
+                      @for (cat of categorias; track cat[0]) {
+                        <option [value]="cat[0]">{{ cat[1] }}</option>
+                      }
+                    </select>
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Preço (R$)</label>
+                    <input type="number" step="0.01" class="campo__input" formControlName="preco" />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Estoque</label>
+                    <input type="number" class="campo__input" formControlName="quantidadeEstoque" />
+                  </div>
+                  <div class="campo campo--largo">
+                    <label class="campo__label">URL da Imagem</label>
+                    <input type="url" class="campo__input" formControlName="imagemUrl" placeholder="https://..." />
+                  </div>
+                  <div class="campo campo--largo">
+                    <label class="campo__label">Descrição</label>
+                    <textarea class="campo__input" formControlName="descricao" rows="5" placeholder="Descreva o produto"></textarea>
+                  </div>
+                </div>
+              </section>
+
+              <section class="cadastro-produto__secao cadastro-produto__secao--destaque">
+                <div class="campo campo--checkbox cadastro-produto__checkbox-card">
+                  <input type="checkbox" id="destaque-prod" formControlName="destaque" />
+                  <label for="destaque-prod" class="campo__label">Destaque na página inicial</label>
+                  <small class="campo__ajuda">Ative quando quiser empurrar este item para a vitrine principal.</small>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="modal__rodape">
+            <button type="button" class="btn-cancelar" (click)="fecharModal()">Cancelar</button>
+            <button type="submit" class="btn-salvar" [disabled]="salvando()">
+              {{ salvando() ? 'Salvando...' : 'Salvar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

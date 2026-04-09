@@ -1,0 +1,223 @@
+<div class="admin-pagina">
+  <div class="admin-pagina__cabecalho">
+    <div>
+      <h1 class="admin-pagina__titulo">🗂️ Coleções</h1>
+      <p class="admin-pagina__subtitulo">Conjuntos e séries de cartas</p>
+    </div>
+    <button class="btn-novo" (click)="abrirNova()">+ Nova Coleção</button>
+  </div>
+
+  @if (carregando()) {
+    <div class="admin-pagina__vazio">Carregando coleções...</div>
+  } @else {
+    <div class="tabela-wrapper">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Imagem</th>
+            <th>Nome</th>
+            <th>Série</th>
+            <th>Total Cartas</th>
+            <th>Lançamento</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (c of colecoes(); track c.id) {
+            <tr>
+              <td>
+                @if (c.imagemUrl) {
+                  <img [src]="c.imagemUrl" [alt]="c.nome" class="tabela__thumb" />
+                } @else { <span class="tabela__sem-img">🗂️</span> }
+              </td>
+              <td>{{ c.nome }}</td>
+              <td><span class="badge">{{ c.serie }}</span></td>
+              <td>{{ c.totalCartas }}</td>
+              <td>{{ c.dataLancamento | date:'dd/MM/yyyy' }}</td>
+              <td class="tabela__acoes">
+                <button class="btn-editar" (click)="abrirEditar(c)">✏️</button>
+                <button class="btn-remover" (click)="remover(c)">🗑️</button>
+              </td>
+            </tr>
+          }
+          @empty {
+            <tr><td colspan="6" class="tabela__vazia">Nenhuma coleção cadastrada.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  @if (modalAberto()) {
+    <div class="modal-overlay" (click)="fecharModal()">
+      <div class="modal modal--colecao" (click)="$event.stopPropagation()">
+        <div class="modal__cabecalho">
+          <div>
+            <span class="modal__eyebrow">Cadastro de coleção</span>
+            <h2>{{ editando() ? 'Editar Coleção' : 'Nova Coleção' }}</h2>
+          </div>
+          <button class="modal__fechar" (click)="fecharModal()">✕</button>
+        </div>
+        <form [formGroup]="formulario" (ngSubmit)="salvar()" class="modal__form cadastro-colecao">
+          <div class="cadastro-colecao__layout">
+            <aside class="cadastro-colecao__preview">
+              <div class="cadastro-colecao__hero">
+                <div class="cadastro-colecao__capa">
+                  @if (imagemPreviewAtual()) {
+                    <img [src]="imagemPreviewAtual()" [alt]="formulario.get('nome')?.value || 'Capa da coleção'" />
+                  } @else {
+                    <span>🗂️</span>
+                  }
+
+                  @if (logoPreviewAtual()) {
+                    <div class="cadastro-colecao__logo">
+                      <img [src]="logoPreviewAtual()" [alt]="formulario.get('nome')?.value || 'Logo da coleção'" />
+                    </div>
+                  }
+                </div>
+
+                <div class="cadastro-colecao__hero-conteudo">
+                  <span class="cadastro-colecao__serie">{{ formulario.get('serie')?.value || 'Série' }}</span>
+                  <h3>{{ formulario.get('nome')?.value || 'Nome da coleção' }}</h3>
+                  <p>
+                    {{ formulario.get('descricao')?.value || 'A descrição da coleção aparecerá aqui para revisão visual antes de salvar.' }}
+                  </p>
+                </div>
+
+                <div class="cadastro-colecao__rodape-preview">
+                  <span>Lançamento</span>
+                  <strong>
+                    @if (formulario.get('dataLancamento')?.value) {
+                      {{ formulario.get('dataLancamento')?.value | date:'dd/MM/yyyy' }}
+                    } @else {
+                      Defina a data
+                    }
+                  </strong>
+                </div>
+              </div>
+
+              <div class="cadastro-colecao__nota">
+                <h3>Identidade da coleção</h3>
+                <p>Essa tela define o conjunto visual usado para organizar cartas e apresentar séries dentro da loja.</p>
+              </div>
+            </aside>
+
+            <div class="cadastro-colecao__conteudo">
+              <section class="cadastro-colecao__secao">
+                <div class="cadastro-colecao__secao-topo">
+                  <span>Dados principais</span>
+                  <p>Preencha os dados que identificam a coleção e ajudam o cliente a entender o contexto do set.</p>
+                </div>
+
+                <div class="modal__grade cadastro-colecao__grade">
+                  <div class="campo campo--largo">
+                    <label class="campo__label">Nome</label>
+                    <input type="text" class="campo__input" formControlName="nome" placeholder="Nome da coleção" />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Série</label>
+                    <input type="text" class="campo__input" formControlName="serie" placeholder="Scarlet & Violet, Sword & Shield..." />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Data de Lançamento</label>
+                    <input type="date" class="campo__input" formControlName="dataLancamento" />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Logo da coleção</label>
+                    <div class="upload-imagem upload-imagem--compacto">
+                      <input
+                        #inputLogoColecao
+                        id="input-logo-colecao"
+                        type="file"
+                        accept="image/*"
+                        class="upload-imagem__input"
+                        (change)="selecionarLogo($event)"
+                      />
+                      <label class="upload-imagem__cta" for="input-logo-colecao">Selecionar logo</label>
+
+                      @if (arquivoLogo(); as arquivo) {
+                        <div class="upload-imagem__arquivo">
+                          <strong>{{ arquivo.name }}</strong>
+                          <span>{{ (arquivo.size / 1024 / 1024).toFixed(2) }} MB</span>
+                        </div>
+                      } @else if (formulario.get('logoUrl')?.value) {
+                        <div class="upload-imagem__arquivo">
+                          <strong>Logo atual vinculado</strong>
+                          <span>{{ formulario.get('logoUrl')?.value }}</span>
+                        </div>
+                      }
+
+                      <div class="upload-imagem__acoes">
+                        <small class="campo__ajuda">Envie um arquivo de logo em formato de imagem.</small>
+
+                        @if (arquivoLogo()) {
+                          <button type="button" class="upload-imagem__remover" (click)="removerLogoSelecionado(inputLogoColecao)">
+                            Remover logo
+                          </button>
+                        }
+                      </div>
+
+                      @if (erroLogo()) {
+                        <small class="campo__erro">{{ erroLogo() }}</small>
+                      }
+                    </div>
+                  </div>
+                  <div class="campo campo--largo">
+                    <label class="campo__label">Imagem da coleção</label>
+                    <div class="upload-imagem">
+                      <input
+                        #inputImagemColecao
+                        id="input-imagem-colecao"
+                        type="file"
+                        accept="image/*"
+                        class="upload-imagem__input"
+                        (change)="selecionarImagem($event)"
+                      />
+                      <label class="upload-imagem__cta" for="input-imagem-colecao">Selecionar arquivo</label>
+
+                      @if (arquivoImagem(); as arquivo) {
+                        <div class="upload-imagem__arquivo">
+                          <strong>{{ arquivo.name }}</strong>
+                          <span>{{ (arquivo.size / 1024 / 1024).toFixed(2) }} MB</span>
+                        </div>
+                      } @else if (formulario.get('imagemUrl')?.value) {
+                        <div class="upload-imagem__arquivo">
+                          <strong>Imagem atual vinculada</strong>
+                          <span>{{ formulario.get('imagemUrl')?.value }}</span>
+                        </div>
+                      }
+
+                      <div class="upload-imagem__acoes">
+                        <small class="campo__ajuda">Envie uma imagem da colecao para exibicao na loja.</small>
+
+                        @if (arquivoImagem()) {
+                          <button type="button" class="upload-imagem__remover" (click)="removerImagemSelecionada(inputImagemColecao)">
+                            Remover arquivo
+                          </button>
+                        }
+                      </div>
+
+                      @if (erroImagem()) {
+                        <small class="campo__erro">{{ erroImagem() }}</small>
+                      }
+                    </div>
+                  </div>
+                  <div class="campo campo--largo">
+                    <label class="campo__label">Descrição</label>
+                    <textarea class="campo__input" formControlName="descricao" rows="5" placeholder="Descreva a coleção"></textarea>
+                  </div>
+                </div>
+              </section>
+            </div>
+          </div>
+          <div class="modal__rodape">
+            <button type="button" class="btn-cancelar" (click)="fecharModal()">Cancelar</button>
+            <button type="submit" class="btn-salvar" [disabled]="salvando()">
+              {{ salvando() ? 'Salvando...' : 'Salvar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

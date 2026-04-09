@@ -1,0 +1,86 @@
+<div class="painel" [class.painel--sidebar-fechada]="!sidebarAberta()">
+
+  <!-- Sidebar -->
+  <aside class="painel__sidebar">
+    <div class="painel__sidebar-topo">
+      <span class="painel__logo-icone">🃏</span>
+      @if (sidebarAberta()) {
+        <span class="painel__logo-texto">Cartas <strong>Vegeta</strong></span>
+      }
+    </div>
+
+    <nav class="painel__nav">
+      @for (menu of menus; track menu.rota) {
+        <a
+          [routerLink]="menu.rota"
+          routerLinkActive="painel__nav-item--ativo"
+          class="painel__nav-item"
+          [title]="menu.label"
+        >
+          <span class="painel__nav-icone">{{ menu.icone }}</span>
+          @if (sidebarAberta()) {
+            <span class="painel__nav-label">{{ menu.label }}</span>
+          }
+        </a>
+      }
+    </nav>
+
+    <button class="painel__sair" (click)="solicitarSaida()" [title]="sidebarAberta() ? '' : 'Sair'">
+      <span>🚪</span>
+      @if (sidebarAberta()) { <span>Sair</span> }
+    </button>
+  </aside>
+
+  <!-- Conteúdo principal -->
+  <div class="painel__corpo">
+
+    <!-- Topbar -->
+    <header class="painel__topbar">
+      <button class="painel__toggle" (click)="alternarSidebar()" title="Recolher menu">
+        {{ sidebarAberta() ? '◀' : '▶' }}
+      </button>
+      <span class="painel__topbar-titulo">Painel Administrativo</span>
+      <div class="painel__perfil-menu">
+        <button class="painel__topbar-usuario" type="button" (click)="alternarMenuPerfil()">
+          <span>👤 {{ nomeAdmin() || 'Administrador' }}</span>
+          @if (rotuloPerfilAdmin()) {
+            <small>• {{ rotuloPerfilAdmin() }}</small>
+          }
+        </button>
+
+        @if (menuPerfilAberto) {
+          <div class="painel__perfil-dropdown">
+            <button type="button" class="painel__perfil-link painel__perfil-link--logout" (click)="solicitarSaida()">
+              Sair do painel
+            </button>
+          </div>
+        }
+      </div>
+    </header>
+
+    <!-- Conteúdo da rota filha -->
+    <main class="painel__conteudo">
+      <router-outlet />
+    </main>
+
+  </div>
+</div>
+
+@if (confirmarSaidaAberta) {
+  <div class="painel-modal" (click)="fecharConfirmacaoSaida()">
+    <div class="painel-modal__card" (click)="$event.stopPropagation()">
+      <p class="painel-modal__tag">Confirmar saída</p>
+      <h3 class="painel-modal__titulo">Deseja realmente sair?</h3>
+      <p class="painel-modal__texto">Você será desconectado da sessão administrativa atual.</p>
+
+      <div class="painel-modal__acoes">
+        <button type="button" class="painel-modal__botao painel-modal__botao--secundario" (click)="fecharConfirmacaoSaida()">
+          Cancelar
+        </button>
+        <button type="button" class="painel-modal__botao painel-modal__botao--primario" (click)="sair()">
+          Sim, sair
+        </button>
+      </div>
+    </div>
+  </div>
+}

@@ -1,0 +1,161 @@
+<!-- Notificação de sucesso -->
+@if (mensagemSucesso) {
+  <div class="notificacao-sucesso">✅ {{ mensagemSucesso }}</div>
+}
+
+<div class="detalhe">
+
+  <!-- Breadcrumb de navegação -->
+  <nav class="breadcrumb">
+    <div class="breadcrumb__container">
+      <a routerLink="/" class="breadcrumb__link">Início</a>
+      <span class="breadcrumb__separador">›</span>
+      <a routerLink="/catalogo" class="breadcrumb__link">Catálogo</a>
+      @if (carta) {
+        <span class="breadcrumb__separador">›</span>
+        <span class="breadcrumb__atual">{{ carta.nome }}</span>
+      }
+    </div>
+  </nav>
+
+  @if (carregando) {
+    <!-- Skeleton de carregamento -->
+    <div class="detalhe__container">
+      <div class="skeleton-imagem"></div>
+      <div class="skeleton-info">
+        <div class="skeleton-linha skeleton-linha--longa"></div>
+        <div class="skeleton-linha skeleton-linha--curta"></div>
+        <div class="skeleton-linha skeleton-linha--media"></div>
+      </div>
+    </div>
+  } @else if (erro || !carta) {
+    <!-- Estado de erro -->
+    <div class="detalhe__erro">
+      <p class="detalhe__erro-icone">😔</p>
+      <h2 class="detalhe__erro-titulo">Falha ao carregar carta</h2>
+      <p class="detalhe__erro-texto">
+        {{ erroMensagem || 'A carta que você procura nao existe ou foi removida do catalogo.' }}
+      </p>
+      <a routerLink="/catalogo" class="btn-primario">← Voltar ao Catálogo</a>
+    </div>
+  } @else {
+    <!-- Conteúdo da carta -->
+    <div class="detalhe__container">
+
+      <!-- Coluna da imagem -->
+      <div class="detalhe__imagem-col">
+        <div class="detalhe__imagem-container">
+          <img
+            [src]="carta.imagemUrl || imagemFallback"
+            [alt]="carta.nome"
+            class="detalhe__imagem"
+            (error)="onErroImagem($event)"
+          />
+          @if (carta.destaque) {
+            <span class="detalhe__badge-destaque">⭐ Destaque</span>
+          }
+        </div>
+      </div>
+
+      <!-- Coluna das informações -->
+      <div class="detalhe__info-col">
+
+        <div class="detalhe__meta">
+          <span class="detalhe__conjunto">{{ carta.conjunto }}</span>
+          <span class="detalhe__numero">#{{ carta.numero }}</span>
+          @if (carta.codigoColecao) {
+            <span class="detalhe__codigo">{{ carta.codigoColecao }}</span>
+          }
+        </div>
+
+        <h1 class="detalhe__nome">{{ carta.nome }}</h1>
+
+        <div class="detalhe__badges">
+          <span class="detalhe__raridade" [ngClass]="classeRaridade">{{ carta.raridade }}</span>
+          <span class="detalhe__tipo">{{ carta.tipo }}</span>
+          @if (carta.hp) {
+            <span class="detalhe__hp">❤️ {{ carta.hp }} HP</span>
+          }
+        </div>
+
+        <p class="detalhe__descricao">{{ carta.descricao }}</p>
+
+        <div class="detalhe__atributos">
+          <div class="atributo">
+            <span class="atributo__rotulo">Artista</span>
+            <span class="atributo__valor">{{ carta.artista || 'Não informado' }}</span>
+          </div>
+          <div class="atributo">
+            <span class="atributo__rotulo">Conjunto</span>
+            <span class="atributo__valor">{{ carta.conjunto }}</span>
+          </div>
+          @if (carta.codigoColecao) {
+            <div class="atributo">
+              <span class="atributo__rotulo">Código do Set</span>
+              <span class="atributo__valor">{{ carta.codigoColecao }}</span>
+            </div>
+          }
+          <div class="atributo">
+            <span class="atributo__rotulo">Raridade</span>
+            <span class="atributo__valor">{{ carta.raridade }}</span>
+          </div>
+          <div class="atributo">
+            <span class="atributo__rotulo">Estoque</span>
+            <span class="atributo__valor" [class.atributo__valor--alerta]="carta.quantidadeEstoque <= 3">
+              {{ carta.quantidadeEstoque > 0 ? carta.quantidadeEstoque + ' unidades' : 'Esgotado' }}
+            </span>
+          </div>
+        </div>
+
+        <!-- Preço e compra -->
+        <div class="detalhe__compra">
+          <div class="detalhe__preco">
+            <span class="detalhe__preco-valor">{{ formatarPreco(carta.preco) }}</span>
+            <span class="detalhe__preco-info">ou em até 3x sem juros no cartão</span>
+          </div>
+
+          @if (carta.quantidadeEstoque > 0) {
+            <div class="detalhe__quantidade">
+              <span class="detalhe__quantidade-rotulo">Quantidade:</span>
+              <div class="detalhe__quantidade-controles">
+                <button
+                  class="detalhe__qtd-btn"
+                  (click)="decrementarQuantidade()"
+                  [disabled]="quantidade <= 1"
+                  aria-label="Diminuir quantidade"
+                >−</button>
+                <span class="detalhe__qtd-valor">{{ quantidade }}</span>
+                <button
+                  class="detalhe__qtd-btn"
+                  (click)="incrementarQuantidade()"
+                  [disabled]="quantidade >= carta.quantidadeEstoque"
+                  aria-label="Aumentar quantidade"
+                >+</button>
+              </div>
+            </div>
+
+            <button
+              class="detalhe__btn-comprar"
+              (click)="adicionarAoCarrinho()"
+            >
+              @if (jaNoCarrinho) {
+                ✅ Adicionar mais ao carrinho
+              } @else {
+                🛒 Adicionar ao Carrinho
+              }
+            </button>
+          } @else {
+            <button class="detalhe__btn-comprar detalhe__btn-comprar--esgotado" disabled>
+              😔 Produto Esgotado
+            </button>
+          }
+
+          <a routerLink="/carrinho" class="detalhe__link-carrinho">
+            🛒 Ver carrinho
+          </a>
+        </div>
+
+      </div>
+    </div>
+  }
+</div>

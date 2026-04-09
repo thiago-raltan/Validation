@@ -1,0 +1,100 @@
+/* ============================================================
+   Estilos Globais — Cartas Vegeta
+   Paleta: Fundo escuro (#1a1a2e), Vermelho (#e63946),
+           Azul claro (#a8dadc), Amarelo (#ffd700)
+   ============================================================ */
+
+/* Reset e box model global */
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Variáveis CSS globais */
+:root {
+  --cor-fundo:         #1a1a2e;
+  --cor-fundo-card:    #16213e;
+  --cor-fundo-escuro:  #0d0d1a;
+  --cor-primaria:      #e63946;
+  --cor-primaria-hover:#c1121f;
+  --cor-destaque:      #ffd700;
+  --cor-texto:         #f1faee;
+  --cor-texto-suave:   #a8dadc;
+  --cor-texto-muted:   #6c757d;
+  --cor-borda:         rgba(168, 218, 220, 0.15);
+  --raio-borda:        12px;
+  --sombra-card:       0 4px 24px rgba(0, 0, 0, 0.3);
+}
+
+html {
+  font-size: 16px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  line-height: 1.6;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Scrollbar personalizada */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--cor-fundo-escuro);
+}
+
+::-webkit-scrollbar-thumb {
+  background: #e63946;
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #c1121f;
+}
+
+/* Foco acessível */
+:focus-visible {
+  outline: 2px solid #e63946;
+  outline-offset: 2px;
+}
+
+/* Links padrão */
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+/* Imagens responsivas */
+img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+
+/* Botões sem estilo base */
+button {
+  font-family: inherit;
+  cursor: pointer;
+}
+
+/* Inputs sem estilo base */
+input,
+select,
+textarea {
+  font-family: inherit;
+}
+
+/* Transições de rota (Angular View Transitions) */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation-duration: 0.25s;
+}

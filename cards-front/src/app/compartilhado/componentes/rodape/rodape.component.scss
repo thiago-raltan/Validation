@@ -1,0 +1,116 @@
+.rodape {
+  background: #0d0d1a;
+  color: #a8dadc;
+  border-top: 3px solid #e63946;
+  margin-top: auto;
+
+  &__container {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 3rem 1.5rem 2rem;
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr 1fr;
+    gap: 2rem;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr 1fr;
+    }
+
+    @media (max-width: 480px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__coluna {
+    &--marca {
+      padding-right: 2rem;
+    }
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 1.3rem;
+    color: #fff;
+    margin-bottom: 1rem;
+
+    strong {
+      color: #e63946;
+    }
+  }
+
+  &__descricao {
+    font-size: 0.85rem;
+    line-height: 1.7;
+    color: #6c757d;
+  }
+
+  &__titulo {
+    color: #e63946;
+    font-size: 0.9rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 1rem;
+  }
+
+  &__lista {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+  }
+
+  &__link {
+    color: #a8dadc;
+    text-decoration: none;
+    font-size: 0.9rem;
+    transition: color 0.2s;
+
+    &:hover {
+      color: #e63946;
+    }
+  }
+
+  &__info {
+    font-size: 0.85rem;
+    color: #6c757d;
+  }
+
+  &__pagamentos {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+    margin-bottom: 0.75rem;
+  }
+
+  &__pagamento-badge {
+    background: rgba(255, 255, 255, 0.08);
+    border: 1px solid rgba(168, 218, 220, 0.2);
+    color: #a8dadc;
+    padding: 0.3rem 0.6rem;
+    border-radius: 6px;
+    font-size: 0.8rem;
+  }
+
+  &__seguranca {
+    font-size: 0.85rem;
+    color: #4caf50;
+    margin: 0;
+  }
+
+  &__direitos {
+    border-top: 1px solid rgba(168, 218, 220, 0.1);
+    text-align: center;
+    padding: 1rem 1.5rem;
+
+    p {
+      font-size: 0.8rem;
+      color: #6c757d;
+      margin: 0;
+    }
+  }
+}

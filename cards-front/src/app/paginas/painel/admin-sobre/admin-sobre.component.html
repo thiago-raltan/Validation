@@ -1,0 +1,131 @@
+<div class="admin-pagina">
+  <div class="admin-pagina__cabecalho">
+    <div>
+      <h1 class="admin-pagina__titulo">📄 Sobre Nós</h1>
+      <p class="admin-pagina__subtitulo">Editar conteúdo da página Sobre</p>
+    </div>
+    <div style="display:flex;gap:8px">
+      <button type="button" class="btn-cancelar" (click)="restaurarPadrao()">↩ Restaurar Padrão</button>
+      <button type="button" class="btn-salvar" (click)="salvar()">
+        💾 Salvar Alterações
+      </button>
+    </div>
+  </div>
+
+  @if (sucesso) {
+    <div class="admin-alerta admin-alerta--sucesso">✅ Conteúdo salvo com sucesso!</div>
+  }
+
+  <form [formGroup]="formulario" class="sobre-form">
+
+    <!-- Banner -->
+    <section class="sobre-form__secao">
+      <h2 class="sobre-form__titulo-secao">🖼️ Banner</h2>
+      <div class="modal__grade">
+        <div class="campo campo--largo">
+          <label class="campo__label">Título principal</label>
+          <input type="text" class="campo__input" formControlName="titulo" />
+        </div>
+        <div class="campo campo--largo">
+          <label class="campo__label">Subtítulo</label>
+          <input type="text" class="campo__input" formControlName="subtitulo" />
+        </div>
+      </div>
+    </section>
+
+    <!-- Missão -->
+    <section class="sobre-form__secao">
+      <h2 class="sobre-form__titulo-secao">🎯 Missão</h2>
+      <div class="campo campo--largo">
+        <label class="campo__label">Texto da missão (suporta HTML básico: &lt;strong&gt;, &lt;em&gt;)</label>
+        <textarea class="campo__input" formControlName="missao" rows="4"></textarea>
+      </div>
+    </section>
+
+    <!-- Vantagens -->
+    <section class="sobre-form__secao">
+      <div class="sobre-form__secao-cabecalho">
+        <h2 class="sobre-form__titulo-secao">🏆 Vantagens</h2>
+        <button type="button" class="btn-novo" (click)="adicionarVantagem()">+ Adicionar</button>
+      </div>
+      <div formArrayName="vantagens">
+        @for (v of vantagens.controls; track $index) {
+          <div [formGroupName]="$index" class="sobre-form__item">
+            <div class="modal__grade">
+              <div class="campo">
+                <label class="campo__label">Ícone (emoji)</label>
+                <input type="text" class="campo__input" formControlName="icone" maxlength="4" />
+              </div>
+              <div class="campo">
+                <label class="campo__label">Título</label>
+                <input type="text" class="campo__input" formControlName="titulo" />
+              </div>
+              <div class="campo campo--largo">
+                <label class="campo__label">Descrição</label>
+                <input type="text" class="campo__input" formControlName="descricao" />
+              </div>
+            </div>
+            <button
+              type="button"
+              class="btn-remover"
+              (click)="removerVantagem($index)"
+              title="Remover vantagem"
+              [disabled]="vantagens.length <= 1"
+            >🗑️</button>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Números / Estatísticas -->
+    <section class="sobre-form__secao">
+      <div class="sobre-form__secao-cabecalho">
+        <h2 class="sobre-form__titulo-secao">📊 Estatísticas</h2>
+        <button type="button" class="btn-novo" (click)="adicionarNumero()">+ Adicionar</button>
+      </div>
+      <div formArrayName="numeros">
+        @for (n of numeros.controls; track $index) {
+          <div [formGroupName]="$index" class="sobre-form__item">
+            <div class="modal__grade">
+              <div class="campo">
+                <label class="campo__label">Valor (ex: 5.000+)</label>
+                <input type="text" class="campo__input" formControlName="valor" />
+              </div>
+              <div class="campo">
+                <label class="campo__label">Rótulo (ex: Cartas disponíveis)</label>
+                <input type="text" class="campo__input" formControlName="rotulo" />
+              </div>
+            </div>
+            <button
+              type="button"
+              class="btn-remover"
+              (click)="removerNumero($index)"
+              title="Remover estatística"
+              [disabled]="numeros.length <= 1"
+            >🗑️</button>
+          </div>
+        }
+      </div>
+    </section>
+
+    <!-- Contato -->
+    <section class="sobre-form__secao" formGroupName="contato">
+      <h2 class="sobre-form__titulo-secao">📬 Contato</h2>
+      <div class="modal__grade">
+        <div class="campo">
+          <label class="campo__label">E-mail</label>
+          <input type="text" class="campo__input" formControlName="email" />
+        </div>
+        <div class="campo">
+          <label class="campo__label">Telefone</label>
+          <input type="text" class="campo__input" formControlName="telefone" />
+        </div>
+        <div class="campo campo--largo">
+          <label class="campo__label">Horário de atendimento</label>
+          <input type="text" class="campo__input" formControlName="horario" />
+        </div>
+      </div>
+    </section>
+
+  </form>
+</div>

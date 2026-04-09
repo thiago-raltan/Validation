@@ -1,0 +1,211 @@
+<div class="checkout-pagina">
+  <div class="checkout-pagina__container">
+
+    @if (sucesso) {
+      <!-- Confirmação de pedido -->
+      <div class="checkout-sucesso">
+        <div class="checkout-sucesso__icone">🎉</div>
+        <h1 class="checkout-sucesso__titulo">Pedido realizado!</h1>
+        <p class="checkout-sucesso__texto">
+          Seu pedido <strong>#{{ pedidoId }}</strong> foi confirmado com sucesso.
+          Acompanhe o status em <a routerLink="/meus-pedidos">Meus Pedidos</a>.
+        </p>
+        <div class="checkout-sucesso__acoes">
+          <a routerLink="/meus-pedidos" class="btn-primario">📋 Ver meus pedidos</a>
+          <a routerLink="/catalogo" class="btn-secundario">🃏 Continuar comprando</a>
+        </div>
+      </div>
+
+    } @else if (carrinhoVazio) {
+      <!-- Carrinho vazio -->
+      <div class="checkout-vazio">
+        <div class="checkout-vazio__icone">🛒</div>
+        <h1>Carrinho vazio</h1>
+        <p>Adicione produtos ao carrinho antes de finalizar a compra.</p>
+        <a routerLink="/catalogo" class="btn-primario">🃏 Explorar Catálogo</a>
+      </div>
+
+    } @else {
+      <h1 class="checkout-pagina__titulo">✅ Finalizar Pedido</h1>
+
+      <div class="checkout-layout">
+
+        <!-- Formulário -->
+        <div class="checkout-form">
+          <form [formGroup]="formulario" (ngSubmit)="finalizar()">
+
+            <section class="checkout-secao">
+              <h2 class="checkout-secao__titulo">📍 Endereço de Entrega</h2>
+
+              @if (perfilCarregando) {
+                <div class="checkout-endereco__aviso">Carregando dados do cadastro...</div>
+              } @else {
+                @if (enderecosSalvos.length > 0) {
+                  <div class="checkout-endereco__topo">
+                    <p class="checkout-endereco__descricao">
+                      Escolha um endereço salvo do seu cadastro. Você pode manter até 3 endereços para agilizar futuras compras.
+                    </p>
+
+                    @if (enderecoSelecionado) {
+                      <button type="button" class="btn-secundario btn-secundario--compacto" (click)="trocarEndereco()">
+                        Trocar endereço
+                      </button>
+                    }
+                  </div>
+
+                  @if (exibirListaEnderecos) {
+                    <div class="checkout-endereco__lista">
+                      @for (endereco of enderecosSalvos; track endereco.id) {
+                        <button
+                          type="button"
+                          class="checkout-endereco__card"
+                          [class.checkout-endereco__card--ativo]="enderecoSelecionadoId === endereco.id"
+                          (click)="selecionarEndereco(endereco)"
+                        >
+                          <div class="checkout-endereco__card-titulo">
+                            <strong>{{ endereco.titulo }}</strong>
+                            @if (endereco.principal) {
+                              <span class="checkout-endereco__badge">Principal</span>
+                            }
+                          </div>
+                          <span>{{ endereco.logradouro }}, {{ endereco.numero }}</span>
+                          <span>{{ endereco.bairro }} - {{ endereco.cidade }}/{{ endereco.uf }}</span>
+                          <span>CEP: {{ endereco.cep }}</span>
+                        </button>
+                      }
+                    </div>
+                  }
+                } @else {
+                  <div class="checkout-endereco__aviso">
+                    Nenhum endereço salvo foi encontrado no cadastro. Preencha os dados abaixo para continuar.
+                  </div>
+                }
+              }
+
+              <div class="checkout-grade">
+
+                <div class="campo">
+                  <label class="campo__label">CEP *</label>
+                  <input formControlName="cep" class="campo__input" [class.campo__input--erro]="campoInvalido('cep')" type="text" placeholder="00000-000" />
+                  @if (campoInvalido('cep')) {
+                    <span class="campo__erro">CEP inválido</span>
+                  }
+                </div>
+
+                <div class="campo campo--largo">
+                  <label class="campo__label">Logradouro *</label>
+                  <input formControlName="logradouro" class="campo__input" [class.campo__input--erro]="campoInvalido('logradouro')" type="text" placeholder="Rua, Avenida..." />
+                  @if (campoInvalido('logradouro')) {
+                    <span class="campo__erro">Logradouro obrigatório</span>
+                  }
+                </div>
+
+                <div class="campo">
+                  <label class="campo__label">Número *</label>
+                  <input formControlName="numero" class="campo__input" [class.campo__input--erro]="campoInvalido('numero')" type="text" placeholder="123" />
+                  @if (campoInvalido('numero')) {
+                    <span class="campo__erro">Número obrigatório</span>
+                  }
+                </div>
+
+                <div class="campo">
+                  <label class="campo__label">Complemento</label>
+                  <input formControlName="complemento" class="campo__input" type="text" placeholder="Apto, bloco..." />
+                </div>
+
+                <div class="campo campo--largo">
+                  <label class="campo__label">Bairro *</label>
+                  <input formControlName="bairro" class="campo__input" [class.campo__input--erro]="campoInvalido('bairro')" type="text" />
+                  @if (campoInvalido('bairro')) {
+                    <span class="campo__erro">Bairro obrigatório</span>
+                  }
+                </div>
+
+                <div class="campo">
+                  <label class="campo__label">Cidade *</label>
+                  <input formControlName="cidade" class="campo__input" [class.campo__input--erro]="campoInvalido('cidade')" type="text" />
+                  @if (campoInvalido('cidade')) {
+                    <span class="campo__erro">Cidade obrigatória</span>
+                  }
+                </div>
+
+                <div class="campo">
+                  <label class="campo__label">UF *</label>
+                  <input formControlName="uf" class="campo__input" [class.campo__input--erro]="campoInvalido('uf')" type="text" maxlength="2" placeholder="SP" />
+                  @if (campoInvalido('uf')) {
+                    <span class="campo__erro">UF obrigatória</span>
+                  }
+                </div>
+
+              </div>
+            </section>
+
+            <section class="checkout-secao">
+              <h2 class="checkout-secao__titulo">💳 Forma de Pagamento</h2>
+              <div class="pagamento-opcoes">
+                <label class="pagamento-opcao" [class.pagamento-opcao--ativo]="formulario.get('formaPagamento')?.value === 'pix'">
+                  <input type="radio" formControlName="formaPagamento" value="pix" />
+                  <span class="pagamento-opcao__icone">🏦</span>
+                  <span>PIX</span>
+                </label>
+                <label class="pagamento-opcao" [class.pagamento-opcao--ativo]="formulario.get('formaPagamento')?.value === 'cartao'">
+                  <input type="radio" formControlName="formaPagamento" value="cartao" />
+                  <span class="pagamento-opcao__icone">💳</span>
+                  <span>Cartão</span>
+                </label>
+                <label class="pagamento-opcao" [class.pagamento-opcao--ativo]="formulario.get('formaPagamento')?.value === 'boleto'">
+                  <input type="radio" formControlName="formaPagamento" value="boleto" />
+                  <span class="pagamento-opcao__icone">📄</span>
+                  <span>Boleto</span>
+                </label>
+              </div>
+            </section>
+
+            @if (erro) {
+              <div class="checkout-erro">⚠️ {{ erro }}</div>
+            }
+
+            <button type="submit" class="btn-finalizar" [disabled]="enviando">
+              {{ enviando ? '⏳ Processando...' : '✅ Confirmar Pedido' }}
+            </button>
+
+          </form>
+        </div>
+
+        <!-- Resumo do carrinho -->
+        <aside class="checkout-resumo">
+          <h2 class="checkout-resumo__titulo">🛒 Resumo</h2>
+
+          <div class="checkout-resumo__itens">
+            @for (item of itens(); track $index) {
+              <div class="checkout-resumo__item">
+                <span class="checkout-resumo__item-nome">{{ nomeItem(item) }} × {{ item.quantidade }}</span>
+                <span class="checkout-resumo__item-preco">{{ formatarPreco(precoItem(item) * item.quantidade) }}</span>
+              </div>
+            }
+          </div>
+
+          <div class="checkout-resumo__divisor"></div>
+
+          <div class="checkout-resumo__linha">
+            <span>Subtotal</span>
+            <span>{{ formatarPreco(subtotal()) }}</span>
+          </div>
+          <div class="checkout-resumo__linha">
+            <span>Frete</span>
+            <span>{{ subtotal() >= 150 ? '🎉 Grátis' : 'A calcular' }}</span>
+          </div>
+
+          <div class="checkout-resumo__total">
+            <span>Total</span>
+            <span>{{ formatarPreco(total()) }}</span>
+          </div>
+
+          <a routerLink="/carrinho" class="checkout-resumo__voltar">← Editar carrinho</a>
+        </aside>
+
+      </div>
+    }
+
+  </div>
+</div>

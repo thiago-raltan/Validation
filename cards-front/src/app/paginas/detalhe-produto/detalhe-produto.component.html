@@ -1,0 +1,114 @@
+<div class="detalhe detalhe-produto">
+  <nav class="breadcrumb">
+    <div class="breadcrumb__container">
+      <a routerLink="/" class="breadcrumb__link">Início</a>
+      <span class="breadcrumb__separador">›</span>
+      <a routerLink="/produtos" class="breadcrumb__link">Produtos</a>
+      @if (produto) {
+        <span class="breadcrumb__separador">›</span>
+        <span class="breadcrumb__atual">{{ produto.nome }}</span>
+      }
+    </div>
+  </nav>
+
+  @if (carregando) {
+    <div class="detalhe__container">
+      <div class="skeleton-imagem"></div>
+      <div class="skeleton-info">
+        <div class="skeleton-linha skeleton-linha--longa"></div>
+        <div class="skeleton-linha skeleton-linha--curta"></div>
+        <div class="skeleton-linha skeleton-linha--media"></div>
+      </div>
+    </div>
+  } @else if (erro || !produto) {
+    <div class="detalhe__erro">
+      <p class="detalhe__erro-icone">📦</p>
+      <h2 class="detalhe__erro-titulo">Falha ao carregar produto</h2>
+      <p class="detalhe__erro-texto">
+        {{ erroMensagem || 'O produto que você procura nao existe ou foi removido da vitrine.' }}
+      </p>
+      <a routerLink="/produtos" class="btn-primario">← Voltar aos Produtos</a>
+    </div>
+  } @else {
+    <div class="detalhe__container">
+      <div class="detalhe__imagem-col">
+        <div class="detalhe__imagem-container">
+          <img
+            [src]="produto.imagemUrl || imagemFallback()"
+            [alt]="produto.nome"
+            class="detalhe__imagem"
+            (error)="onErroImagem($event)"
+          />
+          @if (produto.destaque) {
+            <span class="detalhe__badge-destaque">⭐ Destaque</span>
+          }
+        </div>
+      </div>
+
+      <div class="detalhe__info-col">
+        <div class="detalhe__meta">
+          <span class="detalhe-produto__categoria">{{ produto.categoria }}</span>
+          <span class="detalhe__numero">#{{ produto.id }}</span>
+        </div>
+
+        <h1 class="detalhe__nome">{{ produto.nome }}</h1>
+        <p class="detalhe__descricao">{{ produto.descricao || 'Produto sem descrição cadastrada.' }}</p>
+
+        <div class="detalhe__atributos">
+          <div class="atributo">
+            <span class="atributo__rotulo">Categoria</span>
+            <span class="atributo__valor detalhe-produto__categoria detalhe-produto__categoria--badge">{{ produto.categoria }}</span>
+          </div>
+          <div class="atributo">
+            <span class="atributo__rotulo">Estoque</span>
+            <span class="atributo__valor" [class.atributo__valor--alerta]="produto.quantidadeEstoque <= 3">
+              {{ produto.quantidadeEstoque > 0 ? produto.quantidadeEstoque + ' unidades' : 'Esgotado' }}
+            </span>
+          </div>
+        </div>
+
+        <div class="detalhe__compra">
+          <div class="detalhe__preco">
+            <span class="detalhe__preco-valor">{{ formatarPreco(produto.preco) }}</span>
+            <span class="detalhe__preco-info">ou em até 3x sem juros no cartão</span>
+          </div>
+
+          @if (produto.quantidadeEstoque > 0) {
+            <div class="detalhe__quantidade">
+              <span class="detalhe__quantidade-rotulo">Quantidade:</span>
+              <div class="detalhe__quantidade-controles">
+                <button
+                  class="detalhe__qtd-btn"
+                  (click)="decrementarQuantidade()"
+                  [disabled]="quantidade <= 1"
+                  aria-label="Diminuir quantidade"
+                >−</button>
+                <span class="detalhe__qtd-valor">{{ quantidade }}</span>
+                <button
+                  class="detalhe__qtd-btn"
+                  (click)="incrementarQuantidade()"
+                  [disabled]="quantidade >= produto.quantidadeEstoque"
+                  aria-label="Aumentar quantidade"
+                >+</button>
+              </div>
+            </div>
+
+            <button class="detalhe__btn-comprar" (click)="adicionarAoCarrinho()">
+              @if (jaNoCarrinho) {
+                ✅ Adicionar mais ao carrinho
+              } @else {
+                🛒 Adicionar ao Carrinho
+              }
+            </button>
+          } @else {
+            <button class="detalhe__btn-comprar detalhe__btn-comprar--esgotado" disabled>
+              😔 Produto Esgotado
+            </button>
+          }
+
+          <a routerLink="/carrinho" class="detalhe__link-carrinho">🛒 Ver carrinho</a>
+        </div>
+      </div>
+    </div>
+  }
+</div>

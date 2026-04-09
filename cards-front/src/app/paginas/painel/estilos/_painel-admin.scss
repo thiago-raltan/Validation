@@ -1,0 +1,376 @@
+// Estilos compartilhados para as páginas do painel admin
+// Importe este arquivo nos SCSSs de componentes do painel
+
+.admin-pagina {
+  &__cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 1.5rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  &__titulo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffd700;
+    margin: 0 0 0.25rem;
+  }
+
+  &__subtitulo {
+    font-size: 0.82rem;
+    color: #6c757d;
+    margin: 0;
+  }
+
+  &__filtros {
+    margin-bottom: 1.25rem;
+    display: flex;
+    gap: 0.75rem;
+    flex-wrap: wrap;
+  }
+
+  &__vazio {
+    padding: 3rem;
+    text-align: center;
+    color: #6c757d;
+    background: #0d0d14;
+    border-radius: 12px;
+  }
+}
+
+.btn-novo {
+  background: #ffd700;
+  color: #0a0a0f;
+  border: none;
+  padding: 0.55rem 1.1rem;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.15s;
+  white-space: nowrap;
+
+  &:hover { background: #ffec6e; }
+}
+
+.campo-busca {
+  background: #0d0d14;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  color: #f1f1f1;
+  padding: 0.55rem 0.9rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  min-width: 240px;
+  font-family: inherit;
+
+  &:focus {
+    outline: none;
+    border-color: #ffd700;
+  }
+
+  &::placeholder { color: #555; }
+}
+
+// ─── Tabela ──────────────────────────────────────────────────
+.tabela-wrapper {
+  overflow-x: auto;
+  border-radius: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.tabela {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.83rem;
+  color: #c8c8d4;
+
+  th {
+    background: #0d0d14;
+    color: #ffd700;
+    font-size: 0.72rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    padding: 0.75rem 0.9rem;
+    text-align: left;
+    border-bottom: 1px solid rgba(255, 215, 0, 0.1);
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 0.65rem 0.9rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+    vertical-align: middle;
+  }
+
+  tr:hover td { background: rgba(255, 255, 255, 0.02); }
+
+  &__thumb {
+    width: 40px;
+    height: 56px;
+    object-fit: cover;
+    border-radius: 4px;
+    display: block;
+  }
+
+  &__sem-img {
+    font-size: 1.5rem;
+    display: block;
+    text-align: center;
+  }
+
+  &__acoes {
+    display: flex;
+    gap: 0.4rem;
+    white-space: nowrap;
+  }
+
+  &__vazia {
+    text-align: center;
+    color: #6c757d;
+    padding: 2rem;
+  }
+}
+
+.btn-editar, .btn-remover {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 6px;
+  padding: 0.3rem 0.5rem;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background 0.15s;
+
+  &:hover { background: rgba(255, 255, 255, 0.08); }
+}
+
+.btn-remover:hover { background: rgba(230, 57, 70, 0.15); }
+
+.badge {
+  display: inline-block;
+  padding: 0.2rem 0.55rem;
+  border-radius: 20px;
+  font-size: 0.72rem;
+  background: rgba(255, 215, 0, 0.1);
+  color: #ffd700;
+  border: 1px solid rgba(255, 215, 0, 0.2);
+  white-space: nowrap;
+}
+
+// ─── Modal ──────────────────────────────────────────────────
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1rem;
+}
+
+.modal {
+  background: #111118;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 215, 0, 0.15);
+  width: 100%;
+  max-width: 700px;
+  max-height: 90vh;
+  overflow-y: auto;
+
+  &__cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem 1.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+
+    h2 {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffd700;
+      margin: 0;
+    }
+  }
+
+  &__fechar {
+    background: transparent;
+    border: none;
+    color: #6c757d;
+    font-size: 1.1rem;
+    cursor: pointer;
+    padding: 0.25rem;
+    transition: color 0.15s;
+
+    &:hover { color: #ff8a8a; }
+  }
+
+  &__form {
+    padding: 1.5rem;
+  }
+
+  &__ajuda {
+    margin: 0 0 1rem;
+    font-size: 0.82rem;
+    line-height: 1.5;
+    color: #a8adb8;
+  }
+
+  &__grade {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.85rem;
+    margin-bottom: 1.25rem;
+  }
+
+  &__rodape {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.75rem;
+    padding-top: 1rem;
+    border-top: 1px solid rgba(255, 255, 255, 0.06);
+  }
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+
+  &--largo { grid-column: 1 / -1; }
+
+  &--checkbox {
+    flex-direction: row;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  &__label {
+    font-size: 0.72rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+  }
+
+  &__input {
+    background: #0a0a0f;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    color: #f1f1f1;
+    padding: 0.55rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.87rem;
+    font-family: inherit;
+    width: 100%;
+    box-sizing: border-box;
+    transition: border-color 0.15s;
+
+    &:focus {
+      outline: none;
+      border-color: #ffd700;
+    }
+
+    &::placeholder { color: #3a3a3a; }
+
+    option { background: #111; }
+  }
+
+  textarea.campo__input { resize: vertical; }
+
+  &__ajuda {
+    font-size: 0.72rem;
+    color: #7d8590;
+    line-height: 1.4;
+  }
+}
+
+.btn-cancelar, .btn-salvar {
+  padding: 0.6rem 1.4rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: background 0.15s;
+}
+
+.btn-cancelar {
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #c8c8d4;
+
+  &:hover { background: rgba(255, 255, 255, 0.06); }
+}
+
+.btn-salvar {
+  background: #ffd700;
+  color: #0a0a0f;
+  font-weight: 800;
+
+  &:hover:not(:disabled) { background: #ffec6e; }
+  &:disabled { background: #3a3a2a; color: #6c757d; cursor: not-allowed; }
+}
+
+// ─── Alerta ──────────────────────────────────────────────────
+.admin-alerta {
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  margin-bottom: 1.25rem;
+
+  &--sucesso {
+    background: rgba(40, 167, 69, 0.15);
+    border: 1px solid rgba(40, 167, 69, 0.35);
+    color: #6ddb8a;
+  }
+
+  &--erro {
+    background: rgba(230, 57, 70, 0.12);
+    border: 1px solid rgba(230, 57, 70, 0.3);
+    color: #ff8a8a;
+  }
+}
+
+// ─── Sobre Form ──────────────────────────────────────────────
+.sobre-form {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+
+  &__secao {
+    background: #111118;
+    border: 1px solid rgba(255, 255, 255, 0.06);
+    border-radius: 12px;
+    padding: 1.5rem;
+  }
+
+  &__titulo-secao {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #ffd700;
+    margin: 0 0 1.25rem;
+  }
+
+  &__secao-cabecalho {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.25rem;
+
+    .sobre-form__titulo-secao { margin: 0; }
+  }
+
+  &__item {
+    display: flex;
+    gap: 0.75rem;
+    align-items: flex-start;
+    padding: 0.85rem;
+    background: rgba(255, 255, 255, 0.02);
+    border-radius: 8px;
+    margin-bottom: 0.75rem;
+
+    .modal__grade { flex: 1; margin-bottom: 0; }
+  }
+}

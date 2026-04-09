@@ -1,0 +1,148 @@
+<div class="admin-pagina">
+  <div class="admin-pagina__cabecalho">
+    <div>
+      <h1 class="admin-pagina__titulo">🛒 Pedidos</h1>
+      <p class="admin-pagina__subtitulo">{{ total() }} pedido(s) no total</p>
+    </div>
+  </div>
+
+  @if (carregando()) {
+    <div class="admin-pagina__vazio">Carregando pedidos...</div>
+  } @else {
+    <div class="tabela-wrapper">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Cliente</th>
+            <th>Data</th>
+            <th>Total</th>
+            <th>Pagamento</th>
+            <th>Status</th>
+            <th>Alterar Status</th>
+            <th>Detalhe</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (p of pedidos(); track p.id) {
+            <tr>
+              <td>{{ p.id }}</td>
+              <td>
+                {{ p.nomeCliente }}<br>
+                <small>{{ p.emailCliente }}</small>
+              </td>
+              <td>{{ p.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</td>
+              <td>{{ formatarMoeda(p.total) }}</td>
+              <td>{{ p.formaPagamento }}</td>
+              <td>
+                <span class="badge" [style.background]="corStatus(p.status) + '20'" [style.color]="corStatus(p.status)" [style.border-color]="corStatus(p.status) + '50'">
+                  {{ labelStatus(p.status) }}
+                </span>
+              </td>
+              <td>
+                <select class="campo-select" (change)="atualizarStatus(p, $event)">
+                  @for (s of statusOpcoes; track s[0]) {
+                    <option [value]="s[0]" [selected]="s[0] === p.status">{{ s[1] }}</option>
+                  }
+                </select>
+              </td>
+              <td>
+                <button class="btn-detalhe" (click)="abrirDetalhe(p)" title="Ver detalhes do pedido">🔍</button>
+              </td>
+            </tr>
+          }
+          @empty {
+            <tr><td colspan="8" class="tabela__vazia">Nenhum pedido encontrado.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (totalPaginas() > 1) {
+      <div class="paginacao">
+        <button class="paginacao__btn" [disabled]="pagina() === 1" (click)="irParaPagina(pagina() - 1)">‹</button>
+        <span class="paginacao__info">{{ pagina() }} / {{ totalPaginas() }}</span>
+        <button class="paginacao__btn" [disabled]="pagina() === totalPaginas()" (click)="irParaPagina(pagina() + 1)">›</button>
+      </div>
+    }
+  }
+</div>
+
+<!-- Modal de detalhe do pedido -->
+@if (pedidoDetalhe()) {
+  <div class="modal-overlay" (click)="fecharDetalhe()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal__cabecalho">
+        <h2 class="modal__titulo">📋 Pedido #{{ pedidoDetalhe()!.id }}</h2>
+        <button class="modal__fechar" (click)="fecharDetalhe()">✕</button>
+      </div>
+
+      @if (carregandoDetalhe()) {
+        <div class="admin-pagina__vazio">Carregando detalhes...</div>
+      } @else {
+        <div class="modal__corpo pedido-detalhe">
+
+          <!-- Cabeçalho do pedido -->
+          <div class="pedido-detalhe__secao">
+            <h3 class="pedido-detalhe__secao-titulo">📦 Informações do Pedido</h3>
+            <div class="pedido-detalhe__grid">
+              <div><strong>Cliente:</strong> {{ pedidoDetalhe()!.nomeCliente }}</div>
+              <div><strong>E-mail:</strong> {{ pedidoDetalhe()!.emailCliente }}</div>
+              <div><strong>Data:</strong> {{ pedidoDetalhe()!.dataCriacao | date:'dd/MM/yyyy HH:mm' }}</div>
+              <div><strong>Pagamento:</strong> {{ pedidoDetalhe()!.formaPagamento }}</div>
+              <div>
+                <strong>Status:</strong>
+                <span class="badge" [style.background]="corStatus(pedidoDetalhe()!.status) + '20'" [style.color]="corStatus(pedidoDetalhe()!.status)">
+                  {{ labelStatus(pedidoDetalhe()!.status) }}
+                </span>
+              </div>
+              <div><strong>Total:</strong> {{ formatarMoeda(pedidoDetalhe()!.total) }}</div>
+            </div>
+          </div>
+
+          <!-- Itens do pedido -->
+          <div class="pedido-detalhe__secao">
+            <h3 class="pedido-detalhe__secao-titulo">🃏 Itens</h3>
+            <table class="tabela tabela--compacta">
+              <thead>
+                <tr>
+                  <th>Produto</th>
+                  <th>Qtd</th>
+                  <th>Preço Unit.</th>
+                  <th>Subtotal</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (item of pedidoDetalhe()!.itens; track item.id) {
+                  <tr>
+                    <td>{{ item.nomeProduto }}</td>
+                    <td>{{ item.quantidade }}</td>
+                    <td>{{ formatarMoeda(item.precoUnitario) }}</td>
+                    <td>{{ formatarMoeda(item.precoUnitario * item.quantidade) }}</td>
+                  </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+
+          <!-- Endereço de entrega -->
+          @if (pedidoDetalhe()!.enderecoEntrega) {
+            <div class="pedido-detalhe__secao">
+              <h3 class="pedido-detalhe__secao-titulo">📍 Endereço de Entrega</h3>
+              <div class="pedido-detalhe__endereco">
+                <p>{{ pedidoDetalhe()!.enderecoEntrega!.logradouro }}, {{ pedidoDetalhe()!.enderecoEntrega!.numero }}
+                  @if (pedidoDetalhe()!.enderecoEntrega!.complemento) {
+                    — {{ pedidoDetalhe()!.enderecoEntrega!.complemento }}
+                  }
+                </p>
+                <p>{{ pedidoDetalhe()!.enderecoEntrega!.bairro }} — {{ pedidoDetalhe()!.enderecoEntrega!.cidade }}/{{ pedidoDetalhe()!.enderecoEntrega!.uf }}</p>
+                <p>CEP: {{ pedidoDetalhe()!.enderecoEntrega!.cep }}</p>
+              </div>
+            </div>
+          }
+
+        </div>
+      }
+    </div>
+  </div>
+}

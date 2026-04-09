@@ -1,0 +1,327 @@
+.notificacao-sucesso {
+  position: fixed;
+  top: 90px;
+  right: 1.5rem;
+  background: #2d6a4f;
+  color: #fff;
+  padding: 1rem 1.5rem;
+  border-radius: 10px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  z-index: 999;
+  animation: slideIn 0.3s ease;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+}
+
+@keyframes slideIn {
+  from { transform: translateX(100%); opacity: 0; }
+  to   { transform: translateX(0);    opacity: 1; }
+}
+
+.catalogo {
+  min-height: calc(100vh - 200px);
+  background: #1a1a2e;
+
+  &__cabecalho {
+    background: linear-gradient(135deg, #16213e, #1a1a2e);
+    border-bottom: 2px solid rgba(230, 57, 70, 0.3);
+    padding: 2.5rem 0 1.5rem;
+
+    &-container {
+      max-width: 1280px;
+      margin: 0 auto;
+      padding: 0 1.5rem;
+    }
+  }
+
+  &__titulo {
+    font-size: 2rem;
+    font-weight: 900;
+    color: #f1faee;
+    margin: 0 0 0.3rem;
+  }
+
+  &__subtitulo {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin: 0;
+  }
+
+  &__corpo {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 2rem 1.5rem;
+    display: grid;
+    grid-template-columns: 260px 1fr;
+    gap: 2rem;
+    align-items: start;
+
+    @media (max-width: 900px) {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  &__btn-filtros-mobile {
+    display: none;
+    width: 100%;
+    background: #16213e;
+    border: 1px solid rgba(168, 218, 220, 0.2);
+    color: #a8dadc;
+    padding: 0.75rem;
+    border-radius: 10px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    cursor: pointer;
+    margin-bottom: -1rem;
+
+    @media (max-width: 900px) {
+      display: block;
+    }
+  }
+
+  &__filtros {
+    background: #16213e;
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 1px solid rgba(168, 218, 220, 0.15);
+    position: sticky;
+    top: 90px;
+
+    @media (max-width: 900px) {
+      display: none;
+      position: static;
+
+      &--aberto {
+        display: block;
+      }
+    }
+  }
+
+  &__resultados {
+    min-height: 400px;
+  }
+}
+
+// Painel de filtros
+.filtros {
+  &__cabecalho {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(168, 218, 220, 0.1);
+  }
+
+  &__titulo {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f1faee;
+    margin: 0;
+  }
+
+  &__limpar {
+    background: transparent;
+    border: none;
+    color: #e63946;
+    font-size: 0.8rem;
+    cursor: pointer;
+    font-weight: 600;
+
+    &:hover { text-decoration: underline; }
+  }
+
+  &__aviso {
+    background: rgba(230, 57, 70, 0.12);
+    border: 1px solid rgba(230, 57, 70, 0.35);
+    color: #ffd9dc;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.8rem;
+    margin: 0 0 1rem;
+  }
+
+  &__grupo {
+    margin-bottom: 1.25rem;
+  }
+
+  &__label {
+    display: block;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #a8dadc;
+    margin-bottom: 0.4rem;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__input {
+    width: 100%;
+    background: #0d0d1a;
+    border: 1px solid rgba(168, 218, 220, 0.2);
+    color: #f1faee;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    box-sizing: border-box;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #e63946;
+    }
+
+    &::placeholder { color: #6c757d; }
+
+    &--preco {
+      width: calc(50% - 20px);
+    }
+  }
+
+  &__select {
+    width: 100%;
+    background: #0d0d1a;
+    border: 1px solid rgba(168, 218, 220, 0.2);
+    color: #f1faee;
+    padding: 0.6rem 0.75rem;
+    border-radius: 8px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    box-sizing: border-box;
+
+    &:focus {
+      outline: none;
+      border-color: #e63946;
+    }
+
+    option { background: #16213e; }
+  }
+
+  &__preco {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 0.5rem;
+  }
+
+  &__preco-separador {
+    color: #6c757d;
+    font-size: 0.8rem;
+    flex-shrink: 0;
+  }
+
+  &__btn-aplicar {
+    width: 100%;
+    background: rgba(230, 57, 70, 0.15);
+    border: 1px solid rgba(230, 57, 70, 0.4);
+    color: #e63946;
+    padding: 0.5rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s;
+
+    &:hover { background: rgba(230, 57, 70, 0.25); }
+  }
+}
+
+// Grade de cartas
+.grade-cartas {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 1.2rem;
+}
+
+// Paginação
+.paginacao {
+  display: flex;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-top: 2.5rem;
+  flex-wrap: wrap;
+
+  &__btn {
+    background: #16213e;
+    border: 1px solid rgba(168, 218, 220, 0.2);
+    color: #a8dadc;
+    padding: 0.5rem 1rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 0.85rem;
+    transition: all 0.2s;
+
+    &:hover:not(:disabled) {
+      border-color: #e63946;
+      color: #e63946;
+    }
+
+    &:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+    }
+
+    &--ativo {
+      background: #e63946;
+      border-color: #e63946;
+      color: #fff;
+      font-weight: 700;
+    }
+  }
+}
+
+// Sem resultados
+.sem-resultados {
+  text-align: center;
+  padding: 4rem 2rem;
+
+  &__icone { font-size: 3rem; margin-bottom: 1rem; }
+
+  &__titulo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #f1faee;
+    margin-bottom: 0.5rem;
+  }
+
+  &__texto {
+    color: #6c757d;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+  }
+}
+
+.btn-primario {
+  background: #e63946;
+  color: #fff;
+  padding: 0.75rem 2rem;
+  border-radius: 10px;
+  border: none;
+  font-weight: 700;
+  font-size: 0.9rem;
+  cursor: pointer;
+  text-decoration: none;
+  transition: background 0.2s;
+
+  &:hover { background: #c1121f; }
+}
+
+// Skeleton loading
+.grade-carregando {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(185px, 1fr));
+  gap: 1.2rem;
+}
+
+.skeleton-card {
+  height: 320px;
+  background: linear-gradient(90deg, #16213e 25%, #1e2d5a 50%, #16213e 75%);
+  background-size: 200% 100%;
+  border-radius: 12px;
+  animation: carregando 1.5s infinite;
+}
+
+@keyframes carregando {
+  0%   { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}

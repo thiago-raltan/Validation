@@ -1,0 +1,163 @@
+<div class="login-pagina">
+  <div class="login-pagina__aurora login-pagina__aurora--esquerda"></div>
+  <div class="login-pagina__aurora login-pagina__aurora--direita"></div>
+
+  <section class="login-pagina__painel">
+    <div class="login-pagina__destaque">
+      <div class="login-pagina__logo">
+        <span>🃏</span>
+        <span>Cartas <strong>Vegeta</strong></span>
+      </div>
+
+      <span class="login-pagina__eyebrow">Acesse sua coleção</span>
+      <h1 class="login-pagina__titulo">Sua próxima carta lendária começa aqui.</h1>
+      <p class="login-pagina__descricao">
+        Entre para acompanhar pedidos, salvar favoritos e explorar o catálogo com uma experiência mais rápida e organizada.
+      </p>
+
+      <div class="login-pagina__chips">
+        <span class="login-pagina__chip">Checkout mais rápido</span>
+        <span class="login-pagina__chip">Pedidos organizados</span>
+        <span class="login-pagina__chip">Novidades da loja</span>
+      </div>
+    </div>
+
+    <div class="login-pagina__card">
+      <div class="login-pagina__topo-formulario">
+        <span class="login-pagina__tag">Conta do cliente</span>
+        <h2 class="login-pagina__subtitulo">
+          @if (modoAtivo === 'login') { Entrar na conta } @else { Criar nova conta }
+        </h2>
+        <p class="login-pagina__texto-apoio">
+          @if (modoAtivo === 'login') {
+            Use seus dados para continuar comprando.
+          } @else {
+            Cadastre-se para acompanhar sua jornada na loja.
+          }
+        </p>
+      </div>
+
+      <div class="login-pagina__abas">
+        <button
+          type="button"
+          class="login-pagina__aba"
+          [class.login-pagina__aba--ativa]="modoAtivo === 'login'"
+          (click)="alternarModo('login')"
+        >Entrar</button>
+        <button
+          type="button"
+          class="login-pagina__aba"
+          [class.login-pagina__aba--ativa]="modoAtivo === 'cadastro'"
+          (click)="alternarModo('cadastro')"
+        >Criar Conta</button>
+      </div>
+
+      @if (erro) {
+        <div class="login-pagina__mensagem login-pagina__mensagem--erro">⚠️ {{ erro }}</div>
+      }
+      @if (sucesso) {
+        <div class="login-pagina__mensagem login-pagina__mensagem--sucesso">✅ {{ sucesso }}</div>
+      }
+
+      @if (modoAtivo === 'login') {
+        <form [formGroup]="formularioLogin" (ngSubmit)="submeterLogin()" class="login-pagina__form">
+          <div class="campo">
+            <label class="campo__label" for="email-login">E-mail</label>
+            <input
+              id="email-login"
+              type="email"
+              class="campo__input"
+              [class.campo__input--erro]="campoLoginInvalido('email')"
+              placeholder="voce@exemplo.com"
+              formControlName="email"
+              autocomplete="email"
+            />
+            @if (campoLoginInvalido('email')) {
+              <span class="campo__erro">Informe um e-mail válido</span>
+            }
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="senha-login">Senha</label>
+            <input
+              id="senha-login"
+              type="password"
+              class="campo__input"
+              [class.campo__input--erro]="campoLoginInvalido('senha')"
+              placeholder="Digite sua senha"
+              formControlName="senha"
+              autocomplete="current-password"
+            />
+            @if (campoLoginInvalido('senha')) {
+              <span class="campo__erro">Senha precisa ter pelo menos 6 caracteres</span>
+            }
+          </div>
+
+          <button type="submit" class="login-pagina__btn" [disabled]="carregando">
+            @if (carregando) { Entrando... } @else { Entrar na conta }
+          </button>
+        </form>
+      }
+
+      @if (modoAtivo === 'cadastro') {
+        <form [formGroup]="formularioCadastro" (ngSubmit)="submeterCadastro()" class="login-pagina__form">
+          <div class="campo">
+            <label class="campo__label" for="nome-cadastro">Nome completo</label>
+            <input
+              id="nome-cadastro"
+              type="text"
+              class="campo__input"
+              [class.campo__input--erro]="campoCadastroInvalido('nome')"
+              placeholder="Como devemos te chamar?"
+              formControlName="nome"
+              autocomplete="name"
+            />
+            @if (campoCadastroInvalido('nome')) {
+              <span class="campo__erro">Nome deve ter pelo menos 2 caracteres</span>
+            }
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="email-cadastro">E-mail</label>
+            <input
+              id="email-cadastro"
+              type="email"
+              class="campo__input"
+              [class.campo__input--erro]="campoCadastroInvalido('email')"
+              placeholder="voce@exemplo.com"
+              formControlName="email"
+              autocomplete="email"
+            />
+            @if (campoCadastroInvalido('email')) {
+              <span class="campo__erro">Informe um e-mail válido</span>
+            }
+          </div>
+
+          <div class="campo">
+            <label class="campo__label" for="senha-cadastro">Senha</label>
+            <input
+              id="senha-cadastro"
+              type="password"
+              class="campo__input"
+              [class.campo__input--erro]="campoCadastroInvalido('senha')"
+              placeholder="Crie uma senha segura"
+              formControlName="senha"
+              autocomplete="new-password"
+            />
+            @if (campoCadastroInvalido('senha')) {
+              <span class="campo__erro">Senha precisa ter pelo menos 6 caracteres</span>
+            }
+          </div>
+
+          <button type="submit" class="login-pagina__btn" [disabled]="carregando">
+            @if (carregando) { Criando conta... } @else { Criar minha conta }
+          </button>
+        </form>
+      }
+
+      <div class="login-pagina__rodape">
+        <a routerLink="/" class="login-pagina__voltar">← Voltar à loja</a>
+      </div>
+    </div>
+  </section>
+</div>

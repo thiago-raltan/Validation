@@ -1,0 +1,156 @@
+<!-- Notificação de sucesso -->
+@if (mensagemSucesso) {
+  <div class="notificacao-sucesso">
+    ✅ {{ mensagemSucesso }}
+  </div>
+}
+
+<!-- Banner Principal -->
+<section class="banner">
+  <div class="banner__container">
+    <div class="banner__conteudo">
+      <span class="banner__etiqueta">🃏 Nova Coleção Disponível</span>
+      <h1 class="banner__titulo">
+        As Melhores Cartas<br>
+        <span class="banner__destaque">Colecionáveis</span> do Brasil
+      </h1>
+      <p class="banner__subtitulo">
+        Encontre raridades únicas, Ultra Raros e Secretos com autenticidade garantida.
+        Frete grátis para compras acima de R$ 150,00.
+      </p>
+      <div class="banner__acoes">
+        <a routerLink="/catalogo" class="banner__btn banner__btn--primario">
+          Ver Catálogo Completo
+        </a>
+        <a routerLink="/colecoes" class="banner__btn banner__btn--secundario">
+          Explorar Coleções
+        </a>
+      </div>
+    </div>
+    <div class="banner__imagem">
+      <div class="banner__cards-animados">
+        <div class="banner__card banner__card--1">🃏</div>
+        <div class="banner__card banner__card--2">✨</div>
+        <div class="banner__card banner__card--3">🌟</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Vantagens -->
+<section class="vantagens">
+  <div class="vantagens__container">
+    <div class="vantagem">
+      <span class="vantagem__icone">🔒</span>
+      <h3 class="vantagem__titulo">Autenticidade Garantida</h3>
+      <p class="vantagem__texto">Todas as cartas são verificadas e certificadas</p>
+    </div>
+    <div class="vantagem">
+      <span class="vantagem__icone">🚚</span>
+      <h3 class="vantagem__titulo">Entrega Rápida</h3>
+      <p class="vantagem__texto">Enviamos para todo o Brasil em até 5 dias úteis</p>
+    </div>
+    <div class="vantagem">
+      <span class="vantagem__icone">💳</span>
+      <h3 class="vantagem__titulo">Pagamento Seguro</h3>
+      <p class="vantagem__texto">PIX, Cartão de crédito e Boleto bancário</p>
+    </div>
+    <div class="vantagem">
+      <span class="vantagem__icone">↩️</span>
+      <h3 class="vantagem__titulo">Devolução Fácil</h3>
+      <p class="vantagem__texto">7 dias para devolução sem complicação</p>
+    </div>
+  </div>
+</section>
+
+<!-- Cartas em Destaque -->
+@if (carregandoCartas || erroCartas || cartasDestaque.length > 0) {
+  <section class="secao">
+    <div class="secao__container">
+      <div class="secao__cabecalho">
+        <h2 class="secao__titulo">⭐ Cartas em Destaque</h2>
+        <a routerLink="/catalogo" class="secao__ver-mais">Ver todas as cartas →</a>
+      </div>
+
+      @if (carregandoCartas) {
+        <div class="grade-carregando">
+          @for (i of [1,2,3,4,5,6,7,8]; track i) {
+            <div class="skeleton-card"></div>
+          }
+        </div>
+      } @else if (erroCartas) {
+        <div class="sem-resultados">
+          <p>⚠️ {{ erroCartas }}</p>
+        </div>
+      } @else {
+        <div class="grade-cartas">
+          @for (carta of cartasDestaque; track carta.id) {
+            <app-card-carta
+              [carta]="carta"
+              (adicionarAoCarrinho)="adicionarAoCarrinho($event)"
+            />
+          }
+        </div>
+      }
+    </div>
+  </section>
+} @else {
+  <section class="secao secao--aviso">
+    <div class="secao__container">
+      <div class="sem-resultados">
+        <p>⏳ {{ avisoCartasDestaque }}</p>
+      </div>
+    </div>
+  </section>
+}
+
+<!-- Coleções Recentes -->
+@if (carregandoColecoes || erroColecoes || colecoes.length > 0) {
+  <section class="secao secao--escura">
+    <div class="secao__container">
+      <div class="secao__cabecalho">
+        <h2 class="secao__titulo">🗂️ Coleções Recentes</h2>
+        <a routerLink="/colecoes" class="secao__ver-mais">Ver todas as coleções →</a>
+      </div>
+
+      @if (carregandoColecoes) {
+        <div class="grade-colecoes">
+          @for (i of [1,2,3,4]; track i) {
+            <div class="skeleton-colecao"></div>
+          }
+        </div>
+      } @else if (erroColecoes) {
+        <div class="sem-resultados">
+          <p>⚠️ {{ erroColecoes }}</p>
+        </div>
+      } @else {
+        <div class="grade-colecoes">
+          @for (colecao of colecoes; track colecao.id) {
+            <a [routerLink]="['/catalogo']" [queryParams]="{ conjuntoId: colecao.id }" class="card-colecao">
+              <div class="card-colecao__imagem">
+                <img
+                  [src]="colecao.logoUrl || 'assets/colecao-placeholder.png'"
+                  [alt]="colecao.nome"
+                  loading="lazy"
+                />
+              </div>
+              <div class="card-colecao__info">
+                <h3 class="card-colecao__nome">{{ colecao.nome }}</h3>
+                <p class="card-colecao__serie">{{ colecao.serie }}</p>
+                <span class="card-colecao__total">{{ colecao.totalCartas }} cartas</span>
+              </div>
+            </a>
+          }
+        </div>
+      }
+    </div>
+  </section>
+} @else {
+  <section class="secao secao--aviso secao--escura">
+    <div class="secao__container">
+      <div class="sem-resultados">
+        <p>⏳ {{ avisoColecoesRecentes }}</p>
+      </div>
+    </div>
+  </section>
+}

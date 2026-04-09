@@ -1,0 +1,51 @@
+<div class="login-admin">
+  <div class="login-admin__card">
+    <div class="login-admin__topo">
+      <span class="login-admin__icone">🔐</span>
+      <h1 class="login-admin__titulo">Acesso Administrativo</h1>
+      <p class="login-admin__subtitulo">Área restrita — Cartas Vegeta</p>
+    </div>
+
+    @if (erro) {
+      <div class="login-admin__erro">⚠️ {{ erro }}</div>
+    }
+
+    <form [formGroup]="formulario" (ngSubmit)="submeter()" class="login-admin__form">
+      <div class="campo">
+        <label class="campo__label" for="usuario-admin">Usuário</label>
+        <input
+          id="usuario-admin"
+          type="text"
+          class="campo__input"
+          [class.campo__input--erro]="campoInvalido('usuario')"
+          placeholder="admin"
+          formControlName="usuario"
+          autocomplete="username"
+        />
+        @if (campoInvalido('usuario')) {
+          <span class="campo__erro">Informe o usuário</span>
+        }
+      </div>
+
+      <div class="campo">
+        <label class="campo__label" for="senha-admin">Senha</label>
+        <input
+          id="senha-admin"
+          type="password"
+          class="campo__input"
+          [class.campo__input--erro]="campoInvalido('senha')"
+          placeholder="••••••••"
+          formControlName="senha"
+          autocomplete="current-password"
+        />
+        @if (campoInvalido('senha')) {
+          <span class="campo__erro">Informe a senha</span>
+        }
+      </div>
+
+      <button type="submit" class="login-admin__btn" [disabled]="carregando">
+        @if (carregando) { Verificando... } @else { Acessar Painel }
+      </button>
+    </form>
+  </div>
+</div>

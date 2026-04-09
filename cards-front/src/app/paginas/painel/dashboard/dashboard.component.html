@@ -1,0 +1,58 @@
+<div class="dashboard">
+  <div class="dashboard__cabecalho">
+    <h1 class="dashboard__titulo">Dashboard</h1>
+    <p class="dashboard__subtitulo">Visão geral da sua loja</p>
+  </div>
+
+  @if (carregando()) {
+    <div class="dashboard__carregando">Carregando dados...</div>
+  } @else if (erro()) {
+    <div class="dashboard__erro">{{ erro() }}</div>
+  } @else {
+    <!-- Cards de resumo -->
+    <div class="dashboard__cards">
+      @for (card of cards; track card.chave) {
+        <a [routerLink]="card.rota" class="resumo-card" [style.--cor]="card.cor">
+          <span class="resumo-card__icone">{{ card.icone }}</span>
+          <div class="resumo-card__info">
+            <span class="resumo-card__valor">{{ obterValor(card.chave) }}</span>
+            <span class="resumo-card__label">{{ card.label }}</span>
+          </div>
+        </a>
+      }
+
+      <div class="resumo-card resumo-card--faturamento">
+        <span class="resumo-card__icone">💰</span>
+        <div class="resumo-card__info">
+          <span class="resumo-card__valor">{{ formatarMoeda(resumo()?.faturamentoMes ?? 0) }}</span>
+          <span class="resumo-card__label">Faturamento do Mês</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Atalhos rápidos -->
+    <div class="dashboard__atalhos">
+      <h2 class="dashboard__secao-titulo">Ações Rápidas</h2>
+      <div class="dashboard__grid-atalhos">
+        <a routerLink="/painel/cartas" class="atalho">
+          <span>🃏</span><span>Gerenciar Cartas</span>
+        </a>
+        <a routerLink="/painel/colecoes" class="atalho">
+          <span>🗂️</span><span>Gerenciar Coleções</span>
+        </a>
+        <a routerLink="/painel/produtos" class="atalho">
+          <span>📦</span><span>Gerenciar Produtos</span>
+        </a>
+        <a routerLink="/painel/pedidos" class="atalho">
+          <span>🛒</span><span>Ver Pedidos</span>
+        </a>
+        <a routerLink="/painel/usuarios" class="atalho">
+          <span>👥</span><span>Ver Usuários</span>
+        </a>
+        <a routerLink="/" target="_blank" class="atalho atalho--secundario">
+          <span>🌐</span><span>Ver Site Público</span>
+        </a>
+      </div>
+    </div>
+  }
+</div>

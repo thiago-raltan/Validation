@@ -1,0 +1,181 @@
+<!-- Notificação de sucesso -->
+@if (mensagemSucesso) {
+  <div class="notificacao-sucesso">✅ {{ mensagemSucesso }}</div>
+}
+
+<div class="catalogo">
+
+  <!-- Cabeçalho da página -->
+  <div class="catalogo__cabecalho">
+    <div class="catalogo__cabecalho-container">
+      <h1 class="catalogo__titulo">Catálogo de Cartas</h1>
+      <p class="catalogo__subtitulo">
+        {{ totalCartas }} cartas encontradas
+      </p>
+    </div>
+  </div>
+
+  <div class="catalogo__corpo">
+
+    <!-- Botão para abrir/fechar filtros no mobile -->
+    <button class="catalogo__btn-filtros-mobile" (click)="alternarFiltros()">
+      🔧 {{ filtrosAbertos ? 'Fechar Filtros' : 'Abrir Filtros' }}
+    </button>
+
+    <!-- Painel de Filtros (sidebar) -->
+    <aside class="catalogo__filtros" [class.catalogo__filtros--aberto]="filtrosAbertos" [formGroup]="formularioFiltros">
+
+      <div class="filtros__cabecalho">
+        <h2 class="filtros__titulo">🔍 Filtros</h2>
+        <button class="filtros__limpar" (click)="limparFiltros()" type="button">
+          Limpar tudo
+        </button>
+      </div>
+
+      @if (!carregando && !erroCarregamento && semOpcoesDeFiltro) {
+        <p class="filtros__aviso">{{ mensagemSemOpcoesFiltro }}</p>
+      }
+
+      <!-- Busca por nome -->
+      <div class="filtros__grupo">
+        <label class="filtros__label" for="busca">Buscar por nome</label>
+        <input
+          id="busca"
+          type="text"
+          class="filtros__input"
+          placeholder="Ex: Charizard, Pikachu..."
+          formControlName="busca"
+        />
+      </div>
+
+      <!-- Filtro de Coleção -->
+      <div class="filtros__grupo">
+        <label class="filtros__label" for="conjunto">Coleção</label>
+        <select id="conjunto" class="filtros__select" formControlName="conjuntoId">
+          <option [ngValue]="null">Todas as coleções</option>
+          @for (colecao of colecoes; track colecao.id) {
+            <option [ngValue]="colecao.id">{{ colecao.nome }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Filtro de Tipo -->
+      <div class="filtros__grupo">
+        <label class="filtros__label" for="tipo">Tipo</label>
+        <select id="tipo" class="filtros__select" formControlName="tipo">
+          <option value="">Todos os tipos</option>
+          @for (tipo of tipos; track tipo) {
+            <option [value]="tipo">{{ tipo }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Filtro de Raridade -->
+      <div class="filtros__grupo">
+        <label class="filtros__label" for="raridade">Raridade</label>
+        <select id="raridade" class="filtros__select" formControlName="raridade">
+          <option value="">Todas as raridades</option>
+          @for (raridade of raridades; track raridade) {
+            <option [value]="raridade">{{ raridade }}</option>
+          }
+        </select>
+      </div>
+
+      <!-- Filtro de Preço -->
+      <div class="filtros__grupo">
+        <label class="filtros__label">Faixa de Preço (R$)</label>
+        <div class="filtros__preco">
+          <input
+            type="number"
+            class="filtros__input filtros__input--preco"
+            placeholder="Mín."
+            formControlName="precoMin"
+            min="0"
+          />
+          <span class="filtros__preco-separador">até</span>
+          <input
+            type="number"
+            class="filtros__input filtros__input--preco"
+            placeholder="Máx."
+            formControlName="precoMax"
+            min="0"
+          />
+        </div>
+        <button class="filtros__btn-aplicar" type="button" (click)="buscarCartas()">
+          Aplicar preço
+        </button>
+      </div>
+
+    </aside>
+
+    <!-- Lista de cartas -->
+    <main class="catalogo__resultados">
+
+      @if (carregando) {
+        <div class="grade-carregando">
+          @for (i of [1,2,3,4,5,6,7,8,9,10,11,12]; track i) {
+            <div class="skeleton-card"></div>
+          }
+        </div>
+      } @else if (erroCarregamento) {
+        <div class="sem-resultados">
+          <p class="sem-resultados__icone">⚠️</p>
+          <h3 class="sem-resultados__titulo">Falha ao carregar</h3>
+          <p class="sem-resultados__texto">{{ erroCarregamento }}</p>
+          <button class="btn-primario" (click)="buscarCartas()">
+            Tentar novamente
+          </button>
+        </div>
+      } @else if (cartas.length === 0) {
+        <div class="sem-resultados">
+          <p class="sem-resultados__icone">🔍</p>
+          <h3 class="sem-resultados__titulo">{{ mensagemListaVazia }}</h3>
+          <p class="sem-resultados__texto">
+            Novidades em breve.
+          </p>
+          <button class="btn-primario" (click)="limparFiltros()">
+            Limpar filtros
+          </button>
+        </div>
+      } @else {
+        <div class="grade-cartas">
+          @for (carta of cartas; track carta.id) {
+            <app-card-carta
+              [carta]="carta"
+              (adicionarAoCarrinho)="adicionarAoCarrinho($event)"
+            />
+          }
+        </div>
+
+        <!-- Paginação -->
+        @if (totalPaginas > 1) {
+          <nav class="paginacao" aria-label="Navegação de páginas">
+            <button
+              class="paginacao__btn"
+              (click)="irParaPagina(paginaAtual - 1)"
+              [disabled]="paginaAtual === 1"
+              aria-label="Página anterior"
+            >← Anterior</button>
+
+            @for (pagina of paginas; track pagina) {
+              <button
+                class="paginacao__btn"
+                [class.paginacao__btn--ativo]="pagina === paginaAtual"
+                (click)="irParaPagina(pagina)"
+                [attr.aria-current]="pagina === paginaAtual ? 'page' : null"
+              >{{ pagina }}</button>
+            }
+
+            <button
+              class="paginacao__btn"
+              (click)="irParaPagina(paginaAtual + 1)"
+              [disabled]="paginaAtual === totalPaginas"
+              aria-label="Próxima página"
+            >Próxima →</button>
+          </nav>
+        }
+      }
+
+    </main>
+  </div>
+</div>

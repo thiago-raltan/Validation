@@ -1,0 +1,131 @@
+@use '../estilos/painel-admin';
+
+.admin-usuarios {
+  &__resumo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    margin-bottom: 1rem;
+    padding: 0.9rem 1rem;
+    border: 1px solid rgba(255, 215, 0, 0.12);
+    border-radius: 14px;
+    background: rgba(255, 255, 255, 0.03);
+
+    p {
+      margin: 0;
+      color: #c9ced6;
+      font-size: 0.92rem;
+    }
+  }
+
+  &__feedback {
+    margin-bottom: 1rem;
+    padding: 0.85rem 1rem;
+    border-radius: 12px;
+    font-size: 0.92rem;
+
+    &--erro {
+      background: rgba(239, 68, 68, 0.12);
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      color: #fca5a5;
+    }
+
+    &--sucesso {
+      background: rgba(16, 185, 129, 0.12);
+      border: 1px solid rgba(16, 185, 129, 0.25);
+      color: #86efac;
+    }
+  }
+
+  &__modal-ajuda {
+    padding: 0.9rem 1rem;
+    border-radius: 12px;
+    background: rgba(255, 215, 0, 0.06);
+    border: 1px solid rgba(255, 215, 0, 0.12);
+    color: #f3ddb0;
+    font-size: 0.88rem;
+  }
+}
+
+.badge {
+  &--perfil {
+    background: rgba(255, 215, 0, 0.08) !important;
+    color: #f4d35e !important;
+    border-color: rgba(255, 215, 0, 0.18) !important;
+  }
+
+  &--dev {
+    background: rgba(59, 130, 246, 0.12) !important;
+    color: #93c5fd !important;
+    border-color: rgba(59, 130, 246, 0.25) !important;
+  }
+
+  &--admin {
+    background: rgba(249, 115, 22, 0.12) !important;
+    color: #fdba74 !important;
+    border-color: rgba(249, 115, 22, 0.25) !important;
+  }
+
+  &--mant {
+    background: rgba(168, 85, 247, 0.12) !important;
+    color: #d8b4fe !important;
+    border-color: rgba(168, 85, 247, 0.25) !important;
+  }
+
+  &--ativo {
+    background: rgba(16, 185, 129, 0.12) !important;
+    color: #10b981 !important;
+    border-color: rgba(16, 185, 129, 0.3) !important;
+  }
+
+  &--inativo {
+    background: rgba(107, 114, 128, 0.12) !important;
+    color: #6b7280 !important;
+    border-color: rgba(107, 114, 128, 0.3) !important;
+  }
+}
+
+.campo__input--textarea {
+  resize: vertical;
+  min-height: 110px;
+}
+
+.btn-editar,
+.btn-remover {
+  &:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+  }
+}
+
+.admin-pagina__subtitulo--forte {
+  color: #f1d16b;
+}
+
+.paginacao {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 1rem;
+  margin-top: 1.5rem;
+
+  &__btn {
+    background: #0d0d14;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    color: #ffd700;
+    width: 36px;
+    height: 36px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 1.1rem;
+    transition: background 0.15s;
+
+    &:hover:not(:disabled) { background: rgba(255, 215, 0, 0.08); }
+    &:disabled { color: #3a3a2a; border-color: #2a2a2a; cursor: not-allowed; }
+  }
+
+  &__info {
+    font-size: 0.85rem;
+    color: #6c757d;
+  }
+}

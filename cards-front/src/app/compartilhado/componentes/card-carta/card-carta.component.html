@@ -1,0 +1,53 @@
+<article class="card-carta" [class.card-carta--sem-estoque]="!emEstoque">
+  <a [routerLink]="['/carta', carta.id]" class="card-carta__link">
+
+    <!-- Imagem da carta -->
+    <div class="card-carta__imagem-container">
+      <img
+        [src]="carta.imagemUrl || imagemFallback"
+        [alt]="carta.nome"
+        class="card-carta__imagem"
+        loading="lazy"
+        (error)="onErroImagem($event)"
+      />
+      @if (carta.destaque) {
+        <span class="card-carta__badge-destaque">⭐ Destaque</span>
+      }
+      @if (!emEstoque) {
+        <div class="card-carta__sem-estoque-overlay">
+          <span>Esgotado</span>
+        </div>
+      }
+    </div>
+
+    <!-- Informações da carta -->
+    <div class="card-carta__info">
+      <span class="card-carta__conjunto">{{ carta.conjunto }}</span>
+      <h3 class="card-carta__nome">{{ carta.nome }}</h3>
+
+      <div class="card-carta__meta">
+        <span class="card-carta__raridade" [ngClass]="classeRaridade">
+          {{ carta.raridade }}
+        </span>
+        <span class="card-carta__tipo">{{ carta.tipo }}</span>
+      </div>
+
+      <div class="card-carta__rodape">
+        <span class="card-carta__preco">{{ precoFormatado }}</span>
+        <button
+          class="card-carta__btn-comprar"
+          [disabled]="!emEstoque"
+          (click)="onAdicionarCarrinho($event)"
+          [attr.aria-label]="'Adicionar ' + carta.nome + ' ao carrinho'"
+        >
+          @if (emEstoque) {
+            🛒 Comprar
+          } @else {
+            Esgotado
+          }
+        </button>
+      </div>
+    </div>
+
+  </a>
+</article>

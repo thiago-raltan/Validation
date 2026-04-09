@@ -1,0 +1,274 @@
+<div class="admin-pagina">
+  <div class="admin-pagina__cabecalho">
+    <div>
+      <h1 class="admin-pagina__titulo">🃏 Cartas</h1>
+      <p class="admin-pagina__subtitulo">Cadastro e edição de cartas colecionáveis</p>
+    </div>
+    <button class="btn-novo" (click)="abrirNovaCarta()">+ Nova Carta</button>
+  </div>
+
+  <div class="admin-pagina__filtros">
+    <input
+      type="text"
+      placeholder="Buscar carta por nome..."
+      class="campo-busca"
+      (input)="atualizarBusca($event)"
+    />
+  </div>
+
+  @if (carregando()) {
+    <div class="admin-pagina__vazio">Carregando cartas...</div>
+  } @else {
+    <div class="tabela-wrapper">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>Imagem</th>
+            <th>Nome</th>
+            <th>Raridade</th>
+            <th>Tipo</th>
+            <th>Preço</th>
+            <th>Estoque</th>
+            <th>Destaque</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (carta of cartasFiltradas(); track carta.id) {
+            <tr>
+              <td>
+                @if (carta.imagemUrl) {
+                  <img [src]="carta.imagemUrl" [alt]="carta.nome" class="tabela__thumb" />
+                } @else {
+                  <span class="tabela__sem-img">🃏</span>
+                }
+              </td>
+              <td>{{ carta.nome }}<br><small>{{ identificacaoCarta(carta) }}</small></td>
+              <td><span class="badge">{{ carta.raridade }}</span></td>
+              <td>{{ carta.tipo }}</td>
+              <td>{{ carta.preco | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</td>
+              <td>{{ carta.quantidadeEstoque }}</td>
+              <td>{{ carta.destaque ? '⭐' : '—' }}</td>
+              <td class="tabela__acoes">
+                <button class="btn-editar" (click)="abrirEditar(carta)">✏️</button>
+                <button class="btn-remover" (click)="remover(carta)">🗑️</button>
+              </td>
+            </tr>
+          }
+          @empty {
+            <tr><td colspan="8" class="tabela__vazia">Nenhuma carta encontrada.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  }
+
+  <!-- Modal de criação/edição -->
+  @if (modalAberto()) {
+    <div class="modal-overlay" (click)="fecharModal()">
+      <div class="modal modal--carta" (click)="$event.stopPropagation()">
+        <div class="modal__cabecalho">
+          <div>
+            <span class="modal__eyebrow">Cadastro principal</span>
+            <h2>{{ editando() ? 'Editar Carta' : 'Nova Carta' }}</h2>
+          </div>
+          <button class="modal__fechar" (click)="fecharModal()">✕</button>
+        </div>
+
+        <form [formGroup]="formulario" (ngSubmit)="salvar()" class="modal__form cadastro-carta">
+          <div class="cadastro-carta__layout">
+            <aside class="cadastro-carta__preview">
+              <div class="cadastro-carta__preview-card">
+                <div class="cadastro-carta__preview-topo">
+                  <span class="cadastro-carta__preview-badge">
+                    {{ formulario.get('raridade')?.value || 'Raridade' }}
+                  </span>
+                  <span class="cadastro-carta__preview-numero">
+                    {{ formulario.get('numero')?.value || '000/000' }}
+                  </span>
+                </div>
+
+                <div class="cadastro-carta__preview-imagem">
+                  @if (imagemPreviewAtual()) {
+                    <img [src]="imagemPreviewAtual()" [alt]="formulario.get('nome')?.value || 'Preview da carta'" />
+                  } @else {
+                    <span>🃏</span>
+                  }
+                </div>
+
+                <div class="cadastro-carta__preview-conteudo">
+                  <p class="cadastro-carta__preview-tipo">{{ formulario.get('tipo')?.value || 'Tipo da carta' }}</p>
+                  <h3>{{ formulario.get('nome')?.value || 'Nome da carta' }}</h3>
+                  <p class="cadastro-carta__preview-descricao">
+                    {{ formulario.get('descricao')?.value || 'A descrição aparecerá aqui para facilitar a revisão visual antes de salvar.' }}
+                  </p>
+
+                  <dl class="cadastro-carta__preview-metricas">
+                    <div>
+                      <dt>Preço</dt>
+                      <dd>{{ (formulario.get('preco')?.value || 0) | currency:'BRL':'symbol':'1.2-2':'pt-BR' }}</dd>
+                    </div>
+                    <div>
+                      <dt>Estoque</dt>
+                      <dd>{{ formulario.get('quantidadeEstoque')?.value || 0 }}</dd>
+                    </div>
+                    <div>
+                      <dt>HP</dt>
+                      <dd>{{ formulario.get('hp')?.value || '—' }}</dd>
+                    </div>
+                    <div>
+                      <dt>Set</dt>
+                      <dd>{{ formulario.get('codigoColecao')?.value || '---' }}</dd>
+                    </div>
+                  </dl>
+                </div>
+              </div>
+
+              <div class="cadastro-carta__guia">
+                <h3>Referência rápida</h3>
+                <p>
+                  Use o padrão do catálogo para manter a identificação consistente.
+                  Exemplo: <strong>SR 056/051 SM3N</strong>.
+                </p>
+              </div>
+            </aside>
+
+            <div class="cadastro-carta__conteudo">
+              <section class="cadastro-carta__secao">
+                <div class="cadastro-carta__secao-topo">
+                  <span>Informações principais</span>
+                  <p>Defina nome, coleção e identificação exibida no catálogo.</p>
+                </div>
+
+                <div class="modal__grade cadastro-carta__grade cadastro-carta__grade--principal">
+                  <div class="campo campo--largo">
+                    <label class="campo__label">Nome</label>
+                    <input type="text" class="campo__input" formControlName="nome" placeholder="Nome da carta" />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Número Colecionável</label>
+                    <input type="text" class="campo__input" formControlName="numero" placeholder="056/051" />
+                    <small class="campo__ajuda">Posição da carta dentro do set. Ex.: 056/051.</small>
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Código do Set</label>
+                    <input type="text" class="campo__input" formControlName="codigoColecao" placeholder="SM3N" />
+                    <small class="campo__ajuda">Sigla da expansão ou coleção usada pelo fabricante.</small>
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Tipo</label>
+                    <input type="text" class="campo__input" formControlName="tipo" placeholder="Fogo, Água..." />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Raridade</label>
+                    <select class="campo__input" formControlName="raridade">
+                      <option value="">Selecione a raridade</option>
+                      @for (raridade of raridadesSugeridas; track raridade) {
+                        <option [value]="raridade">{{ raridade }}</option>
+                      }
+                    </select>
+                    <small class="campo__ajuda">Use a sigla ou o nome adotado no catálogo de referência.</small>
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Coleção</label>
+                    <select class="campo__input" formControlName="conjuntoId">
+                      <option value="">Selecione</option>
+                      @for (c of colecoes(); track c.id) {
+                        <option [value]="c.id">{{ c.nome }}</option>
+                      }
+                    </select>
+                  </div>
+                </div>
+              </section>
+
+              <section class="cadastro-carta__secao">
+                <div class="cadastro-carta__secao-topo">
+                  <span>Venda e apresentação</span>
+                  <p>Preencha os dados usados na loja e a imagem do produto.</p>
+                </div>
+
+                <div class="modal__grade cadastro-carta__grade">
+                  <div class="campo">
+                    <label class="campo__label">HP</label>
+                    <input type="number" class="campo__input" formControlName="hp" placeholder="120" />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Preço (R$)</label>
+                    <input type="number" step="0.01" class="campo__input" formControlName="preco" />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Estoque</label>
+                    <input type="number" class="campo__input" formControlName="quantidadeEstoque" />
+                  </div>
+                  <div class="campo">
+                    <label class="campo__label">Artista</label>
+                    <input type="text" class="campo__input" formControlName="artista" placeholder="Ilustrador da carta" />
+                  </div>
+                  <div class="campo campo--largo">
+                    <label class="campo__label">Imagem da carta</label>
+                    <div class="upload-imagem">
+                      <input
+                        #inputImagem
+                        id="input-imagem-carta"
+                        type="file"
+                        accept="image/*"
+                        class="upload-imagem__input"
+                        (change)="selecionarImagem($event)"
+                      />
+                      <label class="upload-imagem__cta" for="input-imagem-carta">Selecionar arquivo</label>
+
+                      @if (arquivoImagem(); as arquivo) {
+                        <div class="upload-imagem__arquivo">
+                          <strong>{{ arquivo.name }}</strong>
+                          <span>{{ (arquivo.size / 1024 / 1024).toFixed(2) }} MB</span>
+                        </div>
+                      } @else if (formulario.get('imagemUrl')?.value) {
+                        <div class="upload-imagem__arquivo">
+                          <strong>Imagem atual vinculada</strong>
+                          <span>{{ formulario.get('imagemUrl')?.value }}</span>
+                        </div>
+                      }
+
+                      <div class="upload-imagem__acoes">
+                        <small class="campo__ajuda">Envie uma imagem da carta para exibicao no catalogo.</small>
+
+                        @if (arquivoImagem()) {
+                          <button type="button" class="upload-imagem__remover" (click)="removerImagemSelecionada(inputImagem)">
+                            Remover arquivo
+                          </button>
+                        }
+                      </div>
+
+                      @if (erroImagem()) {
+                        <small class="campo__erro">{{ erroImagem() }}</small>
+                      }
+                    </div>
+                  </div>
+                  <div class="campo campo--largo">
+                    <label class="campo__label">Descrição</label>
+                    <textarea class="campo__input" formControlName="descricao" rows="5" placeholder="Descrição da carta"></textarea>
+                  </div>
+                </div>
+              </section>
+
+              <section class="cadastro-carta__secao cadastro-carta__secao--acao">
+                <div class="campo campo--checkbox cadastro-carta__checkbox-card">
+                  <input type="checkbox" id="destaque" formControlName="destaque" />
+                  <label for="destaque" class="campo__label">Destaque na página inicial</label>
+                  <small class="campo__ajuda">Ative para exibir esta carta na vitrine principal da loja.</small>
+                </div>
+              </section>
+            </div>
+          </div>
+
+          <div class="modal__rodape">
+            <button type="button" class="btn-cancelar" (click)="fecharModal()">Cancelar</button>
+            <button type="submit" class="btn-salvar" [disabled]="salvando()">
+              {{ salvando() ? 'Salvando...' : 'Salvar' }}
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  }
+</div>

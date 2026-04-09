@@ -1,0 +1,145 @@
+<div class="admin-pagina">
+  <div class="admin-pagina__cabecalho">
+    <div>
+      <h1 class="admin-pagina__titulo">👥 Usuários</h1>
+      <p class="admin-pagina__subtitulo">{{ total() }} usuario(s) do painel cadastrados</p>
+      <p class="admin-pagina__subtitulo admin-pagina__subtitulo--forte">
+        Seu perfil atual: {{ adminAuth.rotuloPerfilAdmin() || 'Sem perfil' }}
+      </p>
+    </div>
+
+    @if (podeCriar()) {
+      <button class="btn-salvar" type="button" (click)="abrirCriacao()">+ Novo usuario</button>
+    }
+  </div>
+
+  <div class="admin-usuarios__resumo">
+    <span class="badge badge--perfil" [class.badge--dev]="adminAuth.perfilAdmin() === 'desenvolvedor'" [class.badge--admin]="adminAuth.perfilAdmin() === 'administrador'" [class.badge--mant]="adminAuth.perfilAdmin() === 'mantenedor'">
+      {{ adminAuth.rotuloPerfilAdmin() || 'Sem perfil' }}
+    </span>
+    <p>{{ descricaoPermissoes() }}</p>
+  </div>
+
+  @if (erro()) {
+    <div class="admin-usuarios__feedback admin-usuarios__feedback--erro">{{ erro() }}</div>
+  }
+
+  @if (sucesso()) {
+    <div class="admin-usuarios__feedback admin-usuarios__feedback--sucesso">{{ sucesso() }}</div>
+  }
+
+  @if (carregando()) {
+    <div class="admin-pagina__vazio">Carregando usuários...</div>
+  } @else {
+    <div class="tabela-wrapper">
+      <table class="tabela">
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Nome</th>
+            <th>E-mail</th>
+            <th>Perfil</th>
+            <th>Cadastro</th>
+            <th>Ultimo acesso</th>
+            <th>Status</th>
+            <th>Ações</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (u of usuarios(); track u.id) {
+            <tr>
+              <td>{{ u.id }}</td>
+              <td>{{ u.nome }}</td>
+              <td>{{ u.email }}</td>
+              <td>
+                <span class="badge badge--perfil" [class.badge--dev]="u.perfil === 'desenvolvedor'" [class.badge--admin]="u.perfil === 'administrador'" [class.badge--mant]="u.perfil === 'mantenedor'">
+                  {{ rotuloPerfil(u.perfil) }}
+                </span>
+              </td>
+              <td>{{ u.dataCadastro | date:'dd/MM/yyyy' }}</td>
+              <td>{{ u.ultimoAcesso ? (u.ultimoAcesso | date:'dd/MM/yyyy HH:mm') : 'Ainda nao acessou' }}</td>
+              <td>
+                <span class="badge" [class.badge--ativo]="u.ativo" [class.badge--inativo]="!u.ativo">
+                  {{ u.ativo ? 'Ativo' : 'Inativo' }}
+                </span>
+              </td>
+              <td class="tabela__acoes">
+                <button class="btn-editar" (click)="abrirEdicao(u)" [disabled]="!podeEditar(u)" title="Editar usuario">✏️</button>
+                <button class="btn-remover" (click)="remover(u)" [disabled]="!podeExcluir(u)" title="Remover usuario">🗑️</button>
+              </td>
+            </tr>
+          }
+          @empty {
+            <tr><td colspan="8" class="tabela__vazia">Nenhum usuario encontrado.</td></tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    @if (totalPaginas() > 1) {
+      <div class="paginacao">
+        <button class="paginacao__btn" [disabled]="pagina() === 1" (click)="irParaPagina(pagina() - 1)">‹</button>
+        <span class="paginacao__info">{{ pagina() }} / {{ totalPaginas() }}</span>
+        <button class="paginacao__btn" [disabled]="pagina() === totalPaginas()" (click)="irParaPagina(pagina() + 1)">›</button>
+      </div>
+    }
+  }
+</div>
+
+@if (modalAberto()) {
+  <div class="modal-overlay" (click)="fecharEdicao()">
+    <div class="modal" (click)="$event.stopPropagation()">
+      <div class="modal__cabecalho">
+        <h2 class="modal__titulo">
+          {{ modoModal() === 'criar' ? '➕ Novo usuario do painel' : '✏️ Editar usuario #' + usuarioEdicao()!.id }}
+        </h2>
+        <button class="modal__fechar" (click)="fecharEdicao()">✕</button>
+      </div>
+
+      <form class="modal__form" (ngSubmit)="salvarEdicao()">
+        <div class="campo campo--largo">
+          <label class="campo__label">Nome</label>
+          <input class="campo__input" type="text" [(ngModel)]="formulario.nome" name="nome" required />
+        </div>
+
+        <div class="campo campo--largo">
+          <label class="campo__label">E-mail</label>
+          <input class="campo__input" type="email" [(ngModel)]="formulario.email" name="email" required />
+        </div>
+
+        <div class="campo campo--largo">
+          <label class="campo__label">Perfil</label>
+          <select class="campo__input" [(ngModel)]="formulario.perfil" name="perfil">
+            @for (perfil of perfisPermitidos(); track perfil) {
+              <option [ngValue]="perfil">{{ rotuloPerfil(perfil) }}</option>
+            }
+          </select>
+        </div>
+
+        <div class="campo campo--largo">
+          <label class="campo__label">Status</label>
+          <select class="campo__input" [(ngModel)]="formulario.ativo" name="ativo">
+            <option [ngValue]="true">Ativo</option>
+            <option [ngValue]="false">Inativo</option>
+          </select>
+        </div>
+
+        <div class="campo campo--largo">
+          <label class="campo__label">Observacao interna</label>
+          <textarea class="campo__input campo__input--textarea" [(ngModel)]="formulario.observacao" name="observacao" rows="4"></textarea>
+        </div>
+
+        <div class="admin-usuarios__modal-ajuda">
+          Desenvolvedor pode tudo, inclusive recursos futuros de manutencao visual. Administrador nao assume perfil de desenvolvedor. Mantenedor apenas cadastra.
+        </div>
+
+        <div class="modal__rodape">
+          <button type="button" class="btn-cancelar" (click)="fecharEdicao()">Cancelar</button>
+          <button type="submit" class="btn-salvar" [disabled]="salvando() || !formulario.nome.trim() || !formulario.email.trim()">
+            {{ salvando() ? 'Salvando...' : (modoModal() === 'criar' ? 'Cadastrar' : 'Salvar') }}
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+}

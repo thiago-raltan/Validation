@@ -1,0 +1,145 @@
+<header class="cabecalho">
+  <div class="cabecalho__container">
+
+    <!-- Logo -->
+    <a routerLink="/" class="cabecalho__logo" (click)="fecharMenu()">
+      <span class="cabecalho__logo-icone">🃏</span>
+      <span class="cabecalho__logo-texto">Cartas <strong>Vegeta</strong></span>
+    </a>
+
+    <!-- Navegação Desktop -->
+    <nav class="cabecalho__nav" [class.cabecalho__nav--aberto]="menuAberto">
+      <ul class="cabecalho__lista">
+        <li>
+          <a
+            routerLink="/"
+            routerLinkActive="cabecalho__link--ativo"
+            [routerLinkActiveOptions]="{ exact: true }"
+            class="cabecalho__link"
+            (click)="fecharMenu()"
+          >Início</a>
+        </li>
+        <li>
+          <a
+            routerLink="/catalogo"
+            routerLinkActive="cabecalho__link--ativo"
+            class="cabecalho__link"
+            (click)="fecharMenu()"
+          >Catálogo</a>
+        </li>
+        <li>
+          <a
+            routerLink="/colecoes"
+            routerLinkActive="cabecalho__link--ativo"
+            class="cabecalho__link"
+            (click)="fecharMenu()"
+          >Coleções</a>
+        </li>
+        <li>
+          <a
+            routerLink="/produtos"
+            routerLinkActive="cabecalho__link--ativo"
+            class="cabecalho__link"
+            (click)="fecharMenu()"
+          >Produtos</a>
+        </li>
+        <li>
+          <a
+            routerLink="/sobre"
+            routerLinkActive="cabecalho__link--ativo"
+            class="cabecalho__link"
+            (click)="fecharMenu()"
+          >Sobre</a>
+        </li>
+        @if (adminAuthService.autenticado()) {
+          <li>
+            <a
+              routerLink="/painel/dashboard"
+              routerLinkActive="cabecalho__link--ativo"
+              class="cabecalho__link"
+              (click)="fecharMenu()"
+            >Painel</a>
+          </li>
+        }
+        @if (authService.autenticado()) {
+          <li>
+            <a
+              routerLink="/meus-pedidos"
+              routerLinkActive="cabecalho__link--ativo"
+              class="cabecalho__link"
+              (click)="fecharMenu()"
+            >Meus Pedidos</a>
+          </li>
+        }
+      </ul>
+    </nav>
+
+    <!-- Ações (Login + Carrinho) -->
+    <div class="cabecalho__acoes">
+      @if (authService.autenticado() && !adminAuthService.autenticado()) {
+        <div class="cabecalho__perfil-menu">
+          <button class="cabecalho__login" type="button" (click)="alternarMenuPerfil()">
+            <span>👤</span> {{ primeiroNome || 'Perfil' }}
+          </button>
+
+          @if (menuPerfilAberto) {
+            <div class="cabecalho__perfil-dropdown">
+              <a routerLink="/perfil" class="cabecalho__perfil-link" (click)="fecharMenu()">Meu Perfil</a>
+              <a routerLink="/meus-pedidos" class="cabecalho__perfil-link" (click)="fecharMenu()">Meus Pedidos</a>
+              <button type="button" class="cabecalho__perfil-link cabecalho__perfil-link--logout" (click)="solicitarLogout()">
+                Sair
+              </button>
+            </div>
+          }
+        </div>
+      } @else if (adminAuthService.autenticado()) {
+        <button class="cabecalho__login" (click)="solicitarLogout()">
+          <span>👤</span> Logout
+        </button>
+      } @else {
+        <a routerLink="/login" class="cabecalho__login" (click)="fecharMenu()">
+          <span>👤</span> Entrar
+        </a>
+      }
+
+      <a routerLink="/carrinho" class="cabecalho__carrinho" (click)="fecharMenu()">
+        <span class="cabecalho__carrinho-icone">🛒</span>
+        @if (quantidadeCarrinho() > 0) {
+          <span class="cabecalho__carrinho-badge">{{ quantidadeCarrinho() }}</span>
+        }
+      </a>
+
+      <!-- Botão hambúrguer (mobile) -->
+      <button
+        class="cabecalho__menu-btn"
+        (click)="alternarMenu()"
+        [attr.aria-label]="menuAberto ? 'Fechar menu' : 'Abrir menu'"
+        [attr.aria-expanded]="menuAberto"
+      >
+        <span class="cabecalho__menu-linha" [class.cabecalho__menu-linha--ativo]="menuAberto"></span>
+        <span class="cabecalho__menu-linha" [class.cabecalho__menu-linha--ativo]="menuAberto"></span>
+        <span class="cabecalho__menu-linha" [class.cabecalho__menu-linha--ativo]="menuAberto"></span>
+      </button>
+    </div>
+
+  </div>
+</header>
+
+@if (confirmarSaidaAberta) {
+  <div class="cabecalho-modal" (click)="fecharConfirmacaoLogout()">
+    <div class="cabecalho-modal__card" (click)="$event.stopPropagation()">
+      <p class="cabecalho-modal__tag">Confirmar saída</p>
+      <h3 class="cabecalho-modal__titulo">Deseja realmente sair?</h3>
+      <p class="cabecalho-modal__texto">Você será desconectado da sua sessão atual.</p>
+
+      <div class="cabecalho-modal__acoes">
+        <button type="button" class="cabecalho-modal__botao cabecalho-modal__botao--secundario" (click)="fecharConfirmacaoLogout()">
+          Cancelar
+        </button>
+        <button type="button" class="cabecalho-modal__botao cabecalho-modal__botao--primario" (click)="logout()">
+          Sim, sair
+        </button>
+      </div>
+    </div>
+  </div>
+}

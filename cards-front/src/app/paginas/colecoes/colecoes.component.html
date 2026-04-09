@@ -1,0 +1,66 @@
+<div class="colecoes-pagina">
+  <div class="colecoes-pagina__container">
+
+    <div class="colecoes-pagina__cabecalho">
+      <h1 class="colecoes-pagina__titulo">🗂️ Coleções</h1>
+      <p class="colecoes-pagina__subtitulo">Explore todos os conjuntos disponíveis na nossa loja</p>
+    </div>
+
+    @if (carregando) {
+      <div class="colecoes-pagina__carregando">
+        <div class="spinner"></div>
+        <p>Carregando coleções...</p>
+      </div>
+    } @else if (erroCarregamento) {
+      <div class="colecoes-pagina__vazio">
+        <div class="colecoes-pagina__vazio-icone">⚠️</div>
+        <h2>Falha ao carregar</h2>
+        <p>{{ erroCarregamento }}</p>
+      </div>
+    } @else if (colecoes.length === 0) {
+      <div class="colecoes-pagina__vazio">
+        <div class="colecoes-pagina__vazio-icone">🗂️</div>
+        <h2>{{ mensagemListaVazia }}</h2>
+      </div>
+    } @else {
+      <div class="colecoes-grid">
+        @for (colecao of colecoes; track colecao.id) {
+          <a class="colecao-card" [routerLink]="['/catalogo']" [queryParams]="{ conjuntoId: colecao.id }">
+            <div class="colecao-card__imagem-wrapper">
+              @if (colecao.imagemUrl) {
+                <img
+                  [src]="colecao.imagemUrl"
+                  [alt]="colecao.nome"
+                  class="colecao-card__imagem"
+                  loading="lazy"
+                />
+              } @else {
+                <div class="colecao-card__sem-imagem">🗂️</div>
+              }
+              @if (colecao.logoUrl) {
+                <img [src]="colecao.logoUrl" [alt]="colecao.nome + ' logo'" class="colecao-card__logo" />
+              }
+            </div>
+            <div class="colecao-card__info">
+              <h2 class="colecao-card__nome">{{ colecao.nome }}</h2>
+              @if (colecao.serie) {
+                <span class="colecao-card__serie">{{ colecao.serie }}</span>
+              }
+              @if (colecao.dataLancamento) {
+                <span class="colecao-card__data">📅 {{ formatarData(colecao.dataLancamento) }}</span>
+              }
+              @if (colecao.totalCartas) {
+                <span class="colecao-card__total">🃏 {{ colecao.totalCartas }} cartas</span>
+              }
+              @if (colecao.descricao) {
+                <p class="colecao-card__descricao">{{ colecao.descricao }}</p>
+              }
+              <span class="colecao-card__ver">Ver cartas →</span>
+            </div>
+          </a>
+        }
+      </div>
+    }
+
+  </div>
+</div>

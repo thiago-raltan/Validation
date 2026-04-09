@@ -1,0 +1,120 @@
+.login-admin {
+  min-height: 100vh;
+  background: #0a0a0f;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 2rem 1rem;
+
+  &__card {
+    background: #111118;
+    border-radius: 16px;
+    padding: 2.5rem;
+    width: 100%;
+    max-width: 400px;
+    border: 1px solid rgba(255, 215, 0, 0.15);
+    box-shadow: 0 0 60px rgba(255, 215, 0, 0.05), 0 20px 60px rgba(0, 0, 0, 0.6);
+  }
+
+  &__topo {
+    text-align: center;
+    margin-bottom: 2rem;
+  }
+
+  &__icone {
+    font-size: 2.5rem;
+    display: block;
+    margin-bottom: 0.75rem;
+  }
+
+  &__titulo {
+    font-size: 1.4rem;
+    font-weight: 700;
+    color: #ffd700;
+    margin: 0 0 0.25rem;
+  }
+
+  &__subtitulo {
+    font-size: 0.8rem;
+    color: #6c757d;
+    margin: 0;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+  }
+
+  &__erro {
+    padding: 0.75rem 1rem;
+    border-radius: 8px;
+    font-size: 0.85rem;
+    margin-bottom: 1rem;
+    background: rgba(230, 57, 70, 0.15);
+    border: 1px solid rgba(230, 57, 70, 0.4);
+    color: #ff8a8a;
+  }
+
+  &__form {
+    display: flex;
+    flex-direction: column;
+    gap: 1.1rem;
+  }
+
+  &__btn {
+    width: 100%;
+    background: #ffd700;
+    color: #0a0a0f;
+    border: none;
+    padding: 0.9rem;
+    border-radius: 10px;
+    font-size: 0.95rem;
+    font-weight: 800;
+    cursor: pointer;
+    margin-top: 0.5rem;
+    transition: background 0.2s, transform 0.1s;
+
+    &:hover:not(:disabled) {
+      background: #ffec6e;
+      transform: translateY(-1px);
+    }
+
+    &:disabled { background: #3a3a2a; color: #6c757d; cursor: not-allowed; }
+  }
+}
+
+.campo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+
+  &__label {
+    font-size: 0.75rem;
+    font-weight: 700;
+    color: #ffd700;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+
+  &__input {
+    background: #0a0a0f;
+    border: 1px solid rgba(255, 215, 0, 0.2);
+    color: #f1f1f1;
+    padding: 0.7rem 0.9rem;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    transition: border-color 0.2s;
+
+    &:focus {
+      outline: none;
+      border-color: #ffd700;
+    }
+
+    &::placeholder { color: #3a3a3a; }
+
+    &--erro { border-color: rgba(230, 57, 70, 0.6) !important; }
+  }
+
+  &__erro {
+    font-size: 0.75rem;
+    color: #ff8a8a;
+  }
+}

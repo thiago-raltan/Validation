@@ -1,0 +1,153 @@
+.colecoes-pagina {
+  padding: 2rem 1rem;
+
+  &__container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  &__cabecalho {
+    margin-bottom: 2.5rem;
+    text-align: center;
+  }
+
+  &__titulo {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #ffd700;
+    margin: 0 0 0.5rem;
+  }
+
+  &__subtitulo {
+    color: #888;
+    font-size: 1rem;
+  }
+
+  &__carregando {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: #888;
+
+    .spinner {
+      width: 36px;
+      height: 36px;
+      border: 3px solid rgba(255, 215, 0, 0.15);
+      border-top-color: #ffd700;
+      border-radius: 50%;
+      animation: spin 0.75s linear infinite;
+      margin: 0 auto 1rem;
+    }
+  }
+
+  &__vazio {
+    text-align: center;
+    padding: 4rem 1rem;
+    color: #888;
+
+    &-icone { font-size: 3rem; margin-bottom: 1rem; }
+  }
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.colecoes-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 1.5rem;
+}
+
+.colecao-card {
+  background: #111118;
+  border: 1px solid rgba(255, 215, 0, 0.12);
+  border-radius: 16px;
+  overflow: hidden;
+  text-decoration: none;
+  color: inherit;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.2s, transform 0.2s;
+
+  &:hover {
+    border-color: rgba(255, 215, 0, 0.4);
+    transform: translateY(-3px);
+  }
+
+  &__imagem-wrapper {
+    position: relative;
+    height: 160px;
+    overflow: hidden;
+    background: #0a0a0f;
+  }
+
+  &__imagem {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  &__sem-imagem {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    font-size: 3rem;
+    color: #333;
+  }
+
+  &__logo {
+    position: absolute;
+    bottom: 0.5rem;
+    right: 0.5rem;
+    height: 36px;
+    width: auto;
+    object-fit: contain;
+    filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.8));
+  }
+
+  &__info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    flex: 1;
+  }
+
+  &__nome {
+    font-size: 1rem;
+    font-weight: 700;
+    color: #f1f1f1;
+    margin: 0;
+  }
+
+  &__serie {
+    font-size: 0.78rem;
+    color: #ffd700;
+    font-weight: 600;
+  }
+
+  &__data,
+  &__total {
+    font-size: 0.78rem;
+    color: #888;
+  }
+
+  &__descricao {
+    font-size: 0.82rem;
+    color: #888;
+    margin: 0.25rem 0 0;
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  &__ver {
+    margin-top: auto;
+    padding-top: 0.5rem;
+    font-size: 0.82rem;
+    color: #ffd700;
+    font-weight: 600;
+  }
+}

@@ -1,0 +1,98 @@
+<div class="meus-pedidos-pagina">
+  <div class="meus-pedidos-pagina__container">
+
+    <div class="meus-pedidos-pagina__cabecalho">
+      <h1 class="meus-pedidos-pagina__titulo">📋 Meus Pedidos</h1>
+      <p class="meus-pedidos-pagina__subtitulo">Histórico completo das suas compras</p>
+    </div>
+
+    @if (carregando()) {
+      <div class="meus-pedidos-pagina__estado meus-pedidos-pagina__estado--neutro">
+        <div class="spinner"></div>
+        <h2>Carregando seus pedidos...</h2>
+        <p>Estamos buscando o histórico mais recente da sua conta.</p>
+      </div>
+    } @else if (erro()) {
+      <div class="meus-pedidos-pagina__estado meus-pedidos-pagina__estado--erro">
+        <div class="meus-pedidos-pagina__estado-icone">⚠️</div>
+        <h2>Erro ao carregar histórico de pedidos</h2>
+        <p>{{ erro() }}</p>
+        <div class="meus-pedidos-pagina__acoes-estado">
+          <button type="button" class="btn-primario" (click)="carregarPedidos()">Tentar novamente</button>
+          <a routerLink="/catalogo" class="btn-secundario">🃏 Continuar comprando</a>
+        </div>
+      </div>
+    } @else if (pedidos().length === 0) {
+      <div class="meus-pedidos-pagina__estado meus-pedidos-pagina__estado--neutro">
+        <div class="meus-pedidos-pagina__estado-icone">📋</div>
+        <h2>{{ mensagemSemPedidos }}</h2>
+        <p>Quando você finalizar sua primeira compra, o histórico aparecerá aqui.</p>
+        <a routerLink="/catalogo" class="btn-primario">🃏 Explorar Catálogo</a>
+      </div>
+    } @else {
+      <div class="pedidos-lista">
+        @for (pedido of pedidos(); track pedido.id) {
+          <div class="pedido-item" [class.pedido-item--expandido]="pedidoExpandido() === pedido.id">
+            <div class="pedido-item__resumo" (click)="alternarDetalhe(pedido.id)">
+              <div class="pedido-item__id">#{{ pedido.id }}</div>
+
+              <div class="pedido-item__info">
+                <span class="pedido-item__data">{{ pedido.dataCriacao | date:'dd/MM/yyyy' }}</span>
+                <span class="pedido-item__pagamento">{{ pedido.formaPagamento }}</span>
+              </div>
+
+              <span class="pedido-item__badge badge"
+                [style.background]="corStatus(pedido.status) + '20'"
+                [style.color]="corStatus(pedido.status)"
+                [style.border-color]="corStatus(pedido.status) + '50'">
+                {{ labelStatus(pedido.status) }}
+              </span>
+
+              <span class="pedido-item__total">{{ formatarPreco(pedido.total) }}</span>
+
+              <button class="pedido-item__expandir">
+                {{ pedidoExpandido() === pedido.id ? '▲' : '▼' }}
+              </button>
+            </div>
+
+            @if (pedidoExpandido() === pedido.id) {
+              <div class="pedido-item__detalhe">
+                <table class="pedido-item__tabela">
+                  <thead>
+                    <tr>
+                      <th>Produto</th>
+                      <th>Qtd</th>
+                      <th>Preço Unit.</th>
+                      <th>Subtotal</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    @for (item of pedido.itens; track item.id) {
+                      <tr>
+                        <td>{{ item.nomeProduto }}</td>
+                        <td>{{ item.quantidade }}</td>
+                        <td>{{ formatarPreco(item.precoUnitario) }}</td>
+                        <td>{{ formatarPreco(item.precoUnitario * item.quantidade) }}</td>
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+
+                @if (pedido.enderecoEntrega) {
+                  <div class="pedido-item__endereco">
+                    <strong>📍 Entrega:</strong>
+                    {{ pedido.enderecoEntrega.logradouro }}, {{ pedido.enderecoEntrega.numero }}
+                    @if (pedido.enderecoEntrega.complemento) { — {{ pedido.enderecoEntrega.complemento }} }
+                    — {{ pedido.enderecoEntrega.bairro }}, {{ pedido.enderecoEntrega.cidade }}/{{ pedido.enderecoEntrega.uf }}
+                    (CEP: {{ pedido.enderecoEntrega.cep }})
+                  </div>
+                }
+              </div>
+            }
+          </div>
+        }
+      </div>
+    }
+
+  </div>
+</div>

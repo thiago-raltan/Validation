@@ -1,0 +1,171 @@
+.card-carta {
+  background: #16213e;
+  border-radius: 12px;
+  overflow: hidden;
+  border: 1px solid rgba(168, 218, 220, 0.15);
+  transition: transform 0.2s, box-shadow 0.2s, border-color 0.2s;
+  cursor: pointer;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 40px rgba(230, 57, 70, 0.25);
+    border-color: rgba(230, 57, 70, 0.5);
+  }
+
+  &--sem-estoque {
+    opacity: 0.7;
+  }
+
+  &__link {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    text-decoration: none;
+    color: inherit;
+  }
+
+  &__imagem-container {
+    position: relative;
+    background: linear-gradient(135deg, #0d0d1a, #1a1a2e);
+    padding: 1.2rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 200px;
+  }
+
+  &__imagem {
+    max-height: 180px;
+    max-width: 100%;
+    object-fit: contain;
+    border-radius: 6px;
+    transition: transform 0.3s;
+
+    .card-carta:hover & {
+      transform: scale(1.05) rotate(1deg);
+    }
+  }
+
+  &__badge-destaque {
+    position: absolute;
+    top: 8px;
+    left: 8px;
+    background: linear-gradient(135deg, #ffd700, #ff8c00);
+    color: #000;
+    font-size: 0.65rem;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 12px;
+  }
+
+  &__sem-estoque-overlay {
+    position: absolute;
+    inset: 0;
+    background: rgba(0, 0, 0, 0.6);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 0;
+
+    span {
+      background: #e63946;
+      color: #fff;
+      padding: 0.4rem 1rem;
+      border-radius: 6px;
+      font-weight: 700;
+      font-size: 0.9rem;
+      transform: rotate(-15deg);
+    }
+  }
+
+  &__info {
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.4rem;
+    flex: 1;
+  }
+
+  &__conjunto {
+    font-size: 0.7rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: #6c757d;
+  }
+
+  &__nome {
+    font-size: 0.95rem;
+    font-weight: 700;
+    color: #f1faee;
+    margin: 0;
+    line-height: 1.3;
+  }
+
+  &__meta {
+    display: flex;
+    gap: 0.4rem;
+    flex-wrap: wrap;
+    margin-top: 0.2rem;
+  }
+
+  &__raridade {
+    font-size: 0.68rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 10px;
+    text-transform: uppercase;
+
+    &.raridade--comum    { background: #4a4a6a; color: #ccc; }
+    &.raridade--incomum  { background: #1a5c3a; color: #7dff9b; }
+    &.raridade--raro     { background: #1a3a6e; color: #7db3ff; }
+    &.raridade--raro-holo { background: linear-gradient(135deg, #1a3a6e, #4a1a6e); color: #c0a0ff; }
+    &.raridade--ultra-raro { background: linear-gradient(135deg, #4a1a00, #8b3a00); color: #ffa07a; }
+    &.raridade--secreto { background: linear-gradient(135deg, #4a0a0a, #8b1a1a); color: #ff9999; }
+  }
+
+  &__tipo {
+    font-size: 0.68rem;
+    padding: 2px 8px;
+    border-radius: 10px;
+    background: rgba(168, 218, 220, 0.1);
+    color: #a8dadc;
+    border: 1px solid rgba(168, 218, 220, 0.2);
+  }
+
+  &__rodape {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: auto;
+    padding-top: 0.5rem;
+    border-top: 1px solid rgba(168, 218, 220, 0.1);
+  }
+
+  &__preco {
+    font-size: 1.05rem;
+    font-weight: 800;
+    color: #ffd700;
+  }
+
+  &__btn-comprar {
+    background: #e63946;
+    color: #fff;
+    border: none;
+    padding: 0.35rem 0.8rem;
+    border-radius: 8px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+
+    &:hover:not(:disabled) {
+      background: #c1121f;
+      transform: scale(1.05);
+    }
+
+    &:disabled {
+      background: #555;
+      cursor: not-allowed;
+    }
+  }
+}

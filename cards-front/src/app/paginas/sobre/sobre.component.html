@@ -1,0 +1,94 @@
+<div class="sobre">
+
+  <!-- Banner da página -->
+  <div class="sobre__banner">
+    <div class="sobre__banner-container">
+      <h1 class="sobre__titulo" [innerHTML]="conteudo().titulo"></h1>
+      <p class="sobre__subtitulo">
+        {{ conteudo().subtitulo }}
+      </p>
+    </div>
+  </div>
+
+  <div class="sobre__container">
+
+    <!-- Missão -->
+    <section class="sobre__secao">
+      <div class="sobre__icone-secao">🎯</div>
+      <h2 class="sobre__titulo-secao">Quem Somos</h2>
+      <p class="sobre__texto" [innerHTML]="conteudo().missao"></p>
+    </section>
+
+    <!-- Por que escolher nós -->
+    <section class="sobre__secao">
+      <h2 class="sobre__titulo-secao">🏆 Por que comprar com a gente?</h2>
+      <div class="sobre__grade-vantagens">
+
+        @for (v of conteudo().vantagens; track v.titulo) {
+          <div class="sobre__vantagem">
+            <span class="sobre__vantagem-icone">{{ v.icone }}</span>
+            <h3>{{ v.titulo }}</h3>
+            <p>{{ v.descricao }}</p>
+          </div>
+        }
+
+      </div>
+    </section>
+
+    <!-- Números -->
+    <section class="sobre__numeros">
+      @for (n of conteudo().numeros; track n.rotulo) {
+        <div class="sobre__numero">
+          <span class="sobre__numero-valor">{{ n.valor }}</span>
+          <span class="sobre__numero-rotulo">{{ n.rotulo }}</span>
+        </div>
+      }
+    </section>
+
+    <!-- Contato -->
+    <section class="sobre__secao sobre__secao--contato">
+      <h2 class="sobre__titulo-secao">📬 Fale com a gente</h2>
+      <div class="sobre__contatos">
+        <div class="sobre__contato-item">
+          <span>📧</span>
+          <span>{{ conteudo().contato.email }}</span>
+        </div>
+        <div class="sobre__contato-item">
+          <span>📱</span>
+          <span>{{ conteudo().contato.telefone }}</span>
+        </div>
+        <div class="sobre__contato-item">
+          <span>⏰</span>
+          <span>{{ conteudo().contato.horario }}</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- Redes sociais -->
+    <section class="sobre__secao">
+      <h2 class="sobre__titulo-secao">📣 Acompanhe nas redes sociais</h2>
+      <p class="sobre__texto">
+        Publicamos novidades de produtos, dicas e conteudos para colecionadores.
+      </p>
+      <div class="sobre__redes">
+        <a href="#" class="sobre__rede-link" aria-label="Instagram" title="Instagram">
+          <span class="sobre__rede-icone">📸</span>
+          <span class="sobre__rede-texto">Instagram</span>
+        </a>
+        <a href="#" class="sobre__rede-link" aria-label="YouTube" title="YouTube">
+          <span class="sobre__rede-icone">▶️</span>
+          <span class="sobre__rede-texto">YouTube</span>
+        </a>
+        <a href="#" class="sobre__rede-link" aria-label="TikTok" title="TikTok">
+          <span class="sobre__rede-icone">🎵</span>
+          <span class="sobre__rede-texto">TikTok</span>
+        </a>
+      </div>
+    </section>
+
+    <div class="sobre__cta">
+      <a routerLink="/catalogo" class="btn-primario">🃏 Ver catálogo</a>
+    </div>
+
+  </div>
+</div>

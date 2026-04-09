@@ -1,0 +1,166 @@
+<div class="perfil-pagina">
+  <div class="perfil-pagina__container">
+    <header class="perfil-pagina__hero">
+      <div>
+        <p class="perfil-pagina__tag">Conta do cliente</p>
+        <h1 class="perfil-pagina__titulo">Meu Perfil</h1>
+        <p class="perfil-pagina__descricao">
+          Atualize seus dados e mantenha ate 3 enderecos salvos para agilizar o checkout.
+        </p>
+      </div>
+
+      <div class="perfil-pagina__acoes-topo">
+        <a routerLink="/meus-pedidos" class="perfil-pagina__link-topo">Ver meus pedidos</a>
+      </div>
+    </header>
+
+    @if (carregando) {
+      <div class="perfil-pagina__estado">Carregando seu perfil...</div>
+    } @else {
+      <form class="perfil-form" [formGroup]="formulario" (ngSubmit)="salvar()">
+        <section class="perfil-card">
+          <h2 class="perfil-card__titulo">Informacoes basicas</h2>
+
+          <div class="perfil-grade">
+            <div class="campo">
+              <label class="campo__label" for="perfil-nome">Nome completo</label>
+              <input id="perfil-nome" class="campo__input" formControlName="nome" type="text" />
+              @if (campoInvalido('nome')) {
+                <span class="campo__erro">Informe um nome valido.</span>
+              }
+            </div>
+
+            <div class="campo">
+              <label class="campo__label" for="perfil-email">E-mail</label>
+              <input id="perfil-email" class="campo__input" formControlName="email" type="email" />
+              @if (campoInvalido('email')) {
+                <span class="campo__erro">Informe um e-mail valido.</span>
+              }
+            </div>
+          </div>
+        </section>
+
+        <section class="perfil-card">
+          <div class="perfil-card__topo">
+            <div>
+              <h2 class="perfil-card__titulo">Enderecos salvos</h2>
+              <p class="perfil-card__descricao">Escolha um endereco principal para o checkout e mantenha no maximo 3 opcoes.</p>
+            </div>
+
+            <button type="button" class="btn-secundario" (click)="adicionarEndereco()" [disabled]="enderecos.length >= 3">
+              Adicionar endereco
+            </button>
+          </div>
+
+          <div formArrayName="enderecos" class="perfil-enderecos">
+            @for (endereco of enderecos.controls; track $index; let i = $index) {
+              <div class="perfil-endereco" [formGroupName]="i">
+                <div class="perfil-endereco__topo">
+                  <div class="campo perfil-endereco__titulo-campo">
+                    <label class="campo__label" [for]="'titulo-' + i">Identificacao</label>
+                    <input [id]="'titulo-' + i" class="campo__input" formControlName="titulo" type="text" placeholder="Casa, trabalho..." />
+                  </div>
+
+                  <label class="perfil-endereco__principal">
+                    <input type="radio" name="enderecoPrincipal" [checked]="endereco.get('principal')?.value" (change)="definirPrincipal(i)" />
+                    <span>Principal</span>
+                  </label>
+
+                  @if (enderecos.length > 1) {
+                    <button type="button" class="perfil-endereco__remover" (click)="solicitarRemocaoEndereco(i)">
+                      Remover
+                    </button>
+                  }
+                </div>
+
+                <div class="perfil-grade perfil-grade--enderecos">
+                  <div class="campo">
+                    <label class="campo__label" [for]="'cep-' + i">CEP</label>
+                    <input [id]="'cep-' + i" class="campo__input" formControlName="cep" type="text" />
+                    @if (campoEnderecoInvalido(i, 'cep')) {
+                      <span class="campo__erro">CEP invalido.</span>
+                    }
+                  </div>
+
+                  <div class="campo campo--largo">
+                    <label class="campo__label" [for]="'logradouro-' + i">Logradouro</label>
+                    <input [id]="'logradouro-' + i" class="campo__input" formControlName="logradouro" type="text" />
+                    @if (campoEnderecoInvalido(i, 'logradouro')) {
+                      <span class="campo__erro">Logradouro obrigatorio.</span>
+                    }
+                  </div>
+
+                  <div class="campo">
+                    <label class="campo__label" [for]="'numero-' + i">Numero</label>
+                    <input [id]="'numero-' + i" class="campo__input" formControlName="numero" type="text" />
+                    @if (campoEnderecoInvalido(i, 'numero')) {
+                      <span class="campo__erro">Numero obrigatorio.</span>
+                    }
+                  </div>
+
+                  <div class="campo">
+                    <label class="campo__label" [for]="'complemento-' + i">Complemento</label>
+                    <input [id]="'complemento-' + i" class="campo__input" formControlName="complemento" type="text" />
+                  </div>
+
+                  <div class="campo campo--largo">
+                    <label class="campo__label" [for]="'bairro-' + i">Bairro</label>
+                    <input [id]="'bairro-' + i" class="campo__input" formControlName="bairro" type="text" />
+                    @if (campoEnderecoInvalido(i, 'bairro')) {
+                      <span class="campo__erro">Bairro obrigatorio.</span>
+                    }
+                  </div>
+
+                  <div class="campo">
+                    <label class="campo__label" [for]="'cidade-' + i">Cidade</label>
+                    <input [id]="'cidade-' + i" class="campo__input" formControlName="cidade" type="text" />
+                    @if (campoEnderecoInvalido(i, 'cidade')) {
+                      <span class="campo__erro">Cidade obrigatoria.</span>
+                    }
+                  </div>
+
+                  <div class="campo">
+                    <label class="campo__label" [for]="'uf-' + i">UF</label>
+                    <input [id]="'uf-' + i" class="campo__input" formControlName="uf" type="text" maxlength="2" />
+                    @if (campoEnderecoInvalido(i, 'uf')) {
+                      <span class="campo__erro">UF obrigatoria.</span>
+                    }
+                  </div>
+                </div>
+              </div>
+            }
+          </div>
+        </section>
+
+        @if (erro) {
+          <div class="perfil-feedback perfil-feedback--erro">{{ erro }}</div>
+        }
+        @if (sucesso) {
+          <div class="perfil-feedback perfil-feedback--sucesso">{{ sucesso }}</div>
+        }
+
+        <div class="perfil-form__acoes">
+          <a routerLink="/" class="btn-secundario">Voltar para a loja</a>
+          <button type="submit" class="btn-primario" [disabled]="salvando">
+            {{ salvando ? 'Salvando...' : 'Salvar alteracoes' }}
+          </button>
+        </div>
+      </form>
+    }
+  </div>
+</div>
+
+@if (indiceEnderecoPendenteExclusao !== null) {
+  <div class="perfil-modal" (click)="cancelarRemocaoEndereco()">
+    <div class="perfil-modal__card" (click)="$event.stopPropagation()">
+      <p class="perfil-modal__tag">Confirmar exclusao</p>
+      <h3 class="perfil-modal__titulo">Deseja remover {{ enderecoPendenteExclusao }}?</h3>
+      <p class="perfil-modal__texto">Essa acao remove o endereco salvo do seu perfil. Voce podera adiciona-lo novamente depois se precisar.</p>
+
+      <div class="perfil-modal__acoes">
+        <button type="button" class="btn-secundario" (click)="cancelarRemocaoEndereco()">Cancelar</button>
+        <button type="button" class="perfil-modal__botao-excluir" (click)="confirmarRemocaoEndereco()">Excluir endereco</button>
+      </div>
+    </div>
+  </div>
+}

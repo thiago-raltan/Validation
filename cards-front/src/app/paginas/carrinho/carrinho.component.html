@@ -1,0 +1,144 @@
+<div class="carrinho-pagina">
+  <div class="carrinho-pagina__container">
+
+    <!-- Cabeçalho da página -->
+    <div class="carrinho-pagina__cabecalho">
+      <h1 class="carrinho-pagina__titulo">🛒 Meu Carrinho</h1>
+      @if (itens().length > 0) {
+        <button class="carrinho-pagina__limpar" (click)="limparCarrinho()">
+          🗑️ Limpar carrinho
+        </button>
+      }
+    </div>
+
+    @if (itens().length === 0) {
+      <!-- Carrinho vazio -->
+      <div class="carrinho-vazio">
+        <div class="carrinho-vazio__icone">🛒</div>
+        <h2 class="carrinho-vazio__titulo">Seu carrinho está vazio</h2>
+        <p class="carrinho-vazio__texto">
+          Que tal explorar nosso catálogo e encontrar cartas incríveis?
+        </p>
+        <a routerLink="/catalogo" class="btn-primario">
+          🃏 Explorar Catálogo
+        </a>
+      </div>
+    } @else {
+      <!-- Conteúdo do carrinho -->
+      <div class="carrinho-pagina__corpo">
+
+        <!-- Lista de itens -->
+        <div class="carrinho-pagina__itens">
+          @for (item of itens(); track chaveItem(item)) {
+            <div class="item-carrinho">
+
+              <!-- Imagem do item -->
+              <div class="item-carrinho__imagem-link">
+                <img
+                  [src]="imagemItem(item)"
+                  [alt]="nomeItem(item)"
+                  class="item-carrinho__imagem"
+                  loading="lazy"
+                />
+              </div>
+
+              <!-- Informações -->
+              <div class="item-carrinho__info">
+                <span class="item-carrinho__nome">{{ nomeItem(item) }}</span>
+                <span class="item-carrinho__conjunto">{{ subtituloItem(item) }}</span>
+                @if (item.carta) {
+                  <span class="item-carrinho__raridade">{{ item.carta.raridade }}</span>
+                }
+              </div>
+
+              <!-- Controles de quantidade -->
+              <div class="item-carrinho__quantidade">
+                <button
+                  class="qtd-btn"
+                  (click)="diminuirQuantidade(item)"
+                  [disabled]="item.quantidade <= 1"
+                  aria-label="Diminuir quantidade"
+                >−</button>
+                <span class="qtd-valor">{{ item.quantidade }}</span>
+                <button
+                  class="qtd-btn"
+                  (click)="aumentarQuantidade(item)"
+                  [disabled]="item.quantidade >= estoqueItem(item)"
+                  aria-label="Aumentar quantidade"
+                >+</button>
+              </div>
+
+              <!-- Preço do item -->
+              <div class="item-carrinho__preco">
+                <span class="item-carrinho__preco-unitario">
+                  {{ formatarPreco(precoItem(item)) }} /un.
+                </span>
+                <span class="item-carrinho__preco-total">
+                  {{ formatarPreco(precoItem(item) * item.quantidade) }}
+                </span>
+              </div>
+
+              <!-- Botão remover -->
+              <button
+                class="item-carrinho__remover"
+                (click)="removerItem(item)"
+                [attr.aria-label]="'Remover ' + nomeItem(item) + ' do carrinho'"
+              >✕</button>
+
+            </div>
+          }
+        </div>
+
+        <!-- Resumo do pedido -->
+        <aside class="resumo-pedido">
+          <h2 class="resumo-pedido__titulo">Resumo do Pedido</h2>
+
+          <div class="resumo-pedido__linha">
+            <span>Itens ({{ quantidadeTotal() }})</span>
+            <span>{{ formatarPreco(subtotal()) }}</span>
+          </div>
+
+          <div class="resumo-pedido__linha">
+            <span>Frete</span>
+            <span class="resumo-pedido__frete-gratis">
+              @if (subtotal() >= 150) {
+                🎉 Grátis
+              } @else {
+                A calcular
+              }
+            </span>
+          </div>
+
+          @if (subtotal() < 150) {
+            <div class="resumo-pedido__aviso-frete">
+              ℹ️ Faltam <strong>{{ formatarPreco(150 - subtotal()) }}</strong> para frete grátis
+            </div>
+          }
+
+          <div class="resumo-pedido__divisor"></div>
+
+          <div class="resumo-pedido__total">
+            <span>Total</span>
+            <span class="resumo-pedido__total-valor">{{ formatarPreco(total()) }}</span>
+          </div>
+
+          <button class="resumo-pedido__btn-finalizar" (click)="finalizarPedido()">
+            ✅ Finalizar Pedido
+          </button>
+
+          <div class="resumo-pedido__pagamentos">
+            <span>💳 Cartão</span>
+            <span>🏦 PIX</span>
+            <span>💵 Boleto</span>
+          </div>
+
+          <a routerLink="/catalogo" class="resumo-pedido__continuar">
+            ← Continuar comprando
+          </a>
+        </aside>
+
+      </div>
+    }
+
+  </div>
+</div>
