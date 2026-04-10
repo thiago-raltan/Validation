@@ -2,5 +2,11 @@
   "framework": null,
   "installCommand": "npm install",
   "buildCommand": "npm run build",
-  "outputDirectory": "cards-front/dist/cards-front/browser"
+  "outputDirectory": "cards-front/dist/cards-front/browser",
+  "rewrites": [
+    {
+      "source": "/((?!.*\\.).*)",
+      "destination": "/index.html"
+    }
+  ]
 }
