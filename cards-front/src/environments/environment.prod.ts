@@ -4,6 +4,6 @@ export const environment = {
   teste: false,
   usarFixturesTemporarios: false,
   apiUrl: 'https://api.cartasvegeta.com.br/api/v1',
-  nomeSite: 'Cartas Vegeta',
+  nomeSite: 'Tríade',
   versao: '1.0.0',
 };

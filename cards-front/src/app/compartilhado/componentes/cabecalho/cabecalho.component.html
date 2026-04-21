@@ -3,8 +3,11 @@
 
     <!-- Logo -->
     <a routerLink="/" class="cabecalho__logo" (click)="fecharMenu()">
-      <span class="cabecalho__logo-icone">🃏</span>
-      <span class="cabecalho__logo-texto">Cartas <strong>Vegeta</strong></span>
+      <img class="cabecalho__logo-imagem" [src]="logoPath()" [alt]="'Logo da ' + nomeSite" />
+      <span class="cabecalho__logo-texto">
+        <strong>{{ nomeSite }}</strong>
+        <small>{{ slogan }}</small>
+      </span>
     </a>
 
     <!-- Navegação Desktop -->
@@ -76,6 +79,21 @@
 
     <!-- Ações (Login + Carrinho) -->
     <div class="cabecalho__acoes">
+      <button
+        type="button"
+        class="cabecalho__tema-toggle"
+        [attr.aria-label]="temaService.rotuloTema()"
+        [attr.aria-pressed]="!temaService.temaEhDark()"
+        [class.cabecalho__tema-toggle--light]="!temaService.temaEhDark()"
+        (click)="temaService.alternarTema()"
+      >
+        <span class="cabecalho__tema-icone">🌙</span>
+        <span class="cabecalho__tema-trilho">
+          <span class="cabecalho__tema-pino">{{ temaService.iconeTema() }}</span>
+        </span>
+        <span class="cabecalho__tema-icone">☀️</span>
+      </button>
+
       @if (authService.autenticado() && !adminAuthService.autenticado()) {
         <div class="cabecalho__perfil-menu">
           <button class="cabecalho__login" type="button" (click)="alternarMenuPerfil()">

@@ -9,14 +9,14 @@
 <section class="banner">
   <div class="banner__container">
     <div class="banner__conteudo">
-      <span class="banner__etiqueta">🃏 Nova Coleção Disponível</span>
+      <span class="banner__etiqueta">Tríade</span>
       <h1 class="banner__titulo">
         As Melhores Cartas<br>
         <span class="banner__destaque">Colecionáveis</span> do Brasil
       </h1>
       <p class="banner__subtitulo">
-        Encontre raridades únicas, Ultra Raros e Secretos com autenticidade garantida.
-        Frete grátis para compras acima de R$ 150,00.
+        Cards, figures e retro games com curadoria, autenticidade garantida
+        e uma experiência visual alinhada à identidade oficial da Tríade.
       </p>
       <div class="banner__acoes">
         <a routerLink="/catalogo" class="banner__btn banner__btn--primario">
@@ -26,12 +26,15 @@
           Explorar Coleções
         </a>
       </div>
+      <div class="banner__marcas">
+        <span class="banner__marca-item">{{ slogan }}</span>
+        <span class="banner__marca-item">Curadoria premium</span>
+        <span class="banner__marca-item">Envio protegido</span>
+      </div>
     </div>
     <div class="banner__imagem">
-      <div class="banner__cards-animados">
-        <div class="banner__card banner__card--1">🃏</div>
-        <div class="banner__card banner__card--2">✨</div>
-        <div class="banner__card banner__card--3">🌟</div>
+      <div class="banner__logo-card">
+        <img [src]="temaService.logoAtual()" alt="Logo oficial da Tríade" class="banner__logo" />
       </div>
     </div>
   </div>

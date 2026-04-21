@@ -3,6 +3,8 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 import { CarrinhoService } from '../../../core/servicos/carrinho.service';
 import { AuthService } from '../../../core/servicos/auth.service';
 import { AdminAuthService } from '../../../core/servicos/admin-auth.service';
+import { TemaService } from '../../../core/servicos/tema.service';
+import { MARCA_CONFIG } from '../../../core/config/marca.config';
 
 /**
  * Componente do cabeçalho da aplicação.
@@ -19,6 +21,10 @@ export class CabecalhoComponent {
   private carrinhoService = inject(CarrinhoService);
   readonly authService = inject(AuthService);
   readonly adminAuthService = inject(AdminAuthService);
+  readonly temaService = inject(TemaService);
+  readonly logoPath = this.temaService.logoAtual;
+  readonly nomeSite = MARCA_CONFIG.nome;
+  readonly slogan = MARCA_CONFIG.slogan;
 
   /** Quantidade de itens no carrinho para exibir no badge */
   readonly quantidadeCarrinho = computed(() =>

@@ -180,9 +180,9 @@ export class AdminAuthService {
       'Thiago Dev': 'Thiago Almeida',
     };
     const emails: Record<string, string> = {
-      'dev@cartasvegeta.local': 'thiago.almeida@cartasvegeta.com',
-      'admin@cartasvegeta.local': 'marina.costa@cartasvegeta.com',
-      'mantenedor@cartasvegeta.local': 'pedro.conteudo@cartasvegeta.com',
+      'dev@triade.local': 'thiago.almeida@triade.com.br',
+      'admin@triade.local': 'marina.costa@triade.com.br',
+      'mantenedor@triade.local': 'pedro.conteudo@triade.com.br',
     };
 
     return {

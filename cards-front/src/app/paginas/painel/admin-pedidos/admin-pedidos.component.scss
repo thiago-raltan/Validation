@@ -1,29 +1,29 @@
 @use '../estilos/painel-admin';
 
 .campo-select {
-  background: #0a0a0f;
-  border: 1px solid rgba(255, 215, 0, 0.15);
-  color: #f1f1f1;
+  background: rgba(240, 192, 64, 0.04);
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-texto);
   padding: 0.3rem 0.5rem;
   border-radius: 6px;
   font-size: 0.8rem;
   font-family: inherit;
   cursor: pointer;
 
-  &:focus { outline: none; border-color: #ffd700; }
+  &:focus { outline: none; border-color: var(--cor-destaque); }
   option { background: #111; }
 }
 
 .btn-detalhe {
   background: transparent;
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  border: 1px solid var(--cor-borda);
   border-radius: 6px;
   padding: 0.3rem 0.5rem;
   cursor: pointer;
   font-size: 0.9rem;
   transition: background 0.15s;
 
-  &:hover { background: rgba(255, 215, 0, 0.08); }
+  &:hover { background: rgba(240, 192, 64, 0.08); }
 }
 
 .tabela--compacta {
@@ -37,7 +37,7 @@
   gap: 1.5rem;
 
   &__secao {
-    border: 1px solid rgba(255, 255, 255, 0.06);
+    border: 1px solid var(--cor-borda);
     border-radius: 10px;
     overflow: hidden;
   }
@@ -45,11 +45,11 @@
   &__secao-titulo {
     font-size: 0.85rem;
     font-weight: 700;
-    color: #ffd700;
+    color: var(--cor-destaque);
     margin: 0;
     padding: 0.65rem 1rem;
-    background: rgba(255, 215, 0, 0.05);
-    border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    background: rgba(240, 192, 64, 0.05);
+    border-bottom: 1px solid var(--cor-borda);
   }
 
   &__grid {
@@ -59,14 +59,14 @@
     padding: 1rem;
     font-size: 0.85rem;
 
-    strong { color: #aaa; }
+    strong { color: var(--cor-texto-muted); }
   }
 
   &__endereco {
     padding: 0.85rem 1rem;
     font-size: 0.85rem;
     line-height: 1.7;
-    color: #c8c8d4;
+    color: var(--cor-texto-suave);
 
     p { margin: 0; }
   }
@@ -80,9 +80,9 @@
   margin-top: 1.5rem;
 
   &__btn {
-    background: #0d0d14;
-    border: 1px solid rgba(255, 215, 0, 0.2);
-    color: #ffd700;
+    background: var(--cor-fundo-card);
+    border: 1px solid var(--cor-borda);
+    color: var(--cor-destaque);
     width: 36px;
     height: 36px;
     border-radius: 8px;
@@ -90,12 +90,12 @@
     font-size: 1.1rem;
     transition: background 0.15s;
 
-    &:hover:not(:disabled) { background: rgba(255, 215, 0, 0.08); }
-    &:disabled { color: #3a3a2a; border-color: #2a2a2a; cursor: not-allowed; }
+    &:hover:not(:disabled) { background: rgba(240, 192, 64, 0.08); }
+    &:disabled { color: #4a3620; border-color: #2a2a2a; cursor: not-allowed; }
   }
 
   &__info {
     font-size: 0.85rem;
-    color: #6c757d;
+    color: var(--cor-texto-muted);
   }
 }

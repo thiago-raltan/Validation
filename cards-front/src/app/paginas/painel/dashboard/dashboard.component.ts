@@ -19,11 +19,11 @@ export class DashboardComponent implements OnInit {
   erro = signal('');
 
   readonly cards = [
-    { chave: 'totalCartas' as keyof ResumoAdmin, label: 'Cartas', icone: '🃏', cor: '#e63946', rota: '/painel/cartas' },
-    { chave: 'totalProdutos' as keyof ResumoAdmin, label: 'Produtos', icone: '📦', cor: '#457b9d', rota: '/painel/produtos' },
-    { chave: 'totalPedidos' as keyof ResumoAdmin, label: 'Pedidos', icone: '🛒', cor: '#2a9d8f', rota: '/painel/pedidos' },
-    { chave: 'pedidosPendentes' as keyof ResumoAdmin, label: 'Pendentes', icone: '⏳', cor: '#f59e0b', rota: '/painel/pedidos' },
-    { chave: 'totalUsuarios' as keyof ResumoAdmin, label: 'Usuários', icone: '👥', cor: '#8b5cf6', rota: '/painel/usuarios' },
+    { chave: 'totalCartas' as keyof ResumoAdmin, label: 'Cartas', icone: '🎴', cor: '#c00000', rota: '/painel/cartas' },
+    { chave: 'totalProdutos' as keyof ResumoAdmin, label: 'Produtos', icone: '📦', cor: '#b07010', rota: '/painel/produtos' },
+    { chave: 'totalPedidos' as keyof ResumoAdmin, label: 'Pedidos', icone: '🛒', cor: '#f0c040', rota: '/painel/pedidos' },
+    { chave: 'pedidosPendentes' as keyof ResumoAdmin, label: 'Pendentes', icone: '⏳', cor: '#f0d050', rota: '/painel/pedidos' },
+    { chave: 'totalUsuarios' as keyof ResumoAdmin, label: 'Usuários', icone: '👥', cor: '#d01000', rota: '/painel/usuarios' },
   ];
 
   ngOnInit(): void {

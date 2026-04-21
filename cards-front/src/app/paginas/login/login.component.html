@@ -5,12 +5,12 @@
   <section class="login-pagina__painel">
     <div class="login-pagina__destaque">
       <div class="login-pagina__logo">
-        <span>🃏</span>
-        <span>Cartas <strong>Vegeta</strong></span>
+        <img [src]="temaService.logoAtual()" alt="Logo oficial da Tríade" class="login-pagina__logo-imagem" />
+        <span class="login-pagina__logo-texto">Tríade</span>
       </div>
 
       <span class="login-pagina__eyebrow">Acesse sua coleção</span>
-      <h1 class="login-pagina__titulo">Sua próxima carta lendária começa aqui.</h1>
+      <h1 class="login-pagina__titulo">{{ slogan }}.</h1>
       <p class="login-pagina__descricao">
         Entre para acompanhar pedidos, salvar favoritos e explorar o catálogo com uma experiência mais rápida e organizada.
       </p>
@@ -19,6 +19,17 @@
         <span class="login-pagina__chip">Checkout mais rápido</span>
         <span class="login-pagina__chip">Pedidos organizados</span>
         <span class="login-pagina__chip">Novidades da loja</span>
+      </div>
+
+      <div class="login-pagina__sinais">
+        <div class="login-pagina__sinal">
+          <strong>Curadoria premium</strong>
+          <span>Cards, figures e retro games selecionados com consistencia visual e autenticidade.</span>
+        </div>
+        <div class="login-pagina__sinal">
+          <strong>Experiência Tríade</strong>
+          <span>Pedidos, favoritos e navegacao em um ambiente unificado com a identidade oficial.</span>
+        </div>
       </div>
     </div>
 

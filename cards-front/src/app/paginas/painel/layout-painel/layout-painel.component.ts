@@ -48,7 +48,7 @@ export class LayoutPainelComponent {
 
   readonly menus = [
     { rota: '/painel/dashboard', icone: '📊', label: 'Dashboard' },
-    { rota: '/painel/cartas', icone: '🃏', label: 'Cartas' },
+    { rota: '/painel/cartas', icone: '🎴', label: 'Cartas' },
     { rota: '/painel/colecoes', icone: '🗂️', label: 'Coleções' },
     { rota: '/painel/produtos', icone: '📦', label: 'Produtos' },
     { rota: '/painel/pedidos', icone: '🛒', label: 'Pedidos' },

@@ -1,13 +1,14 @@
 import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
-import { Router } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { AdminAuthService } from '../../../core/servicos/admin-auth.service';
+import { TemaService } from '../../../core/servicos/tema.service';
 
 /** Página de login do painel administrativo (rota /painel) */
 @Component({
   selector: 'app-login-painel',
   standalone: true,
-  imports: [ReactiveFormsModule],
+  imports: [ReactiveFormsModule, RouterLink],
   templateUrl: './login-painel.component.html',
   styleUrls: ['./login-painel.component.scss'],
 })
@@ -15,6 +16,7 @@ export class LoginPainelComponent {
   private fb = inject(FormBuilder);
   private adminAuth = inject(AdminAuthService);
   private router = inject(Router);
+  readonly temaService = inject(TemaService);
 
   carregando = false;
   erro = '';

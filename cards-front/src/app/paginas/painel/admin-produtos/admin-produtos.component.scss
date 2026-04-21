@@ -8,7 +8,7 @@
 
 	&__subtitulo {
 		font-size: 0.92rem;
-		color: #8f9aac;
+		color: var(--cor-texto-muted);
 	}
 }
 
@@ -29,7 +29,7 @@
 		border-radius: 28px;
 		background:
 			radial-gradient(circle at top right, rgba(255, 215, 0, 0.08), transparent 25%),
-			linear-gradient(180deg, rgba(18, 18, 28, 0.98), rgba(10, 10, 16, 0.98));
+			linear-gradient(180deg, rgba(23, 17, 11, 0.98), rgba(8, 8, 8, 0.98));
 		box-shadow: 0 28px 80px rgba(0, 0, 0, 0.5);
 	}
 
@@ -45,7 +45,7 @@
 
 	&__eyebrow {
 		display: inline-block;
-		color: #ffec99;
+		color: var(--cor-destaque-suave);
 		font-size: 0.76rem;
 		font-weight: 800;
 		letter-spacing: 0.14em;
@@ -77,9 +77,9 @@
 	&__nota,
 	&__secao {
 		border-radius: 22px;
-		border: 1px solid rgba(255, 255, 255, 0.07);
-		background: rgba(255, 255, 255, 0.03);
-		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+		border: 1px solid var(--cor-borda);
+		background: rgba(240, 192, 64, 0.04);
+		box-shadow: inset 0 1px 0 rgba(240, 208, 80, 0.03);
 	}
 
 	&__hero {
@@ -91,7 +91,7 @@
 		aspect-ratio: 1;
 		border-radius: 20px;
 		overflow: hidden;
-		background: linear-gradient(135deg, rgba(255, 215, 0, 0.18), rgba(106, 130, 251, 0.2));
+		background: linear-gradient(135deg, rgba(240, 192, 64, 0.18), rgba(192, 0, 0, 0.18));
 		display: grid;
 		place-items: center;
 		margin-bottom: 1rem;
@@ -113,8 +113,8 @@
 		margin-bottom: 0.7rem;
 		padding: 0.35rem 0.75rem;
 		border-radius: 999px;
-		background: rgba(255, 215, 0, 0.12);
-		color: #ffe37a;
+		background: rgba(240, 192, 64, 0.12);
+		color: var(--cor-destaque-suave);
 		font-size: 0.72rem;
 		font-weight: 800;
 		letter-spacing: 0.08em;
@@ -123,14 +123,14 @@
 
 	&__hero-conteudo h3 {
 		margin: 0 0 0.65rem;
-		color: #fff6cf;
+		color: var(--cor-texto);
 		font-size: 1.45rem;
 		line-height: 1.1;
 	}
 
 	&__hero-conteudo p {
 		margin: 0;
-		color: #b6bfd0;
+		color: var(--cor-texto-suave);
 		font-size: 0.9rem;
 		line-height: 1.6;
 	}
@@ -144,11 +144,11 @@
 		div {
 			padding: 0.85rem;
 			border-radius: 16px;
-			background: rgba(255, 255, 255, 0.04);
+			background: rgba(240, 192, 64, 0.05);
 		}
 
 		dt {
-			color: #8f9aac;
+			color: var(--cor-texto-muted);
 			font-size: 0.72rem;
 			text-transform: uppercase;
 			letter-spacing: 0.08em;
@@ -157,7 +157,7 @@
 
 		dd {
 			margin: 0;
-			color: #f5f7fb;
+			color: var(--cor-texto);
 			font-size: 0.95rem;
 			font-weight: 700;
 		}
@@ -168,13 +168,13 @@
 
 		h3 {
 			margin: 0 0 0.45rem;
-			color: #ffd700;
+			color: var(--cor-destaque);
 			font-size: 0.95rem;
 		}
 
 		p {
 			margin: 0;
-			color: #afb8c7;
+			color: var(--cor-texto-suave);
 			font-size: 0.84rem;
 			line-height: 1.6;
 		}
@@ -196,7 +196,7 @@
 		span {
 			display: inline-block;
 			margin-bottom: 0.35rem;
-			color: #ffd700;
+			color: var(--cor-destaque);
 			font-size: 0.78rem;
 			font-weight: 800;
 			letter-spacing: 0.12em;
@@ -205,7 +205,7 @@
 
 		p {
 			margin: 0;
-			color: #8f9aac;
+			color: var(--cor-texto-muted);
 			font-size: 0.88rem;
 			line-height: 1.5;
 		}
@@ -225,13 +225,24 @@
 		input {
 			width: 1.15rem;
 			height: 1.15rem;
-			accent-color: #ffd700;
+			accent-color: var(--cor-destaque);
 		}
 
 		.campo__ajuda {
 			grid-column: 2;
 			margin: 0;
 		}
+	}
+}
+
+body[data-theme='light'] .cadastro-produto {
+	&__categoria {
+		background: linear-gradient(180deg, rgba(180, 81, 20, 0.2) 0%, rgba(148, 58, 16, 0.14) 100%);
+		color: #5e2208;
+		border: 1px solid rgba(148, 58, 16, 0.32);
+		box-shadow:
+			inset 0 1px 0 rgba(255, 255, 255, 0.42),
+			0 8px 18px rgba(148, 58, 16, 0.08);
 	}
 }
 

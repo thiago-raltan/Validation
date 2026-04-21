@@ -9,25 +9,25 @@ export const routes: Routes = [
     path: '',
     loadComponent: () =>
       import('./paginas/inicio/inicio.component').then((m) => m.InicioComponent),
-    title: 'Início | Cartas Vegeta',
+    title: 'Inicio | Tríade',
   },
   {
     path: 'catalogo',
     loadComponent: () =>
       import('./paginas/catalogo/catalogo.component').then((m) => m.CatalogoComponent),
-    title: 'Catálogo | Cartas Vegeta',
+    title: 'Catalogo | Tríade',
   },
   {
     path: 'colecoes',
     loadComponent: () =>
       import('./paginas/colecoes/colecoes.component').then((m) => m.ColecoesComponent),
-    title: 'Coleções | Cartas Vegeta',
+    title: 'Colecoes | Tríade',
   },
   {
     path: 'produtos',
     loadComponent: () =>
       import('./paginas/produtos/produtos.component').then((m) => m.ProdutosComponent),
-    title: 'Produtos | Cartas Vegeta',
+    title: 'Produtos | Tríade',
   },
   {
     path: 'carta/:id',
@@ -35,7 +35,7 @@ export const routes: Routes = [
       import('./paginas/detalhe-carta/detalhe-carta.component').then(
         (m) => m.DetalheCartaComponent
       ),
-    title: 'Detalhe da Carta | Cartas Vegeta',
+    title: 'Detalhe da Carta | Tríade',
   },
   {
     path: 'produto/:id',
@@ -43,26 +43,26 @@ export const routes: Routes = [
       import('./paginas/detalhe-produto/detalhe-produto.component').then(
         (m) => m.DetalheProdutoComponent
       ),
-    title: 'Detalhe do Produto | Cartas Vegeta',
+    title: 'Detalhe do Produto | Tríade',
   },
   {
     path: 'carrinho',
     loadComponent: () =>
       import('./paginas/carrinho/carrinho.component').then((m) => m.CarrinhoComponent),
-    title: 'Carrinho | Cartas Vegeta',
+    title: 'Carrinho | Tríade',
   },
   {
     path: 'sobre',
     loadComponent: () =>
       import('./paginas/sobre/sobre.component').then((m) => m.SobreComponent),
-    title: 'Sobre | Cartas Vegeta',
+    title: 'Sobre | Tríade',
   },
   // ─── Login do usuário comum ──────────────────────────────────────────────
   {
     path: 'login',
     loadComponent: () =>
       import('./paginas/login/login.component').then((m) => m.LoginComponent),
-    title: 'Entrar | Cartas Vegeta',
+    title: 'Entrar | Tríade',
   },
   // ─── Área autenticada do usuário ─────────────────────────────────────────
   {
@@ -70,21 +70,21 @@ export const routes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('./paginas/checkout/checkout.component').then((m) => m.CheckoutComponent),
-    title: 'Checkout | Cartas Vegeta',
+    title: 'Checkout | Tríade',
   },
   {
     path: 'meus-pedidos',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./paginas/meus-pedidos/meus-pedidos.component').then((m) => m.MeusPedidosComponent),
-    title: 'Meus Pedidos | Cartas Vegeta',
+    title: 'Meus Pedidos | Tríade',
   },
   {
     path: 'perfil',
     canActivate: [authGuard],
     loadComponent: () =>
       import('./paginas/perfil/perfil.component').then((m) => m.PerfilComponent),
-    title: 'Meu Perfil | Cartas Vegeta',
+    title: 'Meu Perfil | Tríade',
   },
 
   // ─── Painel administrativo (rota oculta — acessada manualmente via /painel) ─
@@ -96,7 +96,7 @@ export const routes: Routes = [
       import('./paginas/painel/login-painel/login-painel.component').then(
         (m) => m.LoginPainelComponent
       ),
-    title: 'Acesso Admin | Cartas Vegeta',
+    title: 'Acesso Admin | Tríade',
   },
   // Quando autenticado → exibe layout do painel com filhos
   {
@@ -178,7 +178,7 @@ export const routes: Routes = [
       import('./paginas/nao-encontrado/nao-encontrado.component').then(
         (m) => m.NaoEncontradoComponent
       ),
-    title: 'Página não encontrada | Cartas Vegeta',
+    title: 'Pagina nao encontrada | Tríade',
   },
 ];
 

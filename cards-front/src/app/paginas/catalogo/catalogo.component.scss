@@ -20,10 +20,10 @@
 
 .catalogo {
   min-height: calc(100vh - 200px);
-  background: #1a1a2e;
+  background: var(--cor-fundo);
 
   &__cabecalho {
-    background: linear-gradient(135deg, #16213e, #1a1a2e);
+    background: linear-gradient(135deg, var(--cor-fundo-card), var(--cor-fundo));
     border-bottom: 2px solid rgba(230, 57, 70, 0.3);
     padding: 2.5rem 0 1.5rem;
 
@@ -37,12 +37,12 @@
   &__titulo {
     font-size: 2rem;
     font-weight: 900;
-    color: #f1faee;
+    color: var(--cor-texto);
     margin: 0 0 0.3rem;
   }
 
   &__subtitulo {
-    color: #6c757d;
+    color: var(--cor-texto-muted);
     font-size: 0.9rem;
     margin: 0;
   }
@@ -64,9 +64,9 @@
   &__btn-filtros-mobile {
     display: none;
     width: 100%;
-    background: #16213e;
+    background: var(--cor-fundo-card);
     border: 1px solid rgba(168, 218, 220, 0.2);
-    color: #a8dadc;
+    color: var(--cor-texto-suave);
     padding: 0.75rem;
     border-radius: 10px;
     font-size: 0.9rem;
@@ -80,7 +80,7 @@
   }
 
   &__filtros {
-    background: #16213e;
+    background: var(--cor-fundo-card);
     border-radius: 12px;
     padding: 1.5rem;
     border: 1px solid rgba(168, 218, 220, 0.15);
@@ -116,14 +116,14 @@
   &__titulo {
     font-size: 1rem;
     font-weight: 700;
-    color: #f1faee;
+    color: var(--cor-texto);
     margin: 0;
   }
 
   &__limpar {
     background: transparent;
     border: none;
-    color: #e63946;
+    color: var(--cor-primaria);
     font-size: 0.8rem;
     cursor: pointer;
     font-weight: 600;
@@ -134,7 +134,7 @@
   &__aviso {
     background: rgba(230, 57, 70, 0.12);
     border: 1px solid rgba(230, 57, 70, 0.35);
-    color: #ffd9dc;
+    color: var(--cor-destaque-suave);
     padding: 0.6rem 0.75rem;
     border-radius: 8px;
     font-size: 0.8rem;
@@ -149,7 +149,7 @@
     display: block;
     font-size: 0.8rem;
     font-weight: 600;
-    color: #a8dadc;
+    color: var(--cor-texto-suave);
     margin-bottom: 0.4rem;
     text-transform: uppercase;
     letter-spacing: 0.5px;
@@ -157,9 +157,9 @@
 
   &__input {
     width: 100%;
-    background: #0d0d1a;
+    background: var(--cor-fundo-escuro);
     border: 1px solid rgba(168, 218, 220, 0.2);
-    color: #f1faee;
+    color: var(--cor-texto);
     padding: 0.6rem 0.75rem;
     border-radius: 8px;
     font-size: 0.9rem;
@@ -168,10 +168,10 @@
 
     &:focus {
       outline: none;
-      border-color: #e63946;
+      border-color: var(--cor-primaria);
     }
 
-    &::placeholder { color: #6c757d; }
+    &::placeholder { color: var(--cor-texto-muted); }
 
     &--preco {
       width: calc(50% - 20px);
@@ -180,9 +180,9 @@
 
   &__select {
     width: 100%;
-    background: #0d0d1a;
+    background: var(--cor-fundo-escuro);
     border: 1px solid rgba(168, 218, 220, 0.2);
-    color: #f1faee;
+    color: var(--cor-texto);
     padding: 0.6rem 0.75rem;
     border-radius: 8px;
     font-size: 0.9rem;
@@ -191,10 +191,10 @@
 
     &:focus {
       outline: none;
-      border-color: #e63946;
+      border-color: var(--cor-primaria);
     }
 
-    option { background: #16213e; }
+    option { background: var(--cor-fundo-card); }
   }
 
   &__preco {
@@ -205,24 +205,28 @@
   }
 
   &__preco-separador {
-    color: #6c757d;
+    color: var(--cor-texto-muted);
     font-size: 0.8rem;
     flex-shrink: 0;
   }
 
   &__btn-aplicar {
     width: 100%;
-    background: rgba(230, 57, 70, 0.15);
-    border: 1px solid rgba(230, 57, 70, 0.4);
-    color: #e63946;
+    background: #b45114;
+    border: 1px solid #c8611e;
+    color: #fff;
     padding: 0.5rem;
     border-radius: 8px;
     font-size: 0.85rem;
     font-weight: 600;
     cursor: pointer;
-    transition: background 0.2s;
+    transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
 
-    &:hover { background: rgba(230, 57, 70, 0.25); }
+    &:hover {
+      background: #c8611e;
+      transform: translateY(-1px);
+      box-shadow: 0 10px 22px rgba(180, 81, 20, 0.22);
+    }
   }
 }
 
@@ -242,9 +246,9 @@
   flex-wrap: wrap;
 
   &__btn {
-    background: #16213e;
+    background: var(--cor-fundo-card);
     border: 1px solid rgba(168, 218, 220, 0.2);
-    color: #a8dadc;
+    color: var(--cor-texto-suave);
     padding: 0.5rem 1rem;
     border-radius: 8px;
     cursor: pointer;
@@ -252,8 +256,8 @@
     transition: all 0.2s;
 
     &:hover:not(:disabled) {
-      border-color: #e63946;
-      color: #e63946;
+      border-color: var(--cor-primaria);
+      color: var(--cor-primaria);
     }
 
     &:disabled {
@@ -262,8 +266,8 @@
     }
 
     &--ativo {
-      background: #e63946;
-      border-color: #e63946;
+      background: var(--cor-primaria);
+      border-color: var(--cor-primaria);
       color: #fff;
       font-weight: 700;
     }
@@ -280,19 +284,19 @@
   &__titulo {
     font-size: 1.4rem;
     font-weight: 700;
-    color: #f1faee;
+    color: var(--cor-texto);
     margin-bottom: 0.5rem;
   }
 
   &__texto {
-    color: #6c757d;
+    color: var(--cor-texto-muted);
     font-size: 0.9rem;
     margin-bottom: 1.5rem;
   }
 }
 
 .btn-primario {
-  background: #e63946;
+  background: var(--cor-primaria);
   color: #fff;
   padding: 0.75rem 2rem;
   border-radius: 10px;
@@ -303,7 +307,7 @@
   text-decoration: none;
   transition: background 0.2s;
 
-  &:hover { background: #c1121f; }
+  &:hover { background: var(--cor-primaria-hover); }
 }
 
 // Skeleton loading
@@ -315,7 +319,7 @@
 
 .skeleton-card {
   height: 320px;
-  background: linear-gradient(90deg, #16213e 25%, #1e2d5a 50%, #16213e 75%);
+  background: linear-gradient(90deg, var(--cor-fundo-card) 25%, #1e2d5a 50%, var(--cor-fundo-card) 75%);
   background-size: 200% 100%;
   border-radius: 12px;
   animation: carregando 1.5s infinite;

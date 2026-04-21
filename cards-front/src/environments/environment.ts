@@ -4,6 +4,6 @@ export const environment = {
   teste: true,
   usarFixturesTemporarios: true,
   apiUrl: 'http://localhost:3000/api/v1',
-  nomeSite: 'Cartas Vegeta',
+  nomeSite: 'Tríade',
   versao: '1.0.0',
 };

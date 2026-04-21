@@ -19,7 +19,7 @@
         <p>{{ erro() }}</p>
         <div class="meus-pedidos-pagina__acoes-estado">
           <button type="button" class="btn-primario" (click)="carregarPedidos()">Tentar novamente</button>
-          <a routerLink="/catalogo" class="btn-secundario">🃏 Continuar comprando</a>
+          <a routerLink="/catalogo" class="btn-secundario">🛍️ Continuar comprando</a>
         </div>
       </div>
     } @else if (pedidos().length === 0) {
@@ -27,7 +27,7 @@
         <div class="meus-pedidos-pagina__estado-icone">📋</div>
         <h2>{{ mensagemSemPedidos }}</h2>
         <p>Quando você finalizar sua primeira compra, o histórico aparecerá aqui.</p>
-        <a routerLink="/catalogo" class="btn-primario">🃏 Explorar Catálogo</a>
+        <a routerLink="/catalogo" class="btn-primario">🔎 Explorar Catálogo</a>
       </div>
     } @else {
       <div class="pedidos-lista">

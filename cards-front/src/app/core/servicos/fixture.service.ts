@@ -48,11 +48,11 @@ const TEXTOS_FIXTURE_LEGADOS: Readonly<Record<string, string>> = {
 
 const IDENTIDADES_FIXTURE_LEGADAS: Readonly<Record<string, string>> = {
   'Usuario Teste': 'Ana Martins',
-  'teste@teste.com': 'ana.martins@cartasvegeta.com',
+  'teste@teste.com': 'ana.martins@triade.com.br',
   'Thiago Dev': 'Thiago Almeida',
-  'dev@cartasvegeta.local': 'thiago.almeida@cartasvegeta.com',
-  'admin@cartasvegeta.local': 'marina.costa@cartasvegeta.com',
-  'mantenedor@cartasvegeta.local': 'pedro.conteudo@cartasvegeta.com',
+  'dev@triade.local': 'thiago.almeida@triade.com.br',
+  'admin@triade.local': 'marina.costa@triade.com.br',
+  'mantenedor@triade.local': 'pedro.conteudo@triade.com.br',
 };
 
 @Injectable({ providedIn: 'root' })
@@ -64,14 +64,14 @@ export class FixtureService {
   private readonly CHAVE_PEDIDOS_LOCAIS = 'pedidos_fixtures_locais';
   private readonly CHAVE_USUARIOS = 'admin_fixture_usuarios';
   private readonly CHAVE_CARRINHO = 'carrinho';
-  private readonly USUARIO_TESTE = 'ana.martins@cartasvegeta.com';
+  private readonly USUARIO_TESTE = 'ana.martins@triade.com.br';
   private readonly USUARIOS_TESTE_LEGADOS = ['teste@teste.com'];
   private readonly SENHA_TESTE = '123456';
   private readonly credenciaisAdminTeste: CredencialAdminTeste[] = [
     {
       id: 1,
       nome: 'Thiago Almeida',
-      email: 'thiago.almeida@cartasvegeta.com',
+      email: 'thiago.almeida@triade.com.br',
       usuario: 'dev',
       perfil: 'desenvolvedor',
       senha: '123',
@@ -80,7 +80,7 @@ export class FixtureService {
     {
       id: 2,
       nome: 'Marina Admin',
-      email: 'marina.costa@cartasvegeta.com',
+      email: 'marina.costa@triade.com.br',
       usuario: 'admin',
       perfil: 'administrador',
       senha: '123',
@@ -89,7 +89,7 @@ export class FixtureService {
     {
       id: 3,
       nome: 'Pedro Conteudo',
-      email: 'pedro.conteudo@cartasvegeta.com',
+      email: 'pedro.conteudo@triade.com.br',
       usuario: 'mantenedor',
       perfil: 'mantenedor',
       senha: '123',

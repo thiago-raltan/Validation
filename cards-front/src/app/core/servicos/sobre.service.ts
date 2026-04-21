@@ -4,10 +4,10 @@ import { SobreConteudo } from '../modelos/sobre.model';
 const CHAVE_SOBRE = 'sobre_conteudo';
 
 const CONTEUDO_PADRAO: SobreConteudo = {
-  titulo: 'Sobre a <span class="sobre__titulo-destaque">Cartas Vegeta</span>',
+  titulo: 'Sobre a <span class="sobre__titulo-destaque">Tríade</span>',
   subtitulo: 'Loja de cartas colecionaveis com atendimento simples e direto',
   missao:
-    'A <strong>Cartas Vegeta</strong> foi criada para facilitar a compra de cartas colecionaveis. ' +
+    'A <strong>Tríade</strong> foi criada para reunir cards, figures e retro games em uma experiência consistente. ' +
     'Nosso foco e oferecer produtos originais, envio cuidadoso e atendimento claro para quem joga ou coleciona.',
   vantagens: [
     { icone: '🔍', titulo: 'Cartas verificadas', descricao: 'Conferimos os produtos antes de colocar no estoque.' },
@@ -24,7 +24,7 @@ const CONTEUDO_PADRAO: SobreConteudo = {
     { valor: '6 anos', rotulo: 'de loja' },
   ],
   contato: {
-    email: 'contato@cartasvegeta.com.br',
+    email: 'contato@triade.com.br',
     telefone: '(11) 99999-0000',
     horario: 'Segunda a sexta, das 9h as 18h',
   },

@@ -1,7 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CabecalhoComponent } from './compartilhado/componentes/cabecalho/cabecalho.component';
 import { RodapeComponent } from './compartilhado/componentes/rodape/rodape.component';
+import { TemaService } from './core/servicos/tema.service';
 
 /** Componente raiz da aplicação — organiza cabeçalho, conteúdo e rodapé */
 @Component({
@@ -29,4 +30,6 @@ import { RodapeComponent } from './compartilhado/componentes/rodape/rodape.compo
     }
   `],
 })
-export class AppComponent {}
+export class AppComponent {
+  readonly temaService = inject(TemaService);
+}

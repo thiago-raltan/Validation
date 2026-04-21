@@ -259,7 +259,7 @@ export const FIXTURES_PEDIDOS: Pedido[] = [
     id: 9301,
     usuarioId: 999,
     nomeCliente: 'Ana Martins',
-    emailCliente: 'ana.martins@cartasvegeta.com',
+    emailCliente: 'ana.martins@triade.com.br',
     itens: [
       {
         id: 1,
@@ -296,7 +296,7 @@ export const FIXTURES_PEDIDOS: Pedido[] = [
     id: 9302,
     usuarioId: 999,
     nomeCliente: 'Ana Martins',
-    emailCliente: 'ana.martins@cartasvegeta.com',
+    emailCliente: 'ana.martins@triade.com.br',
     itens: [
       {
         id: 1,
@@ -328,7 +328,7 @@ export const FIXTURES_USUARIOS: UsuarioAdmin[] = [
   {
     id: 1,
     nome: 'Thiago Almeida',
-    email: 'thiago.almeida@cartasvegeta.com',
+    email: 'thiago.almeida@triade.com.br',
     ativo: true,
     dataCadastro: '2026-01-02T09:00:00.000Z',
     perfil: 'desenvolvedor',
@@ -338,7 +338,7 @@ export const FIXTURES_USUARIOS: UsuarioAdmin[] = [
   {
     id: 2,
     nome: 'Marina Admin',
-    email: 'marina.costa@cartasvegeta.com',
+    email: 'marina.costa@triade.com.br',
     ativo: true,
     dataCadastro: '2026-01-08T09:30:00.000Z',
     perfil: 'administrador',
@@ -348,7 +348,7 @@ export const FIXTURES_USUARIOS: UsuarioAdmin[] = [
   {
     id: 3,
     nome: 'Pedro Conteudo',
-    email: 'pedro.conteudo@cartasvegeta.com',
+    email: 'pedro.conteudo@triade.com.br',
     ativo: true,
     dataCadastro: '2025-12-14T15:10:00.000Z',
     perfil: 'mantenedor',

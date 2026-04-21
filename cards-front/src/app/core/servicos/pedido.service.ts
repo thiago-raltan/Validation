@@ -80,8 +80,8 @@ export class PedidoService {
     const pedido: Pedido = {
       id: ultimoId + 1,
       usuarioId: usuario?.id ?? 999,
-      nomeCliente: usuario?.nome ?? 'Cliente Vegeta',
-      emailCliente: usuario?.email ?? 'cliente@cartasvegeta.com',
+      nomeCliente: usuario?.nome ?? 'Cliente Tríade',
+      emailCliente: usuario?.email ?? 'cliente@triade.com.br',
       itens,
       status: 'pendente',
       total,
@@ -164,8 +164,8 @@ export class PedidoService {
   }
 
   private normalizarEmailUsuario(email?: string): string {
-    if (!email || email === 'teste@teste.com' || email === 'local@cartasvegeta.dev' || email === 'usuario@cartasvegeta.dev') {
-      return 'ana.martins@cartasvegeta.com';
+    if (!email || email === 'teste@teste.com' || email === 'local@triade.dev' || email === 'usuario@triade.dev') {
+      return 'ana.martins@triade.com.br';
     }
 
     return email;

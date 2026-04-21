@@ -9,6 +9,8 @@ import { Carta } from '../../core/modelos/carta.model';
 import { Colecao } from '../../core/modelos/colecao.model';
 import { catchError, finalize, of, timeout } from 'rxjs';
 import { obterMensagemErroApi } from '../../core/servicos/api-error.util';
+import { TemaService } from '../../core/servicos/tema.service';
+import { MARCA_CONFIG } from '../../core/config/marca.config';
 
 /**
  * Página inicial da aplicação.
@@ -26,6 +28,8 @@ export class InicioComponent implements OnInit {
   private colecaoService = inject(ColecaoService);
   private carrinhoService = inject(CarrinhoService);
   private cdr = inject(ChangeDetectorRef);
+  readonly temaService = inject(TemaService);
+  readonly slogan = MARCA_CONFIG.slogan;
 
   cartasDestaque: Carta[] = [];
   colecoes: Colecao[] = [];

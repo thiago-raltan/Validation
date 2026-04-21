@@ -12,7 +12,7 @@
 
 	&__subtitulo {
 		font-size: 0.92rem;
-		color: #8f9aac;
+		color: var(--cor-texto-muted);
 	}
 
 	&__filtros {
@@ -23,7 +23,6 @@
 .btn-novo {
 	padding: 0.85rem 1.35rem;
 	border-radius: 12px;
-	box-shadow: 0 14px 28px rgba(255, 215, 0, 0.14);
 }
 
 .campo-busca {
@@ -33,16 +32,12 @@
 	padding: 0.8rem 1rem;
 }
 
-.modal-overlay {
-	backdrop-filter: blur(5px);
-}
-
 .modal {
 	&--carta {
 		max-width: 1180px;
 		background:
 			radial-gradient(circle at top left, rgba(255, 215, 0, 0.08), transparent 28%),
-			linear-gradient(180deg, rgba(20, 22, 34, 0.98), rgba(10, 11, 18, 0.98));
+			linear-gradient(180deg, rgba(23, 17, 11, 0.98), rgba(8, 8, 8, 0.98));
 		border-radius: 28px;
 		box-shadow: 0 28px 80px rgba(0, 0, 0, 0.5);
 	}
@@ -59,7 +54,7 @@
 
 	&__eyebrow {
 		display: inline-block;
-		color: #ffec99;
+		color: var(--cor-destaque-suave);
 		font-size: 0.76rem;
 		font-weight: 800;
 		letter-spacing: 0.14em;
@@ -70,14 +65,6 @@
 		padding: 1.75rem;
 	}
 
-	&__grade {
-		gap: 1rem;
-	}
-
-	&__rodape {
-		margin-top: 1.5rem;
-		padding-top: 1.25rem;
-	}
 }
 
 .cadastro-carta {
@@ -100,9 +87,9 @@
 	&__guia,
 	&__secao {
 		border-radius: 22px;
-		border: 1px solid rgba(255, 255, 255, 0.07);
-		background: rgba(255, 255, 255, 0.03);
-		box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.03);
+		border: 1px solid var(--cor-borda);
+		background: rgba(240, 192, 64, 0.04);
+		box-shadow: inset 0 1px 0 rgba(240, 208, 80, 0.03);
 	}
 
 	&__preview-card {
@@ -131,13 +118,13 @@
 	}
 
 	&__preview-badge {
-		color: #0a0a0f;
-		background: linear-gradient(135deg, #ffd700, #ffec8c);
+		color: var(--cor-texto-acao);
+		background: linear-gradient(135deg, var(--cor-destaque), var(--cor-destaque-brilho));
 	}
 
 	&__preview-numero {
-		color: #d9dde7;
-		background: rgba(255, 255, 255, 0.06);
+		color: var(--cor-texto);
+		background: rgba(240, 192, 64, 0.08);
 	}
 
 	&__preview-imagem {
@@ -146,8 +133,8 @@
 		border-radius: 20px;
 		overflow: hidden;
 		background:
-			linear-gradient(160deg, rgba(255, 215, 0, 0.2), rgba(72, 88, 132, 0.24)),
-			#111118;
+			linear-gradient(160deg, rgba(240, 192, 64, 0.22), rgba(192, 0, 0, 0.18)),
+			var(--cor-fundo-card);
 		display: grid;
 		place-items: center;
 
@@ -169,7 +156,7 @@
 	}
 
 	&__preview-tipo {
-		color: #9aa8bf;
+		color: var(--cor-texto-muted);
 		font-size: 0.78rem;
 		text-transform: uppercase;
 		letter-spacing: 0.12em;
@@ -177,7 +164,7 @@
 	}
 
 	&__preview-descricao {
-		color: #c3cad7;
+		color: var(--cor-texto-suave);
 		font-size: 0.88rem;
 		line-height: 1.6;
 		margin: 0.7rem 0 0;
@@ -186,7 +173,7 @@
 	&__preview-conteudo h3 {
 		font-size: 1.4rem;
 		line-height: 1.1;
-		color: #fff6cf;
+		color: var(--cor-texto);
 		margin: 0;
 	}
 
@@ -199,11 +186,11 @@
 		div {
 			padding: 0.8rem;
 			border-radius: 16px;
-			background: rgba(255, 255, 255, 0.04);
+			background: rgba(240, 192, 64, 0.05);
 		}
 
 		dt {
-			color: #8f9aac;
+			color: var(--cor-texto-muted);
 			font-size: 0.72rem;
 			text-transform: uppercase;
 			letter-spacing: 0.08em;
@@ -212,7 +199,7 @@
 
 		dd {
 			margin: 0;
-			color: #f4f5f7;
+			color: var(--cor-texto);
 			font-size: 0.95rem;
 			font-weight: 700;
 		}
@@ -222,7 +209,7 @@
 		padding: 1rem 1.1rem;
 
 		h3 {
-			color: #ffd700;
+			color: var(--cor-destaque);
 			font-size: 0.95rem;
 			margin: 0 0 0.5rem;
 		}
@@ -250,7 +237,7 @@
 
 		span {
 			display: inline-block;
-			color: #ffd700;
+			color: var(--cor-destaque);
 			font-size: 0.78rem;
 			font-weight: 800;
 			letter-spacing: 0.12em;
@@ -288,7 +275,7 @@
 		input {
 			width: 1.15rem;
 			height: 1.15rem;
-			accent-color: #ffd700;
+			accent-color: var(--cor-destaque);
 		}
 
 		.campo__label {
@@ -318,12 +305,10 @@
 		border-color: rgba(255, 215, 0, 0.12);
 		background: rgba(8, 8, 12, 0.88);
 		font-size: 0.95rem;
-		transition: border-color 0.18s ease, box-shadow 0.18s ease, transform 0.18s ease;
 
 		&:focus {
 			border-color: rgba(255, 215, 0, 0.7);
 			box-shadow: 0 0 0 4px rgba(255, 215, 0, 0.09);
-			transform: translateY(-1px);
 		}
 	}
 
@@ -366,8 +351,8 @@
 		min-height: 3rem;
 		padding: 0.8rem 1.1rem;
 		border-radius: 14px;
-		background: linear-gradient(135deg, #ffd700, #ffec8c);
-		color: #0a0a0f;
+		background: linear-gradient(135deg, var(--cor-destaque), #ffec8c);
+		color: var(--cor-texto-acao);
 		font-size: 0.92rem;
 		font-weight: 800;
 		cursor: pointer;
@@ -410,10 +395,6 @@
 		padding: 0.55rem 0.8rem;
 		font-size: 0.82rem;
 		font-weight: 700;
-
-		&:hover {
-			background: rgba(255, 255, 255, 0.05);
-		}
 	}
 }
 

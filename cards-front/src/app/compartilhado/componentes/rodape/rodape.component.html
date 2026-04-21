@@ -3,12 +3,12 @@
 
     <div class="rodape__coluna rodape__coluna--marca">
       <div class="rodape__logo">
-        <span>🃏</span>
-        <span>Cartas <strong>Vegeta</strong></span>
+        <img [src]="temaService.logoAtual()" alt="Logo da Tríade" class="rodape__logo-imagem" />
+        <span class="rodape__logo-texto">Tríade</span>
       </div>
       <p class="rodape__descricao">
-        Sua loja especializada em cartas colecionáveis.<br>
-        Encontre as melhores cartas com autenticidade garantida.
+        {{ slogan }}.<br>
+        Cards, figures e retro games com curadoria e autenticidade.
       </p>
     </div>
 
@@ -26,7 +26,7 @@
     <div class="rodape__coluna">
       <h4 class="rodape__titulo">Atendimento</h4>
       <ul class="rodape__lista">
-        <li><span class="rodape__info">📧 contato&#64;cartasvegeta.com.br</span></li>
+        <li><span class="rodape__info">📧 contato&#64;triade.com.br</span></li>
         <li><span class="rodape__info">📱 (11) 99999-0000</span></li>
         <li><span class="rodape__info">⏰ Seg-Sex: 9h às 18h</span></li>
       </ul>
@@ -45,6 +45,6 @@
   </div>
 
   <div class="rodape__direitos">
-    <p>© {{ anoAtual }} Cartas Vegeta. Todos os direitos reservados.</p>
+    <p>© {{ anoAtual }} Tríade. Todos os direitos reservados.</p>
   </div>
 </footer>

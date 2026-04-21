@@ -205,8 +205,8 @@ export class AuthService {
   }
 
   private normalizarEmailPerfil(email: string): string {
-    if (email === 'teste@teste.com' || email === 'local@cartasvegeta.dev' || email === 'usuario@cartasvegeta.dev') {
-      return 'ana.martins@cartasvegeta.com';
+    if (email === 'teste@teste.com' || email === 'local@triade.dev' || email === 'usuario@triade.dev') {
+      return 'ana.martins@triade.com.br';
     }
 
     return email;

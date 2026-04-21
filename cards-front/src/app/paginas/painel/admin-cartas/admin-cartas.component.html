@@ -1,7 +1,7 @@
 <div class="admin-pagina">
   <div class="admin-pagina__cabecalho">
     <div>
-      <h1 class="admin-pagina__titulo">🃏 Cartas</h1>
+      <h1 class="admin-pagina__titulo">🎴 Cartas</h1>
       <p class="admin-pagina__subtitulo">Cadastro e edição de cartas colecionáveis</p>
     </div>
     <button class="btn-novo" (click)="abrirNovaCarta()">+ Nova Carta</button>
@@ -40,7 +40,7 @@
                 @if (carta.imagemUrl) {
                   <img [src]="carta.imagemUrl" [alt]="carta.nome" class="tabela__thumb" />
                 } @else {
-                  <span class="tabela__sem-img">🃏</span>
+                  <span class="tabela__sem-img">🖼️</span>
                 }
               </td>
               <td>{{ carta.nome }}<br><small>{{ identificacaoCarta(carta) }}</small></td>
@@ -92,7 +92,7 @@
                   @if (imagemPreviewAtual()) {
                     <img [src]="imagemPreviewAtual()" [alt]="formulario.get('nome')?.value || 'Preview da carta'" />
                   } @else {
-                    <span>🃏</span>
+                    <span>🖼️</span>
                   }
                 </div>
 

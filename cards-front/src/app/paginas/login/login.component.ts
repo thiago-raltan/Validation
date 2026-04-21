@@ -2,6 +2,8 @@ import { Component, inject } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../core/servicos/auth.service';
+import { TemaService } from '../../core/servicos/tema.service';
+import { MARCA_CONFIG } from '../../core/config/marca.config';
 
 /** Página de login / cadastro do usuário comum da loja */
 @Component({
@@ -15,6 +17,8 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private authService = inject(AuthService);
   private router = inject(Router);
+  readonly temaService = inject(TemaService);
+  readonly slogan = MARCA_CONFIG.slogan;
 
   /** Alterna entre login e cadastro */
   modoAtivo: 'login' | 'cadastro' = 'login';
